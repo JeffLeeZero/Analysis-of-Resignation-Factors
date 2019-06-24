@@ -1,5 +1,11 @@
 # Compiled class file
 *.class
+.idea/
+
+## File-based project format:
+*.iws
+*.iml
+*.ipr
 
 # Log file
 *.log
