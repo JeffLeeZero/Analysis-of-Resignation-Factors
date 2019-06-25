@@ -9,7 +9,7 @@ import java.io.IOException;
 public class HelloWorld extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("zpj");
+        resp.getWriter().write("com.zpj.mapper");
     }
 
     @Override
