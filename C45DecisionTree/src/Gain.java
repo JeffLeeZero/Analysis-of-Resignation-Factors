@@ -6,7 +6,6 @@ import java.util.Map;
 public class Gain {
     private ArrayList<ArrayList<String>> D = null;//训练元组
     private ArrayList<Attr> attrList = null;//候选属性集，侯选属性集中最后一位表示最终的决策结果
-    private int M = 10;//机器学习参数：连续属性划分规模
     public Gain(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
         this.D = datas;
         this.attrList = attrList;
@@ -21,7 +20,7 @@ public class Gain {
      */
     public ArrayList<String> getValues(ArrayList<ArrayList<String>> datas,int attrIndex){
         if(!attrList.get(attrIndex).isSeperated()){
-            return getValues(datas,attrIndex,false);
+            return attrList.get(attrIndex).getValues();
         }
         ArrayList<String> values = new ArrayList<>();
         String value;
@@ -31,28 +30,6 @@ public class Gain {
             if(!values.contains(value)){
                 values.add(value);
             }
-        }
-        return values;
-    }
-
-    private ArrayList<String> getValues(ArrayList<ArrayList<String>> datas,int attrIndex,boolean seperated){
-        ArrayList<String> values = new ArrayList<>();
-        String value;
-        double v, min = Double.POSITIVE_INFINITY,max = Double.NEGATIVE_INFINITY;
-        for (ArrayList<String> list:
-                datas) {
-            value = list.get(attrIndex);
-            v = Double.valueOf(value);
-            if(v<min){
-                min = v;
-            }
-            if(v>max){
-                max = v;
-            }
-        }
-        double n = (max-min)/M;
-        for(int i = 0;i<M;i++){
-            values.add(String.valueOf(min+n*i));
         }
         return values;
     }
@@ -83,15 +60,14 @@ public class Gain {
         return valueCount;
     }
 
-    public Map<String,Integer> valueCounts(ArrayList<ArrayList<String>> datas,int attrIndex, boolean seperated){
+    private Map<String,Integer> valueCounts(ArrayList<ArrayList<String>> datas,int attrIndex, boolean seperated){
         Map<String,Integer> valueCount = new HashMap<>();
         String value;
-        double v;
-        ArrayList<String> values = getValues(datas,attrIndex,false);
+        Attr attr = attrList.get(attrIndex);
         for (ArrayList<String> tuple:
                 datas) {
             value = tuple.get(attrIndex);
-            v = Double.valueOf(value);
+            value = attr.getValue(value);
             if(valueCount.containsKey(value)){
                 valueCount.put(value,valueCount.get(value)+1);
             }else{
@@ -100,6 +76,8 @@ public class Gain {
         }
         return valueCount;
     }
+
+
 
     /**
      * 求各个参考属性在取各自的值对应目标属性的信息熵
@@ -150,10 +128,26 @@ public class Gain {
      * @author 李沛昊
      */
     public ArrayList<ArrayList<String>> datasOfValue(int attrIndex,String value){
+        if(!attrList.get(attrIndex).isSeperated()){
+            return datasOfValue(attrIndex,value,false);
+        }
         ArrayList<ArrayList<String>> Di = new ArrayList<>();
         for (ArrayList<String> t:
              D) {
             if(t.get(attrIndex).equals(value)){
+                Di.add(t);
+            }
+        }
+        return Di;
+    }
+
+
+    private ArrayList<ArrayList<String>> datasOfValue(int attrIndex, String value, boolean seperated){
+        ArrayList<ArrayList<String>> Di = new ArrayList<>();
+        Attr attr = attrList.get(attrIndex);
+        for (ArrayList<String> t:
+                D) {
+            if(attr.getValue(t.get(attrIndex)).equals(value)){
                 Di.add(t);
             }
         }
@@ -167,20 +161,6 @@ public class Gain {
      * @author 李沛昊
      */
     public double infoAttr(int attrIndex){
-        if(!attrList.get(attrIndex).isSeperated()){
-            return infoAttr(attrIndex,false);
-        }
-        double info = 0.0;
-        ArrayList<String> values = getValues(D,attrIndex);
-        for (int i = 0; i < values.size(); i++){
-            ArrayList<ArrayList<String>> dv = datasOfValue(attrIndex,values.get(i));
-            //整个属性的信息熵应该是各个取值的信息熵的加权平均值
-            info += infoD(dv)*dv.size()/D.size();
-        }
-        return info;
-    }
-
-    private double infoAttr(int attrIndex,boolean seperated){
         double info = 0.0;
         ArrayList<String> values = getValues(D,attrIndex);
         for (int i = 0; i < values.size(); i++){

@@ -21,6 +21,7 @@ public class DecisionTree {
      * @author 李沛昊
      */
     public TreeNode buildTree(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
+        //TODO:退出条件的改进，防止过拟合
         System.out.println("候选属性列表：");
         for (Attr attr:
                 attrList) {
