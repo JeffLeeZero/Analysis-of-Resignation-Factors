@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+import java.util.Vector;
+
 public class Attr {
     private String name;
     private boolean seperated;
-
+    private static int M = 10;
     public Attr(String name){
         this(name,true);
     }
@@ -15,6 +18,7 @@ public class Attr {
         this.seperated = seperated;
     }
 
+
     public String getName() {
         return name;
     }
@@ -26,4 +30,14 @@ public class Attr {
     public void setSeperated(boolean seperated) {
         this.seperated = seperated;
     }
+
+    public static void setM(int m){
+        M = m;
+    }
+
+    public static int getM(){
+        return M;
+    }
+
+
 }
