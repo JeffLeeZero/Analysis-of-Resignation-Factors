@@ -4,6 +4,8 @@ import java.util.Map;
 
 public class DecisionTree {
     private TreeNode treeNode;
+    private double ratio = 1;
+
 
     public TreeNode getTree() {
         return treeNode;
@@ -21,13 +23,8 @@ public class DecisionTree {
      * @author 李沛昊
      */
     public TreeNode buildTree(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
-        System.out.println("候选属性列表：");
-        for (Attr attr:
-                attrList) {
-            System.out.print(attr.getName()+"\t");
-        }
-        System.out.println();
-
+        //TODO:退出条件的改进，防止过拟合
+        //TODO:剪枝操作
         TreeNode node;
         node = new TreeNode();
         node.setDatas(datas);
@@ -36,10 +33,9 @@ public class DecisionTree {
         Map<String,Integer> classes = classOfDatas(datas);
 
         String maxc = getMaxClass(classes);
-        System.out.println("maxc"+maxc);
 
         //退出递归条件：1、所有的元组目标属性都一样；2、已将所有待划分节点划分完毕
-        if(classes.size()==1 || attrList.size() == 1){
+        if(isAlmost(classes,maxc) || attrList.size() == 1){
             node.setName(maxc);
             return node;
         }
@@ -48,41 +44,42 @@ public class DecisionTree {
         int bestAttrIndex = gain.bestGainAttrIndex();
         ArrayList<String> rules = gain.getValues(datas,bestAttrIndex);
 
-        node.setRules(rules);
         node.setName(attrList.get(bestAttrIndex).getName());
-
+        attrList = new ArrayList<>(attrList);
         attrList.remove(bestAttrIndex);
 
-        ArrayList<ArrayList<ArrayList<String>>> allDatas = new ArrayList<>();
-        ArrayList<ArrayList<String>> di;
-
+        ArrayList<ArrayList<String>> group;
+        ArrayList<Attr> newAttr;
         //元组划分
         for (String rule:
                 rules) {
-            di = gain.datasOfValue(bestAttrIndex,rule);
-            allDatas.add(di);
-        }
-
-        for (ArrayList<ArrayList<String>> group:
-                allDatas) {
+            //TODO:任然存在拷贝问题
+            group = gain.datasOfValue(bestAttrIndex,rule);
+            ArrayList<ArrayList<String>> newGroup = new ArrayList<>();
             for (ArrayList<String> tuple:
                     group) {
+                tuple = new ArrayList<>(tuple);
                 tuple.remove(bestAttrIndex);
+                newGroup.add(tuple);
             }
+            group = newGroup;
             //事实上这个判断条件应该不会发生
             if(group.size()==0||attrList.size()==0){
-                System.err.println("something wrong happened!!!!!");
                 TreeNode leafNode = new TreeNode();
                 leafNode.setName(maxc);
                 leafNode.setDatas(group);
+                leafNode.setValue(rule);
                 leafNode.setCandAttrs(attrList);
                 node.getChildren().add(leafNode);
             }else{
-                TreeNode newNode = buildTree(group,attrList);
+                newAttr = new ArrayList<>(attrList);
+                TreeNode newNode = buildTree(group,newAttr);
+                newNode.setValue(rule);
                 node.getChildren().add(newNode);
             }
         }
         return node;
+        //TODO:1、浅拷贝得到的众多List可否释放掉
     }
 
     /**
@@ -108,7 +105,7 @@ public class DecisionTree {
     }
 
     /**
-     * 获取具有最大计数的属性值
+     * 获取目标属性中具有最大计数的属性值
      * @param classes
      * @return
      * @author 李沛昊
@@ -128,6 +125,17 @@ public class DecisionTree {
         return maxV;
     }
 
-
+    private boolean isAlmost(Map<String,Integer> map,String maxV){
+        int sum = 0;
+        for (Map.Entry<String,Integer> entry:
+             map.entrySet()) {
+            sum += entry.getValue();
+        }
+        if((double)map.get(maxV)/sum >= ratio){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
