@@ -1,0 +1,100 @@
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #9acfea;
+}
+.top-nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+}
+.top-nav-left{
+    margin: 0;
+    position: absolute;
+    top: 12%;
+    left: 8%;
+    font-size: 50px;
+    color: white;
+    padding: 0;
+}
+p{
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+.login-nav-right {
+    padding: 0;
+    position: absolute;
+    right: 10%;
+    top: 27%;
+}
+a{
+    float: left;
+    margin-left: 25px;
+    color: white;
+    font-size: 20px;
+    text-decoration:none
+}
+h1{
+    text-align: center;
+}
+.register_main{
+    position: absolute;
+    top: 30%;
+    left: 37%;
+    width: 400px;
+    height: 300px;
+}
+.icon1 {
+    margin: 0 0 2em;
+    border: 1px solid #525252;
+    padding: .7em 0em;
+    background:rgba(255, 255, 255, 0.22);
+    border-radius: 26px;
+}
+.input_c{
+    outline: none;
+    font-size: 15px;
+    color: #fff;
+    border:none;
+    width: 90%;
+    display: inline-block;
+    background: transparent;
+    font-family: 'Muli', sans-serif;
+    text-align: center;
+    letter-spacing: 2px;
+    z-index: 2;
+}
+.register_btn{
+    margin: 0 0 1em;
+    background: #3be8b0;
+    color: #FFF;
+    font-size: 17px;
+    text-transform: capitalize;
+    padding: .4em 2em;
+    letter-spacing: 1px;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    font-family: 'Muli', sans-serif;
+    width: 100%;
+    border-radius: 25px;
+}
+.register_btn:hover{
+    background: #ff4f81;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+}
