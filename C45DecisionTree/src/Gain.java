@@ -91,7 +91,7 @@ public class Gain {
         int total = datas.size();
 
         //各个参考属性在取各自的值对应目标属性的分割
-        Map<String,Integer> classes = valueCounts(datas,attrList.size());
+        Map<String,Integer> classes = valueCounts(datas,attrList.size()-1);
 
         //classes.size()==data.size();
         Integer[] counts = new Integer[classes.size()];

@@ -5,8 +5,9 @@ public class Attr {
     private String name;
     private boolean seperated;
     private int M = 10;
+    private double len;
+    private double min;
     private ArrayList<String> division;
-
     public Attr(String name){
         this(name,true);
     }
@@ -54,24 +55,24 @@ public class Attr {
                 max = i;
             }
         }
-        double n = (max-min)/M;
-        for(int m = 0; m < M; m++){
-            division.add(String.valueOf(min+n*m));
+        this.len = (max-min)/M;
+        this.min = min;
+        for (int m = 0;m < M;m++){
+            division.add(String.valueOf(min+len*m));
         }
     }
 
     public String getValue(String v){
         double num = Double.valueOf(v);
-        String result=String.valueOf(division.get(0));
-        for (String value:
-             division) {
-            if(num>Double.valueOf(value)){
-                result = value;
-            }else{
-                break;
-            }
+        //System.out.println(name+";value:"+v+";min:"+min+";len:"+len);
+        int n = (int)((num-min)/len);
+        try{
+            return division.get((n>=M)?M-1:n);
+        }catch (Exception e){
+            System.out.println(name+";value:"+v+";min:"+min+";len:"+len);
+            e.printStackTrace();
+            throw e;
         }
-        return result;
     }
 
     public ArrayList<String> getValues(){
