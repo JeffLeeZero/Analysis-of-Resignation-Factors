@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>员工离职因素部门分析</title>
 
-    <link rel="stylesheet" href="plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all">
 </head>
 
 <body class="layui-layout-body">
@@ -23,7 +23,7 @@
 
     <div class="layui-body" style="background-color: #eeeeee;  ">
 
-        <div class="layui-inline" style="margin-left:50px">
+        <div class="layui-inline">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
                 <legend>选择部门</legend>
             </fieldset>
@@ -138,20 +138,7 @@
         var element = layui.element;
 
     });
-
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-
-        //拖拽上传
-        upload.render({
-            elem: '#test10'
-            ,url: '/upload/'
-            ,done: function(res){
-                console.log(res)
-            }
-        });
-    });
+   
 </script>
 
 </body>

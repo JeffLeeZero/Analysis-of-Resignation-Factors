@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 public class MybatiesUtil {
     private static SqlSessionFactory sqlSessionFactory;
     static {
@@ -28,7 +27,6 @@ public class MybatiesUtil {
                 }
             }
         }
-
     }
 
 
