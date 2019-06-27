@@ -24,7 +24,7 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div class="register_main">
+    <div class="div_main">
         <form class="layui-form">
             <h1>REGISTER</h1>
             <div class="icon1"><input class="input_c" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>
