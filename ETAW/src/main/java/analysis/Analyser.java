@@ -11,6 +11,8 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Analyser implements ResignationAnalyser {
@@ -39,6 +41,83 @@ public class Analyser implements ResignationAnalyser {
         String aid = saveInfo();
         saveAttr(aid);
         saveNode(aid);
+    }
+
+    @Override
+    public double getAccuracy() {
+        Connection conn = DBUtil.getConnection();
+        double accuracy = 0;
+        try{
+            PreparedStatement state = conn.prepareStatement("select treeaccuracy from analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            if(set.next()){
+                accuracy = set.getDouble(1);
+            }
+            return accuracy;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return accuracy;
+        }finally {
+            DBUtil.closeConn(conn);
+        }
+    }
+
+    @Override
+    public double getProbability(ArrayList<String> data) {
+        return 0;
+    }
+
+    @Override
+    public Map<String, Double> getAttrRatio() {
+        Connection conn = DBUtil.getConnection();
+        Map<String,Double> map = new HashMap<>();
+        try{
+            PreparedStatement state = conn.prepareStatement("select attrname,d from attribute natural join analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            while(set.next()){
+                map.put(set.getString(1),set.getDouble(2));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+            return map;
+        }
+    }
+
+    @Override
+    public Map<String, String> improveMeasure() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Double> getAttrRatio(String attrName) {
+        Connection conn = DBUtil.getConnection();
+        Map<String,Double> map = new HashMap<>();
+        try{
+            PreparedStatement state = conn.prepareStatement("select value,ratio from attrvalue natural join analysis where account = ? and name = ? and attrname = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            state.setString(3,attrName);
+            ResultSet set = state.executeQuery();
+            while(set.next()){
+                map.put(set.getString(1),set.getDouble(2));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+            return map;
+        }
+    }
+
+    @Override
+    public String doPrediction(ArrayList<String> data) {
+        return null;
     }
 
     private void trainTree(){
@@ -91,7 +170,6 @@ public class Analyser implements ResignationAnalyser {
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
             state.setDouble(4,tree.getAccuracy());
-            state.setString(5,aid+"0");
             state.executeUpdate();
             conn.commit();
         }catch (SQLException e){
