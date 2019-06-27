@@ -5,7 +5,7 @@
          version="4.0">
     <servlet>
         <!--别名-->
-        <servlet-name>loginServelet</servlet-name>
+        <servlet-name>login</servlet-name>
         <!--servlet所在的类-->
         <servlet-class>com.zpj.servlet.LoginServelet</servlet-class>
 
@@ -13,7 +13,7 @@
 
     <servlet-mapping>
         <!--别名-->
-        <servlet-name>loginServelet</servlet-name>
+        <servlet-name>login</servlet-name>
         <!--资源名-->
         <url-pattern>/LoginServelet</url-pattern>
     </servlet-mapping>
