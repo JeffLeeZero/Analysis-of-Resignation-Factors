@@ -1,4 +1,8 @@
-import java.util.*;
+package tree;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Attr {
     private String name;
@@ -32,6 +36,22 @@ public class Attr {
 
     public Attr(String name){
         this(name,true);
+    }
+
+    public double getLen() {
+        return len;
+    }
+
+    public void setLen(double len) {
+        this.len = len;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
     }
 
     /**

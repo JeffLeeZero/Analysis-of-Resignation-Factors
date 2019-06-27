@@ -1,14 +1,10 @@
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.context.AnalysisContext;
-import com.alibaba.excel.event.AnalysisEventListener;
-import com.alibaba.excel.support.ExcelTypeEnum;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+package tree;
 
-import java.io.*;
-import java.lang.reflect.Type;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 class Test {
 
@@ -33,10 +29,6 @@ class Test {
             }
         }
         System.out.println((double)trueNum/testSet.size());
-        Type type = new TypeToken<TreeNode>(){}.getType();
-        Gson gson = new Gson();
-        String content = gson.toJson(node,type);
-        System.out.println(gson.toJson(node,type));
     }
 
 
@@ -73,7 +65,7 @@ class Test {
             i++;
         }
         DecisionTree tree = new DecisionTree();
-        tree.buildArrayList(trainSet,attrs);
+        //tree.buildArrayList(trainSet,attrs);
         return tree.buildTree(trainSet,attrs);
     }
 

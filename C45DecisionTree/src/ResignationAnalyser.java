@@ -9,6 +9,11 @@ public interface ResignationAnalyser {
 
     String doPrediction(List<String> data);
 
+    double getAccuracy();
+
+
+    Map<String,String> improveMeasure();
+
     double getProbability();
 
     Map<String,Double> getAttrRatio();
