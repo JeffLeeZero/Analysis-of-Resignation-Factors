@@ -24,14 +24,18 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div class="register_main">
+    <div class="div_main">
         <form class="layui-form">
             <h1>LOGIN IN</h1>
-            <div class="icon1"><input class="input_c" type="text" placeholder="输入手机号" id="account"></div>
-            <div class="icon1"><input class="input_c" type="password" placeholder="输入密码" id="password"></div>
+            <div class="icon1"><input class="input_c" name="account" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>
+            <div class="icon1"><input class="input_c" name="password" type="password" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入密码'" id="password"></div>
             <input type="button" class="register_btn" value="验证码登录">
-            <input type="submit" class="register_btn" value="注册">
+            <input type="submit" class="register_btn" value="登录">
+            <p><a href="#">忘记密码</a></p>
         </form>
+    </div>
+    <div class="copyright">
+        <p>© 2019 Employee Turnover Analyze Web| Design by team zpj</p>
     </div>
 </body>
 </html>
