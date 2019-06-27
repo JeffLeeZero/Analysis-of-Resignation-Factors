@@ -38,6 +38,22 @@ public class Attr {
         this(name,true);
     }
 
+    public double getLen() {
+        return len;
+    }
+
+    public void setLen(double len) {
+        this.len = len;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
+    }
+
     /**
      * @param name 属性名称
      * @param seperated 是否是离散的

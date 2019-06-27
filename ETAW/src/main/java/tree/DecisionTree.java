@@ -8,7 +8,15 @@ public class DecisionTree {
     private TreeNode treeNode;
     private ArrayList<Attr> attrList = null;
     private double ratio = 1;
+    private double accuracy;
 
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
+    }
 
     public TreeNode getTree() {
         return treeNode;
