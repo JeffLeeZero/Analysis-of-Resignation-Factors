@@ -10,6 +10,8 @@
 <head>
     <title>员工离职登录页面</title>
     <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script src="plugins/layui/lay/modules/jquery.js"></script>
+    <script src="plugins/layui/lay/modules/layer.js"></script>
 </head>
 <body>
     <div class="top-nav">
@@ -25,10 +27,10 @@
         <div class="clear"></div>
     </div>
     <div class="div_main">
-        <form class="layui-form">
+        <form class="layui-form" action="<%=request.getContextPath()%>/LoginServelet" method="post">
             <h1>LOGIN IN</h1>
-            <div class="icon1"><input class="input_c" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>
-            <div class="icon1"><input class="input_c" type="password" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入密码'" id="password"></div>
+            <div class="icon1"><input class="input_c" name="account" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>
+            <div class="icon1"><input class="input_c" name="password" type="password" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入密码'" id="password"></div>
             <input type="button" class="register_btn" value="验证码登录">
             <input type="submit" class="register_btn" value="登录">
             <p><a href="#">忘记密码</a></p>
