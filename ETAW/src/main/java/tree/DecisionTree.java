@@ -63,8 +63,8 @@ public class DecisionTree {
         //TODO:剪枝操作
         TreeNode node;
         node = new TreeNode();
-        node.setDatas(datas);
-        node.setCandAttrs(attrList);
+//        node.setDatas(datas);
+//        node.setCandAttrs(attrList);
 
         Map<String,Integer> classes = classOfDatas(datas);
 
@@ -103,9 +103,7 @@ public class DecisionTree {
             if(group.size()==0||attrList.size()==0){
                 TreeNode leafNode = new TreeNode();
                 leafNode.setName(maxc);
-                leafNode.setDatas(group);
                 leafNode.setValue(rule);
-                leafNode.setCandAttrs(attrList);
                 node.getChildren().add(leafNode);
             }else{
                 newAttr = new ArrayList<>(attrList);

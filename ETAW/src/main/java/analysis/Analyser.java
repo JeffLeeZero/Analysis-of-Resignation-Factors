@@ -1,17 +1,15 @@
 package analysis;
 
 import analysis.DBUtil.DBUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import tree.Attr;
 import tree.DecisionTree;
+import tree.TreeNode;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -19,6 +17,7 @@ public class Analyser implements ResignationAnalyser {
     private String account;
     private String url;
     private String name;
+
     private DecisionTree tree;
     private ArrayList<Attr> attrs;
     private double ratio = 0.8;//训练集占总数据的比例
@@ -77,6 +76,7 @@ public class Analyser implements ResignationAnalyser {
         Connection conn = DBUtil.getConnection();
         String aid = null;
         try{
+            conn.setAutoCommit(false);
             int count = 0;
             PreparedStatement state = conn.prepareStatement("select count(*) from analysis");
             ResultSet set = state.executeQuery();
@@ -104,16 +104,36 @@ public class Analyser implements ResignationAnalyser {
     }
 
     private void saveNode(String aid){
-
+        Type type = new TypeToken<TreeNode>(){}.getType();
+        Gson gson = new Gson();
+        String content = gson.toJson(tree,type);
+        Connection conn = DBUtil.getConnection();
+        try{
+            PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");
+            Reader reader = new StringReader(content);
+            state.setString(1,aid);
+            state.setCharacterStream(2,reader,content.length());
+            int i = state.executeUpdate();
+            if(i<1){
+                System.err.println("clob error!");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            DBUtil.rollback(conn);
+        }finally {
+            DBUtil.closeConn(conn);
+        }
     }
 
     private void saveAttr(String aid){
         Connection conn = DBUtil.getConnection();
         try{
-            PreparedStatement state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?)");
-            PreparedStatement state2 = conn.prepareStatement("insert into attrvalue values (?,?,?,?)");
+            conn.setAutoCommit(false);
+            PreparedStatement state;
+            PreparedStatement state2;
             for (Attr attr:
                  attrs) {
+                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?)");
                 state.setString(1,attr.getName());
                 state.setString(2,aid);
                 state.setDouble(3,attr.getD());
@@ -122,13 +142,16 @@ public class Analyser implements ResignationAnalyser {
                 state.setDouble(6,attr.getLen());
                 state.setInt(7,attr.getM());
                 state.executeUpdate();
+                state.close();
                 for (Map.Entry<String,Double> entry:
                      attr.getProbability().entrySet()) {
+                     state2 = conn.prepareStatement("insert into attrvalue values (?,?,?,?)");
                     state2.setString(1,attr.getName());
                     state2.setString(2,aid);
                     state2.setString(3,entry.getKey());
                     state2.setDouble(4,entry.getValue());
                     state2.executeUpdate();
+                    state2.close();
                 }
             }
             conn.commit();
