@@ -1,3 +1,5 @@
+package tree;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +50,7 @@ public class DecisionTree {
      * @return 根节点
      * @author 李沛昊
      */
-    public TreeNode buildTree(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
+    public TreeNode buildTree(ArrayList<ArrayList<String>> datas, ArrayList<Attr> attrList){
         //TODO:退出条件的改进，防止过拟合
         //TODO:剪枝操作
         TreeNode node;

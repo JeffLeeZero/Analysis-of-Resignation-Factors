@@ -1,4 +1,8 @@
-import java.util.*;
+package tree;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Attr {
     private String name;
