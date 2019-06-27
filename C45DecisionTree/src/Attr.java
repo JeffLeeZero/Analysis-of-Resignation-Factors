@@ -1,7 +1,13 @@
+import java.util.ArrayList;
+import java.util.Vector;
+
 public class Attr {
     private String name;
     private boolean seperated;
-
+    private int M = 10;
+    private double len;
+    private double min;
+    private ArrayList<String> division;
     public Attr(String name){
         this(name,true);
     }
@@ -13,7 +19,9 @@ public class Attr {
     public Attr(String name,boolean seperated){
         this.name = name;
         this.seperated = seperated;
+        this.division = new ArrayList<>();
     }
+
 
     public String getName() {
         return name;
@@ -25,5 +33,49 @@ public class Attr {
 
     public void setSeperated(boolean seperated) {
         this.seperated = seperated;
+    }
+
+    public void setM(int m){
+        M = m;
+    }
+
+    public int getM(){
+        return M;
+    }
+
+    public void divide(ArrayList<ArrayList<String>> datas,int attrIndex){
+        double i, min = Double.POSITIVE_INFINITY, max = Double.NEGATIVE_INFINITY;
+        for (ArrayList<String> tuple:
+             datas) {
+            i = Double.valueOf(tuple.get(attrIndex));
+            if(i<min){
+                min = i;
+            }
+            if(i>max){
+                max = i;
+            }
+        }
+        this.len = (max-min)/M;
+        this.min = min;
+        for (int m = 0;m < M;m++){
+            division.add(String.valueOf(min+len*m));
+        }
+    }
+
+    public String getValue(String v){
+        double num = Double.valueOf(v);
+        //System.out.println(name+";value:"+v+";min:"+min+";len:"+len);
+        int n = (int)((num-min)/len);
+        try{
+            return division.get((n>=M)?M-1:n);
+        }catch (Exception e){
+            System.out.println(name+";value:"+v+";min:"+min+";len:"+len);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public ArrayList<String> getValues(){
+        return division;
     }
 }

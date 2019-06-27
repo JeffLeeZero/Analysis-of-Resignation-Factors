@@ -6,7 +6,6 @@ import java.util.Map;
 public class Gain {
     private ArrayList<ArrayList<String>> D = null;//训练元组
     private ArrayList<Attr> attrList = null;//候选属性集，侯选属性集中最后一位表示最终的决策结果
-
     public Gain(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
         this.D = datas;
         this.attrList = attrList;
@@ -20,6 +19,9 @@ public class Gain {
      * @author 李沛昊
      */
     public ArrayList<String> getValues(ArrayList<ArrayList<String>> datas,int attrIndex){
+        if(!attrList.get(attrIndex).isSeperated()){
+            return attrList.get(attrIndex).getValues();
+        }
         ArrayList<String> values = new ArrayList<>();
         String value;
         for (ArrayList<String> list:
@@ -41,10 +43,13 @@ public class Gain {
      * @author 李沛昊
      */
     public Map<String,Integer> valueCounts(ArrayList<ArrayList<String>> datas,int attrIndex){
+        if(!attrList.get(attrIndex).isSeperated()){
+            return valueCounts(datas,attrIndex,false);
+        }
         Map<String,Integer> valueCount = new HashMap<>();
         String value;
         for (ArrayList<String> tuple:
-             datas) {
+                datas) {
             value = tuple.get(attrIndex);
             if(valueCount.containsKey(value)){
                 valueCount.put(value,valueCount.get(value)+1);
@@ -55,6 +60,25 @@ public class Gain {
         return valueCount;
     }
 
+    private Map<String,Integer> valueCounts(ArrayList<ArrayList<String>> datas,int attrIndex, boolean seperated){
+        Map<String,Integer> valueCount = new HashMap<>();
+        String value;
+        Attr attr = attrList.get(attrIndex);
+        for (ArrayList<String> tuple:
+                datas) {
+            value = tuple.get(attrIndex);
+            value = attr.getValue(value);
+            if(valueCount.containsKey(value)){
+                valueCount.put(value,valueCount.get(value)+1);
+            }else{
+                valueCount.put(value,1);
+            }
+        }
+        return valueCount;
+    }
+
+
+
     /**
      * 求各个参考属性在取各自的值对应目标属性的信息熵
      * @param datas 一般是某个属性特定属性值的元组集
@@ -62,11 +86,12 @@ public class Gain {
      * @author 李沛昊
      */
     public double infoD(ArrayList<ArrayList<String>> datas){
+
         double info = 0.0;
         int total = datas.size();
 
         //各个参考属性在取各自的值对应目标属性的分割
-        Map<String,Integer> classes = valueCounts(datas,attrList.size());
+        Map<String,Integer> classes = valueCounts(datas,attrList.size()-1);
 
         //classes.size()==data.size();
         Integer[] counts = new Integer[classes.size()];
@@ -103,10 +128,26 @@ public class Gain {
      * @author 李沛昊
      */
     public ArrayList<ArrayList<String>> datasOfValue(int attrIndex,String value){
+        if(!attrList.get(attrIndex).isSeperated()){
+            return datasOfValue(attrIndex,value,false);
+        }
         ArrayList<ArrayList<String>> Di = new ArrayList<>();
         for (ArrayList<String> t:
              D) {
             if(t.get(attrIndex).equals(value)){
+                Di.add(t);
+            }
+        }
+        return Di;
+    }
+
+
+    private ArrayList<ArrayList<String>> datasOfValue(int attrIndex, String value, boolean seperated){
+        ArrayList<ArrayList<String>> Di = new ArrayList<>();
+        Attr attr = attrList.get(attrIndex);
+        for (ArrayList<String> t:
+                D) {
+            if(attr.getValue(t.get(attrIndex)).equals(value)){
                 Di.add(t);
             }
         }
@@ -124,11 +165,25 @@ public class Gain {
         ArrayList<String> values = getValues(D,attrIndex);
         for (int i = 0; i < values.size(); i++){
             ArrayList<ArrayList<String>> dv = datasOfValue(attrIndex,values.get(i));
-
             //整个属性的信息熵应该是各个取值的信息熵的加权平均值
             info += infoD(dv)*dv.size()/D.size();
         }
         return info;
+    }
+
+
+    //todo:
+    private double splitInfo(int attrIndex){
+        double split = 0.0;
+        int size = D.size();
+        Map<String,Integer> map = valueCounts(D,attrIndex);
+        double ratio = 0.0;
+        for (Map.Entry<String,Integer> entry:
+             map.entrySet()) {
+            ratio = entry.getValue()/size;
+            split += (-1)*ratio*Math.log(ratio);
+        }
+        return split;
     }
 
     /**
@@ -141,7 +196,7 @@ public class Gain {
         double gain = 0.0;
         double temp = 0.0;
         for(int i = 0; i < attrList.size(); i++){
-            temp = infoD(D) - infoAttr(i);
+            temp = (infoD(D) - infoAttr(i))/splitInfo(i);
             if(temp > gain){
                 gain = temp;
                 index = i;
