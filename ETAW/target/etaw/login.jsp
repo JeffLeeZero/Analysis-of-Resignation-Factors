@@ -32,7 +32,11 @@
         <form class="layui-form" method="post" action="<%=request.getContextPath()%>/LoginServelet">
             <h1>LOGIN IN</h1>
             <div class="icon1"><input class="input_c" name="account" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>
+<<<<<<< HEAD
+            <div class="icon1"><input class="input_c" name="password" type="password" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入密码'" id="password"></div>
+=======
             <div class="icon1"><input class="input_c"  name="password" type="password" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入密码'" id="password"></div>
+>>>>>>> dffbce0d28f37f5b2eb534084f682744c2e69dc1
             <input type="button" class="register_btn" value="验证码登录">
             <input id="login_btn" type="submit" class="submit_btn" value="登录">
 
