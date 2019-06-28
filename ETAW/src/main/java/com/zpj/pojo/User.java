@@ -3,6 +3,15 @@ package com.zpj.pojo;
 public class User {
     private String account;
     private String password;
+    private byte[] attachment;
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
 
     public String getAccount() {
         return account;

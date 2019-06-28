@@ -12,8 +12,8 @@ import com.zpj.util.MybatiesUtil;
 
 public class LoginServelet extends HttpServlet {
 
-    private String account;
-    private String password;
+    public static String account;
+    public String password;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
