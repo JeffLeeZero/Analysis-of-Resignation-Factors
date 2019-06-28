@@ -32,7 +32,7 @@ public class LoginServelet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ccount = req.getParameter("account");
+        account = req.getParameter("account");
         password = req.getParameter("password");
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
