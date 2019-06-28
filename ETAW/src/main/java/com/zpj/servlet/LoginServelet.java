@@ -31,7 +31,6 @@ public class LoginServelet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         account = req.getParameter("account");
         password = req.getParameter("password");
         req.setCharacterEncoding("UTF-8");
@@ -46,9 +45,7 @@ public class LoginServelet extends HttpServlet {
         Gson gson = new Gson();
         String message = null;
         boolean isSuccess=false;
-//        Type requestType = new TypeToken<RequestBean<User>>(){}.getType();
-//        RequestBean<LoginBean> loginRequest = gson.fromJson(str,requestType);
-//        LoginBean account = loginRequest.getReqParam();
+
 
         switch (judgeLogin(account,password)){
             case 0:
@@ -62,13 +59,20 @@ public class LoginServelet extends HttpServlet {
                 break;
             default:break;
         }
-        LoginBean loginBean = new LoginBean();
-        loginBean.setMessage(message);
-        loginBean.setSuccess(isSuccess);
-        String jsonLogin = gson.toJson(loginBean);
+        String jsonLogin = null;
+        try {
+            LoginBean loginBean = new LoginBean();
+            loginBean.setMessage(message);
+            loginBean.setSuccess(isSuccess);
+            jsonLogin = gson.toJson(loginBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(jsonLogin);
         out.print(jsonLogin);
-        out.close();
         out.flush();
+        out.close();
+
 
     }
 
@@ -84,12 +88,11 @@ public class LoginServelet extends HttpServlet {
         }
         sqlSession.commit();
         sqlSession.close();
-        if (pass.equals("")){
+        if (pass==null){
             return 0;
         }else if (pass.equals(p)){
             return 1;
         }else{
-            System.out.println(p);
             return 2;
         }
 

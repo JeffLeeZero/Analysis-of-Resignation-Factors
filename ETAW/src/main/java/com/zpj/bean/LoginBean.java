@@ -10,15 +10,15 @@ public class LoginBean {
     }
 
     public boolean isSuccess() {
-        return success;
+        return isSuccess;
     }
 
     public void setSuccess(boolean success) {
-        this.success = success;
+        this.isSuccess = success;
     }
 
     private String message = null;
-    private boolean success = false;
+    private boolean isSuccess = false;
 
 
 

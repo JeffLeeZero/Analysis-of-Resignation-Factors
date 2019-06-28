@@ -16,13 +16,13 @@ public class test1 {
         user.setAccount("17371445076");
         user.setPassword("123456");
         try {
-//           pass=mapper.queryPassword("15198524595");
-           mapper.insertUser(user);
+           pass=mapper.queryPassword("151985295");
+//           mapper.insertUser(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
         sqlSession.commit();
         sqlSession.close();
-        System.out.println(pass);
+        System.out.println(pass==null);
     }
 }
