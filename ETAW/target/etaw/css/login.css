@@ -40,7 +40,23 @@ input {
     color: white;
     padding: 0;
 }
-
+.login_type{
+    position: absolute;
+    top: 70%;
+    right: 0;
+    color: rgb(200,200,200);
+    font-size: 1.7vh;
+}
+#passLogin{
+    display: block;
+}
+#veriLogin{
+    display: none;
+}
+a:hover{
+    color: rgba(180,180,180);
+    cursor: pointer;
+}
 a {
     text-decoration: none
 }
@@ -77,7 +93,7 @@ h1 {
 }
 
 .icon1 {
-    margin: 0 0 2em;
+    margin: 0 0 1em;
     border: 1px solid #525252;
     padding: .7em 0;
     background: rgba(255, 255, 255, 0.22);
@@ -156,8 +172,9 @@ h1 {
     -o-transition: 0.5s all;
 }
 
-.div_main a {
+.forgetPass {
     position: absolute;
+    top: 80%;
     right: 0;
     font-size: 15px;
     color: #dd4b39;

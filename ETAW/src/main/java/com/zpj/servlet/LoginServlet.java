@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
 
 import com.zpj.util.MybatiesUtil;
 
-public class LoginServelet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     private String account;
     private String password;
