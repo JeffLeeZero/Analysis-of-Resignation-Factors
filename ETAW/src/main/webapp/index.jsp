@@ -24,10 +24,19 @@
                 <legend>导入数据</legend>
             </fieldset>
 
-            <div class="layui-upload-drag" id="test10" style="margin-left: 50px;" >
-                <i class="layui-icon"></i>
-                <p>点击上传，或将文件拖拽到此处</p>
-            </div>
+            <form method="post" action="<%=request.getContextPath()%>/UploadServlet" enctype="multipart/form-data">
+                <!--
+                <div class="layui-upload-drag" id="test10" style="margin-left: 50px;" >
+                    <i class="layui-icon" ></i>
+                    <p>点击上传，或将文件拖拽到此处</p>
+                </div>
+                -->
+                    <input type="file" name="uploadFile" />
+                    <br/>
+                    <input type="submit" value="上传" />
+
+            </form>
+
 
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
                 <legend>数据统计</legend>
