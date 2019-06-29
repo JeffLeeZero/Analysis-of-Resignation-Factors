@@ -14,7 +14,7 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url:'<%=request.getContextPath()%>/LoginServelet',
+            url:'<%=request.getContextPath()%>/LoginServlet',
             type:'post',
             dataType:"json",
             data:{"account":$("#account").val(),"password":$("#password").val()},//数据为登录名和登录密码
