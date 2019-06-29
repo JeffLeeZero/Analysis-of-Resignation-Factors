@@ -43,8 +43,8 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a class="" href="javascript:;">离职预测</a>
                 <dl class="layui-nav-child">
-                    <dd><a id="team" href=""> 员工信息</a></dd>
-                    <dd><a href="">结果分析</a></dd>
+                    <dd><a href="insertWorker"> 员工信息</a></dd>
+                    <dd><a href="analyseWorker">结果分析</a></dd>
                 </dl>
             </li>
         </ul>

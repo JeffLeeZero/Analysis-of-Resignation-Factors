@@ -49,7 +49,7 @@
                     <tr>
                         <td align="center"><%=(String)session.getAttribute("allNumber") %></td>
                         <td align="center"><%=(String)session.getAttribute("leftNumber") %></td>
-                        <!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
+                        <td align="center"><%=(String)session.getAttribute("leftRatio") %>%</td>
                         </c:forEach>
                     </tbody>
                 </table>
