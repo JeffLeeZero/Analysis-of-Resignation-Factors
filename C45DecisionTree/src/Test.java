@@ -33,10 +33,10 @@ class Test {
             }
         }
         System.out.println((double)trueNum/testSet.size());
-        Type type = new TypeToken<ArrayList<Attr>>(){}.getType();
+        Type type = new TypeToken<TreeNode>(){}.getType();
         Gson gson = new Gson();
-        String content = gson.toJson(attrs,type);
-        System.out.println(content);
+        String content = gson.toJson(node,type);
+        System.out.println(gson.toJson(node,type));
     }
 
 

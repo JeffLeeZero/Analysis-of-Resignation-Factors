@@ -184,7 +184,7 @@ public class UploadServlet extends HttpServlet {
     private void trainModel(String account, String url){
         try {
             Analyser analyser = new Analyser(account);
-            analyser.trainModel(url);
+
         } catch (Exception e){
             System.out.println("训练模型错误" + e);
             e.printStackTrace();

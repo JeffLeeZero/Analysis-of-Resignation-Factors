@@ -37,7 +37,7 @@ public class DecisionTree {
                  values) {
                 data = gain.datasOfValue(i,value);
                 if(data.size()==0){
-                    continue;
+                    return;
                 }
                 map = gain.valueCounts(data,attrList.size()-1);
                 if(map.size()==1){
