@@ -20,7 +20,7 @@ import com.zpj.util.MybatiesUtil;
 
 public class LoginServlet extends HttpServlet {
 
-    private String account;
+    public static String account;
     private String password;
 
     @Override
@@ -30,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("ser");
         account = req.getParameter("account");
         password = req.getParameter("password");
         req.setCharacterEncoding("UTF-8");

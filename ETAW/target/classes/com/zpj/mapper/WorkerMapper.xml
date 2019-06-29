@@ -1,6 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zpj.mapper.WorkerMapper">
-<<<<<<< HEAD
     <insert id="insertWorker">
         insert into WORKER (SATISFACTION_LEVEL,
         LAST_EVALUATION,
@@ -21,10 +20,7 @@
         #{promotion},
         #{sales},
         #{salary})
-=======
-    <insert id="insert">
-        insert into WORKER (ACCOUNT, PASSWORD) VALUES (#{account},#{password})
->>>>>>> 7b5d85ec45ac51d0035b8df757c7c95f36210b5f
+
     </insert>
 
     <select id="queryAllNumber" resultType="string">

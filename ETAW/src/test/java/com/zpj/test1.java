@@ -14,14 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class test1 {
-    /*
     @Test
     public void m1(){
         SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         String pass = null;
         User user = new User();
-        user.setAccount("17371445076");
+        user.setAccount("123");
         user.setPassword("123456");
         try {
            pass=mapper.queryPassword("151985295");
@@ -34,6 +33,7 @@ public class test1 {
         System.out.println(pass==null);
     }
 
+/*
     @Test
     public void m2(){
         SqlSession sqlSession = MybatiesUtil.getSession();
@@ -109,7 +109,7 @@ public class test1 {
         sqlSession.commit();
         sqlSession.close();
     }
-*/
+
     @Test
     public void m4(){
 
@@ -156,7 +156,7 @@ public class test1 {
         }
     }
 
-
+*/
 
 
 }

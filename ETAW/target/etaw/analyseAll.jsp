@@ -21,7 +21,44 @@
 
     <jsp:include page="header.jsp"/>
 
+
+
     <div class="layui-body" style="background-color: #eeeeee;  ">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>数据统计</legend>
+        </fieldset>
+
+        <div class="layui-col-md12">
+            <div class="layui-card" style="margin-left: 200px; margin-right: 200px;">
+                <table class="layui-table" lay-size="lg">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>现有员工数据</th>
+                        <th>已离职员工</th>
+                        <th>离职百分比</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${workers}" var="worker">
+                    <tr>
+                        <td align="center"><%=(String)session.getAttribute("allNumber") %></td>
+                        <td align="center"><%=(String)session.getAttribute("leftNumber") %></td>
+                        <!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
+            <legend>总体分析</legend>
+        </fieldset>
 
         <!--Step:1 Prepare a dom for ECharts which (must) has size (width & hight)-->
         <!--Step:1 为ECharts准备一个具备大小（宽高）的Dom-->
@@ -64,7 +101,7 @@
                         legend: {
                             orient : 'vertical',
                             x : 'left',
-                            data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                            data:['离职','未离职']
                         },
                         toolbox: {
                             show : true,
@@ -95,11 +132,8 @@
                                 radius : '55%',
                                 center: ['50%', '60%'],
                                 data:[
-                                    {value:335, name:'直接访问'},
-                                    {value:310, name:'邮件营销'},
-                                    {value:234, name:'联盟广告'},
-                                    {value:135, name:'视频广告'},
-                                    {value:1548, name:'搜索引擎'}
+                                    {value:<%=(String)session.getAttribute("allNumber") %>, name:'离职'},
+                                    {value:<%=(String)session.getAttribute("remainNumber") %>, name:'未离职'}
                                 ]
                             }
                         ]
