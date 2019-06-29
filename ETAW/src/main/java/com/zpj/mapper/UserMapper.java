@@ -9,4 +9,6 @@ public interface UserMapper {
     String queryPassword(@Param("account") String account);
 
     String queryAccountExist(@Param("account") String account);
+
+    int insertAttachment(User user);
 }

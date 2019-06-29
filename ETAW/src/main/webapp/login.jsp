@@ -70,42 +70,42 @@
                         layer.msg("请输入验证码",{icon: 0,time: 1500});
                         return;
                     }
-                    <%--$.ajax({--%>
-                        <%--type:"POST",--%>
-                        <%--url:"<%=request.getContextPath()%>/SmsLoginServlet",--%>
-                        <%--data:JSON.stringify({--%>
-                            <%--"reqId":"",--%>
-                            <%--"reqParam":{--%>
-                                <%--"telNum":that.userPhone--%>
-                            <%--}--%>
-                        <%--}),--%>
-                        <%--dataType:"json",--%>
-                        <%--success:function(res){--%>
-                            <%--that.vercode = res.resData.verificationCode;--%>
-                            <%--that.userId = res.reqId;--%>
-                            <%--node.disabled = true;--%>
-                            <%--that.time = 60;--%>
-                            <%--that.userName = res.message;--%>
-                            <%--that.getVercodeStyle = "layui-btn-disabled";--%>
-                            <%--var i = setInterval(()=>{--%>
-                                <%--that.time--;--%>
-                            <%--console.log(that.time);--%>
-                            <%--if(that.time==0)--%>
-                            <%--{--%>
-                                <%--clearInterval(i);--%>
-                                <%--that.getVercodeStyle = "layui-btn";--%>
-                                <%--node.disabled = false;--%>
-                            <%--}--%>
-                        <%--},1000)--%>
-                        <%--},--%>
-                        <%--error:function(err){--%>
-                            <%--console.log(err);--%>
-                            <%--layui.use('layer', function(){--%>
-                                <%--var layer = layui.layer;--%>
-                                <%--layer.msg("网络异常，请重试", {icon: 2,time: 1500, anim: 6});--%>
-                            <%--});--%>
-                        <%--}--%>
-                    <%--});--%>
+                    $.ajax({
+                        type:"POST",
+                        url:"<%=request.getContextPath()%>/SmsLoginServlet",
+                        data:JSON.stringify({
+                            "reqId":"",
+                            "reqParam":{
+                                "telNum":that.userPhone
+                            }
+                        }),
+                        dataType:"json",
+                        success:function(res){
+                            that.vercode = res.resData.verificationCode;
+                            that.userId = res.reqId;
+                            node.disabled = true;
+                            that.time = 60;
+                            that.userName = res.message;
+                            that.getVercodeStyle = "layui-btn-disabled";
+                            var i = setInterval(()=>{
+                                that.time--;
+                            console.log(that.time);
+                            if(that.time==0)
+                            {
+                                clearInterval(i);
+                                that.getVercodeStyle = "layui-btn";
+                                node.disabled = false;
+                            }
+                        },1000)
+                        },
+                        error:function(err){
+                            console.log(err);
+                            layui.use('layer', function(){
+                                var layer = layui.layer;
+                                layer.msg("网络异常，请重试", {icon: 2,time: 1500, anim: 6});
+                            });
+                        }
+                    });
 
                 }
             </script>
