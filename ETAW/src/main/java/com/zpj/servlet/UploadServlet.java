@@ -1,5 +1,8 @@
 package com.zpj.servlet;
 
+import analysis.Analyser;
+import analysis.ResignationAnalyser;
+import com.zpj.Analysis;
 import com.zpj.Upload;
 import com.zpj.mapper.UserMapper;
 import com.zpj.pojo.User;
@@ -9,6 +12,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
+import org.omg.CORBA.Request;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +25,13 @@ import java.util.List;
 @WebServlet(name = "UploadServlet")
 public class UploadServlet extends HttpServlet {
     private User user = new User();
-
     private static final long serialVersionUID = 1L;
+
+    //分析数据
+    public static String allNumber;
+    public static String leftNumber;
+    public static String remainNumber;
+    public static String leftRatio;
 
     // 上传文件存储目录
     public static final String UPLOAD_DIRECTORY = "upload";
@@ -33,14 +42,6 @@ public class UploadServlet extends HttpServlet {
     private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
     private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
     private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        user.setAccount("123");
-        //user.setAccount(LoginServelet.account);
-        String url = getUploadUrl(req,resp);
-        insetAttach(url,req,resp);
-    }
 
     private String getUploadUrl(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
         // 配置上传参数
@@ -63,8 +64,7 @@ public class UploadServlet extends HttpServlet {
 
         // 构造临时路径来存储上传的文件
         // 这个路径相对当前应用的目录
-        //String uploadPath = getServletContext().getRealPath("/")  + UPLOAD_DIRECTORY;
-        uploadPath = "C:\\Users\\west\\desktop\\" + UPLOAD_DIRECTORY;
+        uploadPath = getServletContext().getRealPath("/")  + UPLOAD_DIRECTORY;
 
 
         // 如果目录不存在则创建
@@ -93,7 +93,6 @@ public class UploadServlet extends HttpServlet {
                         // 保存文件到硬盘
                         try {
                             item.write(storeFile);
-                            Upload.getAllByExcel(filePath);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -155,8 +154,7 @@ public class UploadServlet extends HttpServlet {
         }
         user.setAttachment(att);
 
-
-         SqlSession sqlSession = MybatiesUtil.getSession();
+        SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 
         try {
@@ -165,10 +163,51 @@ public class UploadServlet extends HttpServlet {
             e.printStackTrace();
             System.out.println(e);
         }
-        System.out.println("上传成功");
-        //out.print("<script>alert('附件上传成功');window.location.href = 'http://localhost:8080/cms/mainPage.jsp'</script>");
+        System.out.println("导入成功");
+        out.print("<script>alert('导入成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
+        Upload.getAllByExcel(filePath);
+
+        allNumber = Analysis.getAllNumber();
+        leftNumber = Analysis.getLeftNumber();
+        remainNumber = Analysis.getRemainNumber();
+        leftRatio = Analysis.getLeftRatio();
+
+        System.out.println(allNumber);
+        System.out.println(leftNumber);
+        System.out.println(remainNumber);
+        System.out.println(leftRatio);
+
         sqlSession.commit();
         sqlSession.close();
     }
 
+    private void trainModel(String account, String url){
+        try {
+            Analyser analyser = new Analyser(account);
+            analyser.trainModel(url);
+        } catch (Exception e){
+            System.out.println("训练模型错误" + e);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.getWriter().append("Served at: ").append(req.getContextPath());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //user.setAccount("123");
+        user.setAccount(LoginServlet.account);
+        String url = getUploadUrl(req,resp);
+        insetAttach(url,req,resp);
+        trainModel(LoginServlet.account,url);
+
+        req.getSession().setAttribute("allNumber", allNumber);
+        req.getSession().setAttribute("leftNumber", leftNumber);
+        req.getSession().setAttribute("remainNumber", remainNumber);
+        req.getSession().setAttribute("leftRatio", leftRatio);
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
+    }
 }
