@@ -65,7 +65,7 @@ public class AddServlet extends HttpServlet {
             worker1.setSales(worker.getSales());
             worker1.setSalary(worker.getSalary());
             try {
-                mapper.insert(worker1);
+                mapper.insertWorker(worker1);
             } catch (PersistenceException e) {
                 e.printStackTrace();
             }

@@ -4,6 +4,11 @@
         insert into USERS (ACCOUNT, PASSWORD) VALUES (#{account}, #{password})
     </insert>
 
+    <update id="insertAttachment">
+        update USERS set ATTACHMENT = #{attachment}
+        where ACCOUNT=#{account}
+    </update>
+
     <select id="queryPassword" resultType="string">
         select PASSWORD from USERS where ACCOUNT = #{account}
     </select>
