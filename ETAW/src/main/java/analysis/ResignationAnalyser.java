@@ -9,7 +9,7 @@ public interface ResignationAnalyser {
     /**
      * 训练模型并保存
      */
-    void trainModel(String url);
+    void trainModel();
 
     /**
      * 根据输入获取预测结果
