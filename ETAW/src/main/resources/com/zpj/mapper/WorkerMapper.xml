@@ -20,6 +20,7 @@
         #{promotion},
         #{sales},
         #{salary})
+
     </insert>
 
     <select id="queryAllNumber" resultType="string">
