@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>员工离职因素总体分析</title>
-
+	<script src="js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
 </head>
 
@@ -39,73 +39,76 @@
                     echarts: './js'
                 }
             });
+            $.ajax({
+            	type:"post",
+            	url:"http://localhost:8080/AnalysisAllServlet",
+            	dataType:"json",
+            	data:JSON.stringify({
+            		"reqId":"jeff11",
+            		"reqParam":{}
+            	}),
+            	success:function(res){
+            		console.log(res);
+            		var header = [];
+            		var value = [];
+            		for(var i = 0;i<res.resData.length;i++){
+            			header[i] = res.resData[i].name;
+            			value[i] = res.resData[i].D;
+            		}
+            		require(
+		                [
+		                    'echarts',
+		                    'echarts/chart/bar',
+		                ],
+		                function (ec) {
+		                    // 基于准备好的dom，初始化echarts图表
+		                    var myChart = ec.init(document.getElementById('pie'));
+		
+		                    var option = {
+		                        tooltip: {
+		                            show: true
+		                        },
+		                        legend: {
+		                            data:['信息增益率']
+		                        },
+		                        xAxis : [
+		                            {
+		                                type : 'category',
+		                                data : header
+		                            }
+		                        ],
+		                        yAxis : [
+		                            {
+		                                type : 'value'
+		                            }
+		                        ],
+		                        series : [
+		                            {
+		                                "name":"信息增益率",
+		                                "type":"bar",
+		                                "data":value,
+		                                 itemStyle: {
+							                normal: {
+							                    label: {
+							                        show: true,
+							                        position: 'top',
+							                        formatter: '{b}'
+							                    }
+							                }
+							            },
+		                            }
+		                        ]
+		                    };
+		
+		                    // 为echarts对象加载数据
+		                    myChart.setOption(option);
+		                }
+					)
+            	},
+            	error:function(err){
+            	}
+            });
 
-            // Step:4 require echarts and use it in the callback.
-            // Step:4 动态加载echarts然后在回调函数中开始使用，注意保持按需加载结构定义图表路径
-            require(
-                [
-                    'echarts',
-                    'echarts/chart/pie',
-                ],
-
-                function (ec) {
-                    //---饼状图
-                    var myChart = ec.init(document.getElementById('pie'));
-                    myChart.setOption({
-                        title : {
-                            text: '员工离职因素总体分析',
-                            subtext: '2019年',
-                            x:'center'
-                        },
-                        tooltip : {
-                            trigger: 'item',
-                            formatter: "{a} <br/>{b} : {c} ({d}%)"
-                        },
-                        legend: {
-                            orient : 'vertical',
-                            x : 'left',
-                            data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-                        },
-                        toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                dataView : {show: true, readOnly: false},
-                                magicType : {
-                                    show: true,
-                                    type: ['pie'],
-                                    option: {
-                                        funnel: {
-                                            x: '25%',
-                                            width: '50%',
-                                            funnelAlign: 'left',
-                                            max: 1548
-                                        }
-                                    }
-                                },
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
-                        },
-                        calculable : true,
-                        series : [
-                            {
-                                name:'访问来源',
-                                type:'pie',
-                                radius : '55%',
-                                center: ['50%', '60%'],
-                                data:[
-                                    {value:335, name:'直接访问'},
-                                    {value:310, name:'邮件营销'},
-                                    {value:234, name:'联盟广告'},
-                                    {value:135, name:'视频广告'},
-                                    {value:1548, name:'搜索引擎'}
-                                ]
-                            }
-                        ]
-                    });
-                }
-            );
         </script>
 
     </div>

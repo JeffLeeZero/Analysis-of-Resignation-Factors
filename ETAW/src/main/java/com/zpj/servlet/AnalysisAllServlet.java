@@ -55,6 +55,7 @@ public class AnalysisAllServlet extends HttpServlet {
         ResignationAnalyser analyser = new Analyser(account);
         Map<String,Double> map = analyser.getAttrRatio();
         List<AttrBean> list = new ArrayList<>();
+        map.remove("left");
         for (Map.Entry<String, Double> entry
                 : map.entrySet()){
             list.add(new AttrBean(entry.getKey(),entry.getValue()));
@@ -62,7 +63,7 @@ public class AnalysisAllServlet extends HttpServlet {
         ResponseBean<List<AttrBean>> respBean = new ResponseBean<>();
         respBean.setReqId(account);
         respBean.setResData(list);
-        String res = gson.toJson(list,resType);
+        String res = gson.toJson(respBean,resType);
         try{
             out.print(res);
             out.flush();

@@ -16,7 +16,7 @@ public class test1 {
         user.setAccount("17371445076");
         user.setPassword("123456");
         try {
-           pass=mapper.queryPassword("151985295");
+           pass=mapper.queryPassword("17371445076");
 //           mapper.insertUser(user);
         } catch (Exception e) {
             e.printStackTrace();
