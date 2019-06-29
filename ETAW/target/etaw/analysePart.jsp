@@ -21,14 +21,13 @@
 
     <jsp:include page="header.jsp"/>
 
-    <div class="layui-body" style="background-color: #eeeeee;  ">
+    <div style="background-color: #eeeeee;  ">
 
-        <div class="layui-inline">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
                 <legend>选择部门</legend>
             </fieldset>
-            <div class="layui-input-inline" style="margin-left: 50px">
-                <select name="modules" lay-verify="required" lay-search="">
+            <div class=layui-input-block" style="margin-left: 50px">
+                <select name="attrType" lay-filter="attrType">
                     <option value="">请选择影响因素</option>
                     <option value="1">销售部</option>
                     <option value="2">技术部</option>
@@ -37,7 +36,6 @@
                     <option value="5">管理部</option>
                 </select>
             </div>
-        </div>
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
             <legend>部门结果</legend>
@@ -64,7 +62,7 @@
             require(
                 [
                     'echarts',
-                    'echarts/chart/bar',
+                    'echarts/chart/pie',
                 ],
 
                 function (ec) {
@@ -134,11 +132,17 @@
 <script src="plugins/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
-    layui.use('element', function(){
+    layui.use(['element','form'], function() {
+        console.log("aaa");
         var element = layui.element;
+        var form=layui.form;
+        form.on('select(attrType)', function(data){
+            var val=data.value;
+            console.log(val);
+
+        });
 
     });
-   
 </script>
 
 </body>
