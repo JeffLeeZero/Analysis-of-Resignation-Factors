@@ -1,6 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zpj.mapper.WorkerMapper">
-<<<<<<< HEAD
     <insert id="insertWorker">
         insert into WORKER (SATISFACTION_LEVEL,
         LAST_EVALUATION,
@@ -34,10 +33,4 @@
 
 
 
-=======
-    <insert id="insert">
-        insert into WORKER (ACCOUNT, PASSWORD) VALUES (#{account},#{password})
-    </insert>
-
->>>>>>> 61793572e62f7d7aa7a96a5f550a11af3f9cd88b
 </mapper>

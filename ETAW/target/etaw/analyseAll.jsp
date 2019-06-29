@@ -25,7 +25,7 @@
 
     <div class="layui-body" style="background-color: #eeeeee;  ">
 
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
             <legend>数据统计</legend>
         </fieldset>
 
@@ -49,7 +49,7 @@
                     <tr>
                         <td align="center"><%=(String)session.getAttribute("allNumber") %></td>
                         <td align="center"><%=(String)session.getAttribute("leftNumber") %></td>
-                        <!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
+                        <td align="center"><%=(String)session.getAttribute("leftRatio") %>%</td>
                         </c:forEach>
                     </tbody>
                 </table>
@@ -62,7 +62,7 @@
 
         <!--Step:1 Prepare a dom for ECharts which (must) has size (width & hight)-->
         <!--Step:1 为ECharts准备一个具备大小（宽高）的Dom-->
-        <div id="pie" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+        <div id="pie" style="height:400px;border:1px solid #ccc;padding:10px;"></div>
 
         <!--Step:2 Import echarts.js-->
         <!--Step:2 引入echarts.js-->
@@ -130,8 +130,9 @@
 							                        show: true,
 							                        position: 'top',
 							                        formatter: '{b}'
-							                    }
-							                }
+							                    },
+                                                color:'#2f4554'
+                                            }
 							            },
 		                            }
 		                        ]
