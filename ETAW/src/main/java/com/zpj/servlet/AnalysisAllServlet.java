@@ -4,6 +4,9 @@ import analysis.Analyser;
 import analysis.ResignationAnalyser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zpj.bean.AttrBean;
+import com.zpj.bean.RequestBean;
+import com.zpj.bean.ResponseBean;
 import tree.Attr;
 
 import javax.servlet.ServletException;
@@ -43,18 +46,22 @@ public class AnalysisAllServlet extends HttpServlet {
 
         String account = "";
         Gson gson = new Gson();
-        Type resType = new TypeToken<List<Attr>>(){}.getType();
+        Type reqType = new TypeToken<RequestBean>(){}.getType();
+        RequestBean reqBean = gson.fromJson(content,reqType);
+        account = reqBean.getReqId();
+
+        Type resType = new TypeToken<ResponseBean<List<AttrBean>>>(){}.getType();
 
         ResignationAnalyser analyser = new Analyser(account);
         Map<String,Double> map = analyser.getAttrRatio();
-        List<Attr> list = new ArrayList<>();
-        Attr a;
+        List<AttrBean> list = new ArrayList<>();
         for (Map.Entry<String, Double> entry
                 : map.entrySet()){
-            a = new Attr(entry.getKey());
-            a.setD(entry.getValue());
-            list.add(a);
+            list.add(new AttrBean(entry.getKey(),entry.getValue()));
         }
+        ResponseBean<List<AttrBean>> respBean = new ResponseBean<>();
+        respBean.setReqId(account);
+        respBean.setResData(list);
         String res = gson.toJson(list,resType);
         try{
             out.print(res);
