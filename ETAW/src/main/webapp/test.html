@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="plugins/layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+          
+<blockquote class="layui-elem-quote layui-text">
+  鉴于小伙伴的普遍反馈，先温馨提醒两个常见“问题”：1. <a href="/doc/base/faq.html#form" target="_blank">为什么select/checkbox/radio没显示？</a> 2. <a href="/doc/modules/form.html#render" target="_blank">动态添加的表单元素如何更新？</a>
+</blockquote>
+
+ 
+<div class="layui-form" action="">
+  
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">单行选择框</label>
+    <div class="layui-input-block">
+      <select name="interest" lay-filter="aihao">
+        <option value=""></option>
+        <option value="0">写作</option>
+        <option value="1" selected="">阅读</option>
+        <option value="2">游戏</option>
+        <option value="3">音乐</option>
+        <option value="4">旅行</option>
+      </select>
+    </div>
+  </div>
+  
+  
+</div>
+ 
+          
+<script src="plugins/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form;
+  form.on('select(aihao)',(data)=>{
+  	console.log("aefa");
+  	console.log(data);
+  })
+  
+  
+});
+</script>
+
+</body>
+</html>

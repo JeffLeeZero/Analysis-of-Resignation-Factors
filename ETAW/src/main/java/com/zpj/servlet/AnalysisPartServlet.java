@@ -1,8 +1,12 @@
 package com.zpj.servlet;
 
+import analysis.Analyser;
+import analysis.ResignationAnalyser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zpj.bean.AttrBean;
 import com.zpj.bean.RequestBean;
+import com.zpj.bean.ResponseBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 @WebServlet(name = "AnalysisPartServlet")
 public class AnalysisPartServlet extends HttpServlet {
@@ -35,10 +40,31 @@ public class AnalysisPartServlet extends HttpServlet {
 
         //请求数据的bean类
 
-        String account = "";
+        String account = "",value = "";
         Gson gson = new Gson();
-        Type reqType = new TypeToken<RequestBean>(){}.getType();
-        RequestBean reqBean = gson.fromJson(content,reqType);
+        Type reqType = new TypeToken<RequestBean<AttrBean>>(){}.getType();
+        RequestBean<AttrBean> reqBean = gson.fromJson(content,reqType);
         account = reqBean.getReqId();
+        AttrBean attrBean = reqBean.getReqParam();
+        value = attrBean.getName();
+        ResignationAnalyser analyser = new Analyser(account);
+        Map<String,Double> map = analyser.getAttrRatio(value);
+        int temp;
+        for (Map.Entry<String,Double> entry:
+             map.entrySet()) {
+            temp = (int)(entry.getValue()*1000);
+            attrBean.addList(entry.getKey(),((double)temp)/1000);
+        }
+        Type respType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
+        ResponseBean<AttrBean> respBean = new ResponseBean<>();
+        respBean.setResData(attrBean);
+        try{
+            out.print(gson.toJson(respBean,respType));
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            out.flush();
+            out.close();
+        }
     }
 }
