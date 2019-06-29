@@ -29,7 +29,7 @@
             </fieldset>
             <div class="layui-input-inline" style="margin-left: 50px">
                 <select name="modules" lay-verify="required" lay-search="">
-                    <option value="">请搜索或选择部门</option>
+                    <option value="">请选择影响因素</option>
                     <option value="1">销售部</option>
                     <option value="2">技术部</option>
                     <option value="3">人事部</option>
@@ -64,7 +64,7 @@
             require(
                 [
                     'echarts',
-                    'echarts/chart/pie',
+                    'echarts/chart/bar',
                 ],
 
                 function (ec) {
