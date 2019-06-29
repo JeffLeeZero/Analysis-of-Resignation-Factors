@@ -1,5 +1,6 @@
 package com.zpj.servlet;
 
+import com.zpj.Analysis;
 import com.zpj.Upload;
 import com.zpj.mapper.UserMapper;
 import com.zpj.pojo.User;
@@ -24,6 +25,9 @@ public class UploadServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    public static String allNumber;
+    public static String leftNumber;
+
     // 上传文件存储目录
     public static final String UPLOAD_DIRECTORY = "upload";
     public static String uploadPath;
@@ -40,6 +44,10 @@ public class UploadServlet extends HttpServlet {
         //user.setAccount(LoginServelet.account);
         String url = getUploadUrl(req,resp);
         insetAttach(url,req,resp);
+
+        req.getSession().setAttribute("allNumber", allNumber);
+        req.getSession().setAttribute("leftNumber", leftNumber);
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     private String getUploadUrl(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
@@ -93,7 +101,6 @@ public class UploadServlet extends HttpServlet {
                         // 保存文件到硬盘
                         try {
                             item.write(storeFile);
-                            Upload.getAllByExcel(filePath);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -156,7 +163,7 @@ public class UploadServlet extends HttpServlet {
         user.setAttachment(att);
 
 
-         SqlSession sqlSession = MybatiesUtil.getSession();
+        SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 
         try {
@@ -166,6 +173,10 @@ public class UploadServlet extends HttpServlet {
             System.out.println(e);
         }
         System.out.println("上传成功");
+        Upload.getAllByExcel(filePath);
+        allNumber = Analysis.getAllNumber();
+        leftNumber = Analysis.getLeftNumber();
+
         //out.print("<script>alert('附件上传成功');window.location.href = 'http://localhost:8080/cms/mainPage.jsp'</script>");
         sqlSession.commit();
         sqlSession.close();

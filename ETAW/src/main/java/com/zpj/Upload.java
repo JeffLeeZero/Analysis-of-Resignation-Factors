@@ -41,7 +41,7 @@ public class Upload {
                     worker.setSales(item[8]);
                     worker.setSalary(item[9]);
                     try {
-                        mapper.insert(worker);
+                        mapper.insertWorker(worker);
                     } catch (PersistenceException e) {
                         e.printStackTrace();
                     }

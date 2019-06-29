@@ -1,12 +1,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zpj.mapper.UserMapper">
     <insert id="insertUser">
-<<<<<<< HEAD
-        insert into USERS (ACCOUNT, PASSWORD) VALUES (#{account},#{password})
-=======
         insert into USERS (ACCOUNT, PASSWORD) VALUES (#{account}, #{password})
->>>>>>> dffbce0d28f37f5b2eb534084f682744c2e69dc1
     </insert>
+
+    <update id="insertAttachment">
+        update USERS set ATTACHMENT = #{attachment}
+        where ACCOUNT=#{account}
+    </update>
 
     <select id="queryPassword" resultType="string">
         select PASSWORD from USERS where ACCOUNT = #{account}

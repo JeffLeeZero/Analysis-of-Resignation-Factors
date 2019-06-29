@@ -38,8 +38,8 @@ public class Worker {
         return average_monthly_hours;
     }
 
-    public void setAverage_monthly_hours(String average_montly_hours) {
-        this.average_monthly_hours = average_montly_hours;
+    public void setAverage_monthly_hours(String average_monthly_hours) {
+        this.average_monthly_hours = average_monthly_hours;
     }
 
     public String getTime_spend_company() {

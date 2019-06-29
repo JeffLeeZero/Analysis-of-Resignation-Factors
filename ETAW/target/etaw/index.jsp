@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -58,11 +59,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>340</td>
-                            <td>34</td>
-                            <td>10%</td>
-                        </tr>
+                        <c:forEach items="${workers}" var="worker">
+                            <tr>
+                                <td align="center"><%=(String)session.getAttribute("allNumber") %></td>
+                                <td align="center"><%=(String)session.getAttribute("leftNumber") %></td>
+                                <!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

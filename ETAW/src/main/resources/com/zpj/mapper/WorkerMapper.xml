@@ -1,7 +1,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zpj.mapper.WorkerMapper">
-    <insert id="insertUser">
-        insert into WORKER (ACCOUNT, PASSWORD) VALUES (#{account},#{password})
+    <insert id="insertWorker">
+        insert into WORKER (SATISFACTION_LEVEL,
+        LAST_EVALUATION,
+        NUMBER_PROJECT,
+        AVERAGE_MONTLY_HOURS,
+        TIME_SPEND_COMPANY,
+        WORK_ACCIDENT,
+        LEFT,
+        PROMOTION,
+        SALES,
+        SALARY) VALUES (#{satisfaction_level},
+        #{last_evaluation},
+        #{number_project},
+        #{average_monthly_hours},
+        #{time_spend_company},
+        #{work_accident},
+        #{left},
+        #{promotion},
+        #{sales},
+        #{salary})
     </insert>
+
+    <select id="queryAllNumber" resultType="string">
+        select COUNT(*) from WORKER
+    </select>
+
+    <select id="queryLeftNumber" resultType="string">
+        select COUNT(*) from WORKER where LEFT = '1'
+    </select>
+
+
 
 </mapper>
