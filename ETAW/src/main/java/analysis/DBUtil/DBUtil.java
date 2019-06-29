@@ -15,13 +15,15 @@ public class DBUtil {
     //静态变量初始化
     static {
         try {
-            InputStream in = DBUtil.class.getResourceAsStream("db.properties");
+
+            InputStream in = DBUtil.class.getResourceAsStream("/jdbc.properties");
+
             Properties properties = new Properties();
             properties.load(in);
-            dbDriver = properties.getProperty("driver");
-            url = properties.getProperty("url");
-            user = properties.getProperty("user");
-            password = properties.getProperty("password");
+            dbDriver = properties.getProperty("jdbc.driver");
+            url = properties.getProperty("jdbc.url");
+            user = properties.getProperty("jdbc.username");
+            password = properties.getProperty("jdbc.password");
             Class.forName(dbDriver);
         }catch (IOException e){
             System.err.println("数据库配置文件读取异常.");
