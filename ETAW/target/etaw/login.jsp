@@ -47,7 +47,7 @@
         <form class="layui-form" method="post">
             <h1>LOGIN IN</h1>
             <div class="icon1">
-                <input class="input_c" name="account" type="tel" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="phone" maxlength="11" regex="^[1][3,4,5,7,8][0-9]{9}$">
+                <input class="input_c" name="phone" type="tel" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="phone" maxlength="11" regex="^[1][3,4,5,7,8][0-9]{9}$">
             </div>
             <div class="icon1"><input class="input_c"  name="password" type="number" placeholder="输入密码" onfocus="this.placeholder=''"onblur="this.placeholder='输入验证码'" id="verification"></div>
             <input id="veri_btn" type="button" class="submit_btn" value="获取验证码" onclick="verifyLogin(this)">
@@ -55,9 +55,11 @@
             <a class="login_type" id="login_pass">密码登陆</a>
             <a class="forgetPass">忘记密码</a>
             <script>
-                // $("#veri_btn").click(function () {
-                //
-                // });
+                var interValObj; //timer变量，控制时间
+                var count = 60;  //间隔时间
+                var curCount;    //当前剩余秒数
+                var varifyBtn = $("#veri_btn");
+
                 function verifyLogin(node) {
                     if ($("#phone").val()=="" ) {
                         $("#phone").focus();
@@ -70,43 +72,39 @@
                         layer.msg("请输入验证码",{icon: 0,time: 1500});
                         return;
                     }
-                    <%--$.ajax({--%>
-                        <%--type:"POST",--%>
-                        <%--url:"<%=request.getContextPath()%>/SmsLoginServlet",--%>
-                        <%--data:JSON.stringify({--%>
-                            <%--"reqId":"",--%>
-                            <%--"reqParam":{--%>
-                                <%--"telNum":that.userPhone--%>
-                            <%--}--%>
-                        <%--}),--%>
-                        <%--dataType:"json",--%>
-                        <%--success:function(res){--%>
-                            <%--that.vercode = res.resData.verificationCode;--%>
-                            <%--that.userId = res.reqId;--%>
-                            <%--node.disabled = true;--%>
-                            <%--that.time = 60;--%>
-                            <%--that.userName = res.message;--%>
-                            <%--that.getVercodeStyle = "layui-btn-disabled";--%>
-                            <%--var i = setInterval(()=>{--%>
-                                <%--that.time--;--%>
-                            <%--console.log(that.time);--%>
-                            <%--if(that.time==0)--%>
-                            <%--{--%>
-                                <%--clearInterval(i);--%>
-                                <%--that.getVercodeStyle = "layui-btn";--%>
-                                <%--node.disabled = false;--%>
-                            <%--}--%>
-                        <%--},1000)--%>
-                        <%--},--%>
-                        <%--error:function(err){--%>
-                            <%--console.log(err);--%>
-                            <%--layui.use('layer', function(){--%>
-                                <%--var layer = layui.layer;--%>
-                                <%--layer.msg("网络异常，请重试", {icon: 2,time: 1500, anim: 6});--%>
-                            <%--});--%>
-                        <%--}--%>
-                    <%--});--%>
+                    $.ajax({
+                            type:'post',
+                            dataType:"json",
+                            data:{"phone":$("#phone").val()},
+                        success:function(data){
+                            getCheckCodeTime();
+                            var message = data.message;
+                            layer.msg(message, {icon: 2,time: 1500});
+                        },
+                        error:function(err){
+                            console.log(err);
+                            layer.msg("网络异常，请重试", {icon: 2,time: 1500, anim: 6});
+                        }
+                    });
 
+                }
+                function getCheckCodeTime() {
+                    curCount = count;
+                    varifyBtn.attr("disabled","true");
+                    varifyBtn.val(curCount+"后可重新获取");
+                    interValObj = window.setInterval(setTime,1000);
+                }
+
+                function setTime() {
+                    if (curCount === 0) {
+                        window.clearInterval(InterValObj);//停止计时器
+                        varifyBtn.removeAttr("disabled");//启用按钮
+                        varifyBtn.val("重新发送验证码");
+                    }
+                    else {
+                        curCount--;
+                        varifyBtn.val(curCount+"后可重新获取");
+                    }
                 }
             </script>
         </form>

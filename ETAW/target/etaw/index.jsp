@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -24,41 +25,48 @@
                 <legend>导入数据</legend>
             </fieldset>
 
-            <div class="layui-upload-drag" id="test10" style="margin-left: 50px;" >
-                <i class="layui-icon"></i>
-                <p>点击上传，或将文件拖拽到此处</p>
-            </div>
-
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>数据统计</legend>
-            </fieldset>
-
-            <div class="layui-col-md12">
-                <div class="layui-card" style="margin-left: 200px; margin-right: 200px;">
-                    <table class="layui-table" lay-size="lg">
-                        <colgroup>
-                            <col width="150">
-                            <col width="200">
-                            <col>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>现有员工数据</th>
-                            <th>已离职员工</th>
-                            <th>离职百分比</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>340</td>
-                            <td>34</td>
-                            <td>10%</td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <form method="post" action="UploadServlet"  enctype="multipart/form-data">
+                <!--
+                <div class="layui-upload-drag" id="test10" style="margin-left: 50px;" >
+                    <i class="layui-icon" ></i>
+                    <p>点击上传，或将文件拖拽到此处</p>
                 </div>
-            </div>
+                -->
+                    <input type="file" name="uploadFile" />
+                    <br/>
+                    <input type="submit" value="上传" />
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>数据统计</legend>
+                </fieldset>
 
+                <div class="layui-col-md12">
+                    <div class="layui-card" style="margin-left: 200px; margin-right: 200px;">
+                        <table class="layui-table" lay-size="lg">
+                            <colgroup>
+                                <col width="150">
+                                <col width="200">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>现有员工数据</th>
+                                <th>已离职员工</th>
+                                <th>离职百分比</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${workers}" var="worker">
+                            <tr>
+                                <td align="center"><%=(String)session.getAttribute("allNumber") %></td>
+                                <td align="center"><%=(String)session.getAttribute("leftNumber") %></td>
+                                <!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </form>
 
         </div>
 

@@ -25,18 +25,18 @@ public class Analyser implements ResignationAnalyser {
     private double ratio = 0.8;//训练集占总数据的比例
 
 
-    public Analyser(String account,String url,String name){
+    public Analyser(String account,String name){
         this.account = account;
-        this.url = url;
         this.name = name;
     }
 
-    public Analyser(String account,String url){
-        this(account,url,"分析方案");
+    public Analyser(String account){
+        this(account,"分析方案");
     }
 
     @Override
-    public void trainModel() {
+    public void trainModel(String url) {
+        this.url = url;
         trainTree();
         String aid = saveInfo();
         saveAttr(aid);
