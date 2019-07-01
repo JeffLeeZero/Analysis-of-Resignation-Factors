@@ -9,12 +9,13 @@
         where ACCOUNT=#{account}
     </update>
 
-    <select id="queryPassword" resultType="string">
+
+    <select id="queryPassByAccount" resultType="string">
         select PASSWORD from USERS where ACCOUNT = #{account}
     </select>
 
-    <select id="queryAccountExist" resultType="string">
-        select PASSWORD from USERS where ACCOUNT = #{account}
+    <select id="queryAccountExist" resultType="int">
+        select count(*) from USERS where ACCOUNT = #{account}
     </select>
 
 

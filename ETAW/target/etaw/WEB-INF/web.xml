@@ -28,6 +28,17 @@
         <servlet-name>smsServlet</servlet-name>
         <url-pattern>/SmsLoginServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>registerServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.RegisterServlet</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>registerServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>AnalysisAllServlet</servlet-name>

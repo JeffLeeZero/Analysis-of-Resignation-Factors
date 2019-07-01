@@ -22,15 +22,16 @@ public class test1 {
         User user = new User();
         user.setAccount("123");
         user.setPassword("123456");
+        int y=2;
         try {
-           pass=mapper.queryPassword("17371445076");
-//           mapper.insertUser(user);
+
+         y= mapper.queryAccountExist("123");
         } catch (Exception e) {
             e.printStackTrace();
         }
         sqlSession.commit();
         sqlSession.close();
-        System.out.println(pass==null);
+        System.out.println(y);
     }
 
 /*
