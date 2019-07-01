@@ -25,7 +25,7 @@
 			<div class="layui-body" style="background-color: #eeeeee;  ">
 
 				<div class="layui-inline">
-					<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
+					<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px">
 						<legend>选择影响因素</legend>
 					</fieldset>
 					<div class="layui-form">
@@ -33,21 +33,26 @@
 							<div class="layui-input-block" style="margin-left: 50px">
 								<select name="modules" lay-filter="attribute">
 									<option value="">请选择</option>
+									<option value="left">total left</option>
 									<option value="sales">sales</option>
-									<option value="2">技术部</option>
-									<option value="3">人事部</option>
-									<option value="4">财务部</option>
-									<option value="5">管理部</option>
+									<option value="satisfaction_level">satisfaction_level</option>
+									<option value="last_evaluation">last_evaluation</option>
+									<option value="average_montly_hours">average_montly_hours</option>
+									<option value="number_project">number_project</option>
+									<option value="time_spend_company">time_spend_company</option>
+									<option value="Work_accident">Work_accident</option>
+									<option value="promotion_last_5years">promotion_last_5years</option>
+									<option value="salary">salary</option>
 								</select>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
+				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px">
 					<legend>部门结果</legend>
 				</fieldset>
-				<div id="pie" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+				<div id="pie" style="height:450px;border:1px solid #ccc;padding:10px;"></div>
 				<script src="js/echarts.js"></script>
 
 			</div>
@@ -56,6 +61,11 @@
 
 		<script src="plugins/layui/layui.js"></script>
 		<script type="text/javascript">
+			require.config({
+				paths: {
+					echarts: './js'
+				}
+			});
 			layui.use(['element', 'form'], function() {
 				var element = layui.element,
 					form = layui.form;
@@ -67,148 +77,67 @@
 						data: JSON.stringify({
 							"reqId": "jeff11",
 							"reqParam": {
-								"name":data.value
+								"name": data.value
 							}
 						}),
-						success:function(res){
+						success: function(res) {
 							console.log(res);
+							var header = [];
+							var value = [];
+							var list = res.resData.list
+							for(var i = 0; i < list.length; i++) {
+								header[i] = list[i].value;
+								value[i] = list[i].ratio;
+							}
+							require(
+								[
+									'echarts',
+									'echarts/chart/bar',
+								],
+								function(ec) {
+									// 基于准备好的dom，初始化echarts图表
+									var myChart = ec.init(document.getElementById('pie'));
+
+									var option = {
+										tooltip: {
+											show: true
+										},
+										legend: {
+											data: ['离职率']
+										},
+										xAxis: [{
+											type: 'category',
+											data: header
+										}],
+										yAxis: [{
+											type: 'value'
+										}],
+										series: [{
+											"name": "离职率",
+											"type": "bar",
+											"data": value,
+											itemStyle: {
+												normal: {
+													label: {
+														show: true,
+														position: 'top',
+														formatter: '{b}'
+													},
+													color: '#2f4554'
+												}
+											},
+										}]
+									};
+
+									// 为echarts对象加载数据
+									myChart.setOption(option);
+								}
+							)
 						}
 					});
 				});
 
 			});
-
-			require.config({
-				paths: {
-					echarts: './js'
-				}
-			});
-			var attributes = [];
-			var barRender = function(ec) {
-				// 基于准备好的dom，初始化echarts图表
-				var myChart = ec.init(document.getElementById('pie'));
-
-				var option = {
-					tooltip: {
-						show: true
-					},
-					legend: {
-						data: ['员工离职率']
-					},
-					xAxis: [{
-						type: 'category',
-						data: header
-					}],
-					yAxis: [{
-						type: 'value'
-					}],
-					series: [{
-						"name": "信息增益率",
-						"type": "bar",
-						"data": value,
-						itemStyle: {
-							normal: {
-								label: {
-									show: true,
-									position: 'top',
-									formatter: '{b}'
-								},
-								color: '#2f4554'
-							}
-						},
-					}]
-				};
-
-				// 为echarts对象加载数据
-				myChart.setOption(option);
-			}
-
-			
-
-			require(
-				[
-					'echarts',
-					'echarts/chart/bar',
-				],
-
-				function(ec) {
-					var myChart = ec.init(document.getElementById('pie'));
-					myChart.setOption({
-						title: {
-							text: '员工离职因素部门分析',
-							subtext: '2019年',
-							x: 'center'
-						},
-						tooltip: {
-							trigger: 'item',
-							formatter: "{a} <br/>{b} : {c} ({d}%)"
-						},
-						legend: {
-							orient: 'vertical',
-							x: 'left',
-							data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-						},
-						toolbox: {
-							show: true,
-							feature: {
-								mark: {
-									show: true
-								},
-								dataView: {
-									show: true,
-									readOnly: false
-								},
-								magicType: {
-									show: true,
-									type: ['pie'],
-									option: {
-										funnel: {
-											x: '25%',
-											width: '50%',
-											funnelAlign: 'left',
-											max: 1548
-										}
-									}
-								},
-								restore: {
-									show: true
-								},
-								saveAsImage: {
-									show: true
-								}
-							}
-						},
-						calculable: true,
-						series: [{
-							name: '访问来源',
-							type: 'pie',
-							radius: '55%',
-							center: ['50%', '60%'],
-							data: [{
-									value: 335,
-									name: '直接访问'
-								},
-								{
-									value: 310,
-									name: '邮件营销'
-								},
-								{
-									value: 234,
-									name: '联盟广告'
-								},
-								{
-									value: 135,
-									name: '视频广告'
-								},
-								{
-									value: 1548,
-									name: '搜索引擎'
-								}
-							]
-						}]
-					});
-				}
-			);
 		</script>
 
 	</body>
