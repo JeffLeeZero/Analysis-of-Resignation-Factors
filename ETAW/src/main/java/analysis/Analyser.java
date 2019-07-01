@@ -387,6 +387,6 @@ public class Analyser implements ResignationAnalyser {
 
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff11");
-        analyser.doPrediction(null);
+        analyser.trainModel("test.csv");
     }
 }
