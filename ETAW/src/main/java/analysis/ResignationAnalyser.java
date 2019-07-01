@@ -27,10 +27,9 @@ public interface ResignationAnalyser {
 
     /**
      * 获取改进（挽留）员工措施
-     * @return
-     * 未完成
+     * @return [0]关键因素名称，[1,2,3...]如何改变可以挽回
      */
-    Map<String,String> improveMeasure();
+    List<String> improveMeasure();
 
     /**
      * 获取每个因变量的比重

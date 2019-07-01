@@ -1,13 +1,11 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DecisionTree {
     private TreeNode treeNode;
     private ArrayList<Attr> attrList = null;
-    private double ratio = 1;
+    private double ratio = 0.98;
     private double accuracy;
 
     public double getAccuracy() {
@@ -81,13 +79,12 @@ public class DecisionTree {
         node.setName(attrList.get(bestAttrIndex).getName());
         attrList = new ArrayList<>(attrList);
         attrList.remove(bestAttrIndex);
-        
+
         ArrayList<ArrayList<String>> group;
         ArrayList<Attr> newAttr;
         //元组划分
         for (String rule:
                 rules) {
-            //TODO:任然存在拷贝问题
             group = gain.datasOfValue(bestAttrIndex,rule);
             ArrayList<ArrayList<String>> newGroup = new ArrayList<>();
             for (ArrayList<String> tuple:
@@ -110,17 +107,56 @@ public class DecisionTree {
             }
         }
         return node;
-        //TODO:1、浅拷贝得到的众多List可否释放掉
     }
 
     public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
         return treeNode.doPrediction(data,attrlist);
     }
 
-    public Map<String,String> getFinalAttr(ArrayList<String> data,ArrayList<Attr> attrlist){
-        //TODO:
+    public List<String> getFinalAttr(ArrayList<String> data,ArrayList<Attr> attrlist){
+        return getFinalAttr(treeNode,data,attrlist);
+    }
+
+    private List<String> getFinalAttr(TreeNode node,ArrayList<String> data,ArrayList<Attr> attrlist){
+        if(node.getChildren().size()==0){
+            return new ArrayList<>();
+        }
+        int i;
+        Attr attr=null;
+        for (i = 0;i < attrlist.size();i++){
+            attr = attrlist.get(i);
+            if(node.getName().equals(attr.getName())){
+                break;
+            }
+        }
+        for (TreeNode child:
+                node.getChildren()) {
+            boolean equal;
+            if(attr.isSeperated()){
+                equal = child.getValue().equals(data.get(i));
+            }else{
+                equal = child.getValue().equals(attr.getValue(data.get(i)));
+            }
+            if(equal){
+                List<String> map =  getFinalAttr(child,data,attrlist);
+                if(map!=null&&map.size()==0){
+                    String name = node.getName();
+                    map.add(name);
+                    for (TreeNode c:
+                         node.getChildren()) {
+                        if(c.getName().equals("0")){
+                            map.add(c.getValue());
+                        }
+                    }
+                    return map;
+                }else if(map!=null){
+                    return map;
+                }
+            }
+        }
         return null;
     }
+
 
     /**
      * 获取属性集中目标属性的值域和计数
