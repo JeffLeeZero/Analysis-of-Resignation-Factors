@@ -31,97 +31,116 @@
             <legend>员工数据</legend>
         </fieldset>
 
-        <form class="layui-form" method="post" action="InsertWorkerServlet"  enctype="multipart/form-data">
+        <form class="layui-form" method="post" action="<%=request.getContextPath()%>/InsertWorkerServlet"  enctype="multipart/form-data">
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
             <div class="layui-input-block" style="margin-right: 300px">
-                <input type="text" name="" lay-verify="" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
             </div>
             </div>
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>
             <div class="layui-input-block" style="margin-right: 300px">
-                <input type="text" name="" lay-verify="" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
             </div>
             </div>
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
             <div class="layui-input-block" style="margin-right: 300px">
-                <input type="text" name="" lay-verify="" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
             </div>
             </div>
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工平均月工作时长</label>
             <div class="layui-input-block" style="margin-right: 300px">
-                <input type="text" name="" lay-verify="" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
             </div>
             </div>
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工工龄</label>
             <div class="layui-input-block" style="margin-right: 300px">
-                <input type="text" name="" lay-verify="" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
             </div>
             </div>
 
-            <div class="layui-form-item" pane="" style="margin-left: 200px">
+            <div class="layui-form-item"  style="margin-left: 200px">
                 <label class="layui-form-label" style="width: 200px">该员工是否发生过工作事故</label>
                 <div class="layui-input-block" style="margin-right: 300px">
-                    <input type="radio" name="" value="1" title="是" checked="">
-                    <input type="radio" name="" value="0" title="否">
+                    <input type="radio" name="WorkAccident" value="0" title="是" checked>
+                    <input type="radio" name="WorkAccident" value="1" title="否">
                 </div>
             </div>
 
-            <div class="layui-form-item" pane="" style="margin-left: 200px">
+            <div class="layui-form-item" style="margin-left: 200px">
                 <label class="layui-form-label" style="width: 200px">该员工是否得到晋升</label>
-                <div class="layui-input-block" style="margin-right: 300px">
-                    <input type="radio" name="" value="1" title="是" checked="">
-                    <input type="radio" name="" value="0" title="否">
+                <div class="layui-input-block"  style="margin-right: 300px">
+                    <input type="radio" name="Promotion" value="0" title="是" checked>
+                    <input type="radio" name="Promotion" value="1" title="否">
                 </div>
             </div>
 
-            <div class="layui-inline" style="margin-left: 200px">
-                <label class="layui-form-label" style="width: 200px">该员工所在部门</label>
-                <div class="layui-input-inline" style="margin-right: 300px">
-                    <select name="modules" lay-verify="required" lay-search="">
-                        <option value="">直接选择或搜索选择部门</option>
-                        <option value="1">销售部</option>
-                        <option value="2">技术部</option>
-                        <option value="3">人事部</option>
-                        <option value="4">财务部</option>
-                        <option value="5">管理部</option>
-                    </select>
+            <div class="layui-form-item" style="margin-left: 200px">
+                <div class="layui-inline" >
+                    <label class="layui-form-label" style="width: 200px">该员工所在部门</label>
+                    <div class="layui-input-inline" style="margin-right: 300px">
+                        <select name="Department" lay-verify="required" lay-search="">
+                            <option value="">直接选择或搜索选择部门</option>
+                            <option value="1">销售部</option>
+                            <option value="2">技术部</option>
+                            <option value="3">人事部</option>
+                            <option value="4">财务部</option>
+                            <option value="5">管理部</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="layui-inline" style="margin-left: 200px">
-                <label class="layui-form-label" style="width: 200px">该员工薪资水平</label>
-                <div class="layui-input-inline" style="margin-right: 300px">
-                    <select name="modules" lay-verify="required" lay-search="">
-                        <option value="1">高</option>
-                        <option value="2">中</option>
-                        <option value="3">低</option>
-                    </select>
+            <div class="layui-form-item" style="margin-left: 200px">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 200px">该员工薪资水平</label>
+                    <div class="layui-input-inline" style="margin-right: 300px">
+                        <select name="Salary" lay-verify="required" lay-search="">
+                            <option value="">选择薪资水平</option>
+                            <option value="0">高</option>
+                            <option value="1">中</option>
+                            <option value="2">低</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="layui-form-item" style="align-content: center">
-                <div class="layui-input-block" >
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <div class="layui-form-item" style="margin-left: 300px">
+                <div class="layui-input-block">
+                    <button type="submit" lay-submit="" lay-filter="demo1" class="layui-btn">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
 
     </div>
+    <%
+        String mess=(String)session.getAttribute("message");
+        if("".equals(mess) || mess == null ){
 
+        }
+        else
+        {
+    %>
+    <script type="text/javascript">alert("<%=mess%>");</script>
+    <%
+        }
+        session.invalidate();
+    %>
+
+</div>
+    </div>
     <jsp:include page="footer.jsp"/>
 </div>
-
 <script src="plugins/layui/layui.js" charset="utf-8"></script>
 <script>
     layui.use('form', function(){
@@ -138,14 +157,29 @@
 
         //监听提交
         form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // });
+
+            $.ajax({
+                url: "http://localhost:8080/InsertWorkerServlet",
+                data:data.field,
+                type:"POST",
+                dataType:"json",
+                success:function(msg){
+                    //console.log(msg)
+                    window.location.href="/analyseWorker.jsp";
+                },
+                error:function(error){
+                    //alert(error)
+                    window.location.href="/analyseWorker.jsp";
+                }
+            });
             return false;
         });
-
+        form.render();
     });
 </script>
-
 </body>
 </html>

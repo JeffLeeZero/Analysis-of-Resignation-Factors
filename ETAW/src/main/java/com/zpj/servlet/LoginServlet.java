@@ -20,7 +20,7 @@ import com.zpj.util.MybatiesUtil;
 
 public class LoginServlet extends HttpServlet {
 
-    public String account;
+    public static String account;
     private String password;
 
     @Override

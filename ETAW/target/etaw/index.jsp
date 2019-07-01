@@ -28,52 +28,23 @@
 				</fieldset>
 
 				<form method="post" action="UploadServlet" enctype="multipart/form-data">
-					<!--
-                <div class="layui-upload-drag" id="test10" style="margin-left: 50px;" >
-                    <i class="layui-icon" ></i>
-                    <p>点击上传，或将文件拖拽到此处</p>
-                </div>
-                -->
-					<input type="file" name="uploadFile" />
-					<br/>
-					<input type="submit" value="上传" />
-					<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-						<legend>数据统计</legend>
-					</fieldset>
 
-					<div class="layui-col-md12">
-						<div class="layui-card" style="margin-left: 200px; margin-right: 200px;">
-							<table class="layui-table" lay-size="lg">
-								<colgroup>
-									<col width="150">
-									<col width="200">
-									<col>
-								</colgroup>
+					<div class="layui-upload">
+						<div class="layui-upload-list" style="margin-left: 50px; margin-right: 50px">
+							<table class="layui-table">
 								<thead>
-									<tr>
-										<th>现有员工数据</th>
-										<th>已离职员工</th>
-										<th>离职百分比</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${workers}" var="worker">
-										<tr>
-											<td align="center">
-												<%=(String)session.getAttribute("allNumber") %>
-											</td>
-											<td align="center">
-												<%=(String)session.getAttribute("leftNumber") %>
-											</td>
-											<!--<td align="center"><%=(String)session.getAttribute("leftRatio") %></td> -->
-									</c:forEach>
-								</tbody>
+								<tr><th>文件名</th>
+									<th>大小</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr></thead>
+								<tbody id="demoList"></tbody>
 							</table>
 						</div>
+						<button type="button" class="layui-btn layui-btn-normal" id="testList" style="margin: 20px 450px">选择文件</button>
+						<button type="button" class="layui-btn" id="testListAction" style="margin:10px 450px">开始上传</button>
 					</div>
-
 				</form>
-
 			</div>
 
 			<jsp:include page="footer.jsp" />
@@ -91,12 +62,59 @@
 				var $ = layui.jquery,
 					upload = layui.upload;
 
-				//拖拽上传
-				upload.render({
-					elem: '#test10',
-					url: '/upload/',
-					done: function(res) {
-						console.log(res)
+				//多文件列表示例
+				var demoListView = $('#demoList')
+						,uploadListIns = upload.render({
+					elem: '#testList'
+					,url: 'http://localhost:8080/UploadServlet'
+					,accept: 'file'
+					,multiple: true
+					,auto: false
+					,bindAction: '#testListAction'
+					,choose: function(obj){
+						var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+						//读取本地文件
+						obj.preview(function(index, file, result){
+							var tr = $(['<tr id="upload-'+ index +'">'
+								,'<td>'+ file.name +'</td>'
+								,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+								,'<td>等待上传</td>'
+								,'<td>'
+								,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+								,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+								,'</td>'
+								,'</tr>'].join(''));
+
+							//单个重传
+							tr.find('.demo-reload').on('click', function(){
+								obj.upload(index, file);
+							});
+
+							//删除
+							tr.find('.demo-delete').on('click', function(){
+								delete files[index]; //删除对应的文件
+								tr.remove();
+								uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+							});
+
+							demoListView.append(tr);
+						});
+					}
+					,done: function(res, index, upload){
+						if(res.code == 0){ //上传成功
+							var tr = demoListView.find('tr#upload-'+ index)
+									,tds = tr.children();
+							tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+							tds.eq(3).html(''); //清空操作
+							return delete this.files[index]; //删除文件队列已经上传成功的文件
+						}
+						this.error(index, upload);
+					}
+					,error: function(index, upload){
+						var tr = demoListView.find('tr#upload-'+ index)
+								,tds = tr.children();
+						tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+						tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
 					}
 				});
 			});
