@@ -3,7 +3,11 @@ package analysis;
 import analysis.DBUtil.DBUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import oracle.sql.ARRAY;
+
+import org.apache.ibatis.session.SqlSessionException;
+
 import tree.Attr;
 import tree.DecisionTree;
 import tree.TreeNode;
@@ -38,16 +42,18 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public void trainModel(String url) {
         this.url = url;
-        trainTree();
+        //trainTree();
         //String aid = saveInfo();
         //saveAttr(aid);
         //saveNode(aid);
         Process proc;
         try{
+
             //String testAid = "1";
             //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
             String testAid = "1";
             String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  testAid, url};
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -159,8 +165,12 @@ public class Analyser implements ResignationAnalyser {
         }
     }
 
+    /**
+     * 获取改进（挽留）员工措施
+     * @return [0]关键因素名称，[1,2,3...]如何改变可以挽回
+     */
     @Override
-    public Map<String, String> improveMeasure() {
+    public List<String> improveMeasure() {
         return null;
     }
 
@@ -187,7 +197,51 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public String doPrediction(ArrayList<String> data) {
-        return null;
+        tree.getTree().doPrediction(data,attrs);
+        Connection conn = DBUtil.getConnection();
+        String aid="";
+        try{
+            PreparedStatement state = conn.prepareStatement("select tree,aid from tree natural join analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            if(set.next()){
+                Clob clob = set.getClob("tree");//java.sql.Clob
+                aid = set.getString("aid");
+                String detailinfo = "";
+                if(clob != null){
+                    detailinfo = clob.getSubString((long)1,(int)clob.length());
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<TreeNode>(){}.getType();
+                    tree = new DecisionTree();
+                    tree.setTree(gson.fromJson(detailinfo,type));
+                }
+            }
+            set.close();
+            state.close();
+            state = conn.prepareStatement("select * from attribute where aid = ?");
+            state.setString(1,aid);
+            set = state.executeQuery();
+            int M,seperated;
+            double len,min,D;
+            String name;
+            Attr attr;
+            while(set.next()){
+                name = set.getString("attrname");
+                len = set.getDouble("len");
+                min = set.getDouble("min");
+                D = set.getDouble("D");
+                M = set.getInt("M");
+                seperated = set.getInt("seperated");
+                attr = new Attr(name,seperated>0,M,min,len);
+                attrs.add(attr);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+        }
+        return tree.doPrediction(data,attrs);
     }
 
     private void trainTree(){
@@ -198,11 +252,14 @@ public class Analyser implements ResignationAnalyser {
         datas.remove(0);
         int sum = datas.size();
         int n = (int)(sum*ratio);
-        for(int i= 0;i<n;i++){
-            trainSet.add(datas.get(i));
-        }
-        for(int i= n;i<datas.size();i++){
-            testSet.add(datas.get(i));
+        for (ArrayList<String> data:
+                datas) {
+            if(n>0 && Math.random()<ratio){
+                n--;
+                trainSet.add(data);
+            }else {
+                testSet.add(data);
+            }
         }
         attrs = new ArrayList<>();
         int i = 0;
@@ -219,6 +276,15 @@ public class Analyser implements ResignationAnalyser {
         tree = new DecisionTree();
         tree.buildArrayList(trainSet,attrs);
         tree.setTree(tree.buildTree(trainSet,attrs));
+        int trueNum = 0;
+        for (ArrayList<String> data:
+                testSet) {
+            String pre = tree.getTree().doPrediction(data,attrs);
+            if(pre.equals(data.get(9))){
+                trueNum++;
+            }
+        }
+        tree.setAccuracy((double)trueNum/testSet.size());
     }
 
     private String saveInfo(){
@@ -348,7 +414,11 @@ public class Analyser implements ResignationAnalyser {
 
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff11");
-        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+
+        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+
+        analyser.trainModel("test.csv");
+
         //analyser.doPrediction(null);
         //测试数据,这部分需要前端传入
         ArrayList<String> data = new ArrayList<>();
