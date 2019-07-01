@@ -1,7 +1,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zpj.mapper.UserMapper">
     <insert id="insertUser">
+<<<<<<< HEAD
+        insert into USERS (ACCOUNT, PASSWORD) VALUES (#{account},#{password})
+=======
         insert into USERS (ACCOUNT, PASSWORD) VALUES (#{account}, #{password})
+>>>>>>> 1e9c806281d5331b4af655b36ae4f555231d1d64
     </insert>
 
     <select id="queryPassword" resultType="string">
