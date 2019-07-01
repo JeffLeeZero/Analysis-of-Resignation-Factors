@@ -3,9 +3,6 @@ package analysis;
 import analysis.DBUtil.DBUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import oracle.jdbc.OracleConnection;
-import oracle.jdbc.OracleResultSet;
-import oracle.sql.CLOB;
 import tree.Attr;
 import tree.DecisionTree;
 import tree.TreeNode;
@@ -37,8 +34,6 @@ public class Analyser implements ResignationAnalyser {
         this(account,"分析方案");
     }
 
-
-
     @Override
     public void trainModel(String url) {
         this.url = url;
@@ -46,7 +41,6 @@ public class Analyser implements ResignationAnalyser {
         String aid = saveInfo();
         saveAttr(aid);
         saveNode(aid);
-        //TODO:逻辑回归模型训练和保存
     }
 
     @Override
@@ -123,70 +117,7 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public String doPrediction(ArrayList<String> data) {
-        Connection conn = null;
-        String tree=null;
-        String aid;
-        Gson gson = new Gson();
-        try{
-            conn = DBUtil.getConnection();
-
-            PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");//conn.prepareStatement("select tree from tree natural join where account = ? and  name = ?");
-            state.setString(1,account);
-            state.setString(2,name);
-            ResultSet set = state.executeQuery();
-            if(set.next()){
-                aid = set.getString(1);
-            }else{
-                return "数据库未知错误。";
-            }
-            set.close();
-            state.close();
-            state = conn.prepareStatement("select tree from tree where aid = ?");
-            state.setString(1,aid);
-            set = state.executeQuery();
-            if(set.next()){
-                Clob clob = set.getClob(1);
-                if(clob!=null){
-                    tree = clob.getSubString(1,(int)clob.length());
-                    Type type = new TypeToken<TreeNode>(){}.getType();
-                    TreeNode node = gson.fromJson(tree,type);
-                    this.tree = new DecisionTree();
-                    this.tree.setTree(node);
-                }
-            }
-            set.close();
-            state.close();
-            state = conn.prepareStatement("select * from attribute where aid = ?");
-            state.setString(1,aid);
-            set = state.executeQuery();
-            double min,len,d;
-            int M,seperated;
-            String name;
-            attrs = new ArrayList<>();
-            while(set.next()){
-                name = set.getString("attrname");
-                d = set.getDouble("D");
-                min = set.getDouble("min");
-                len = set.getDouble("len");
-                seperated = set.getInt("seperated");
-                M = set.getInt("m");
-                Attr a;
-                if(seperated>0){
-                    a = new Attr(name,true,M,min,len);
-                    a.setD(d);
-                }else{
-                    a = new Attr(name,false,M,min,len);
-                    a.setD(d);
-                    a.divide();
-                }
-                attrs.add(a);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBUtil.closeConn(conn);
-        }
-        return this.tree.getTree().doPrediction(data,attrs);
+        return null;
     }
 
     private void trainTree(){
@@ -197,14 +128,11 @@ public class Analyser implements ResignationAnalyser {
         datas.remove(0);
         int sum = datas.size();
         int n = (int)(sum*ratio);
-        for (ArrayList<String> data:
-             datas) {
-            if(n>0 && Math.random()<ratio){
-                n--;
-                trainSet.add(data);
-            }else {
-                testSet.add(data);
-            }
+        for(int i= 0;i<n;i++){
+            trainSet.add(datas.get(i));
+        }
+        for(int i= n;i<datas.size();i++){
+            testSet.add(datas.get(i));
         }
         attrs = new ArrayList<>();
         int i = 0;
@@ -221,15 +149,6 @@ public class Analyser implements ResignationAnalyser {
         tree = new DecisionTree();
         tree.buildArrayList(trainSet,attrs);
         tree.setTree(tree.buildTree(trainSet,attrs));
-        int trueNum = 0;
-        for (ArrayList<String> data:
-                testSet) {
-            String pre = tree.getTree().doPrediction(data,attrs);
-            if(pre.equals(data.get(9))){
-                trueNum++;
-            }
-        }
-        tree.setAccuracy((double)trueNum/testSet.size());
     }
 
     private String saveInfo(){
@@ -246,7 +165,7 @@ public class Analyser implements ResignationAnalyser {
             aid = String.valueOf(count);
             set.close();
             state.close();
-            state = conn.prepareStatement("insert into analysis values(?,?,?,?)");
+            state = conn.prepareStatement("insert into analysis values(?,?,?,?,?)");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
@@ -265,46 +184,18 @@ public class Analyser implements ResignationAnalyser {
     private void saveNode(String aid){
         Type type = new TypeToken<TreeNode>(){}.getType();
         Gson gson = new Gson();
-        String content = gson.toJson(tree.getTree(),type);
+        String content = gson.toJson(tree,type);
         Connection conn = DBUtil.getConnection();
         try{
-
-            //content = "123222222222222222222222222222222222222222222222222";
-            //Clob clob = new Clob();
-
-            String sql = "insert into tree values(?,empty_clob())";
-            //锁住该列，防止并发写入时候该字段同时被多次写入造成错误
-            String sqlClob = "select tree from tree where aid=? for update";
-            PreparedStatement pst =null;
-            ResultSet rs = null;
-            Writer writer = null;
-            conn.setAutoCommit(false);//设置不自动提交，开启事务
-            pst = conn.prepareStatement(sql);
-            pst.setString(1,aid);
-            pst.executeUpdate();
-
-            pst= conn.prepareStatement(sqlClob);
-            pst.setString(1, aid);
-
-            rs = pst.executeQuery();
-            CLOB clob = null;
-            if(rs.next()){
-
-                clob = (CLOB) rs.getClob(1);
-                writer = clob.getCharacterOutputStream(); //拿到clob的字符输入流
-                writer.write(content);
-                writer.flush();
-                writer.close();
+            PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");
+            Reader reader = new StringReader(content);
+            state.setString(1,aid);
+            state.setCharacterStream(2,reader,content.length());
+            int i = state.executeUpdate();
+            if(i<1){
+                System.err.println("clob error!");
             }
-            conn.commit();
-
-
-
-
         }catch (SQLException e){
-            e.printStackTrace();
-            DBUtil.rollback(conn);
-        }catch (IOException e){
             e.printStackTrace();
             DBUtil.rollback(conn);
         }finally {
@@ -383,10 +274,5 @@ public class Analyser implements ResignationAnalyser {
         }
 
         return dataList;
-    }
-
-    public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("jeff11");
-        analyser.doPrediction(null);
     }
 }

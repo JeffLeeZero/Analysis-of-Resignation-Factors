@@ -104,7 +104,7 @@ public class Attr {
         return M;
     }
 
-    public void divide(){
+    private void divide(){
         for(int i = 0; i < M;i++){
             division.add(String.valueOf(min+i*len));
         }

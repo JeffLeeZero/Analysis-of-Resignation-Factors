@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item" style="margin: auto">
+            <div class="layui-form-item" style="align-content: center">
                 <div class="layui-input-block" >
                     <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>

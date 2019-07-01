@@ -61,9 +61,7 @@ public class LoginServlet extends HttpServlet {
         }
         String jsonLogin = null;
         try {
-            LoginBean loginBean = new LoginBean();
-            loginBean.setMessage(message);
-            loginBean.setSuccess(isSuccess);
+            LoginBean loginBean = new LoginBean(message,isSuccess);
             jsonLogin = gson.toJson(loginBean);
         } catch (Exception e) {
             e.printStackTrace();

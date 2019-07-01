@@ -1,8 +1,6 @@
 package analysis.DBUtil;
 
 import oracle.jdbc.driver.OracleDriver;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -17,7 +15,9 @@ public class DBUtil {
     //静态变量初始化
     static {
         try {
+
             InputStream in = DBUtil.class.getResourceAsStream("/jdbc.properties");
+
             Properties properties = new Properties();
             properties.load(in);
             dbDriver = properties.getProperty("jdbc.driver");

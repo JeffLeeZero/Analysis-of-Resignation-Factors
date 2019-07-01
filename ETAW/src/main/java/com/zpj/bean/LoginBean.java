@@ -20,6 +20,10 @@ public class LoginBean {
     private String message = null;
     private boolean isSuccess = false;
 
+    public LoginBean(String m, boolean s){
+        this.message=m;
+        this.isSuccess=s;
+    }
 
 
 
