@@ -41,6 +41,23 @@ public class Analyser implements ResignationAnalyser {
         String aid = saveInfo();
         saveAttr(aid);
         saveNode(aid);
+        Process proc;
+        try{
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  aid, url};
+            proc = Runtime.getRuntime().exec(fileData);
+            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null){
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
@@ -65,8 +82,38 @@ public class Analyser implements ResignationAnalyser {
     }
 
     @Override
-    public double getProbability(ArrayList<String> data) {
-        return 0;
+    public ArrayList<String> getProbability(ArrayList<String> data, String aid, String department) {
+        //TODO:
+        Process proc;
+        ArrayList<String> dataset = new ArrayList<>();
+        try{
+            String testDatas = String.join(",", data);
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py", testDatas, aid, department};
+            proc = Runtime.getRuntime().exec(fileData);
+            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null){
+                dataset.add(line);
+            }
+            in.close();
+            proc.waitFor();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return dataset;
+    }
+
+    @Override
+    public ArrayList<Float> getResult(ArrayList<String> result, int index){
+        ArrayList<Float> which = new ArrayList<>();
+        for(int i = 0;i<result.size();i++){
+            if(i%4 == index){
+                which.add(Float.parseFloat(result.get(i)));
+            }
+        }
+        System.out.println(which);
+        return which;
     }
 
     @Override
@@ -279,5 +326,28 @@ public class Analyser implements ResignationAnalyser {
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff11");
         analyser.trainModel("test.csv");
+        //analyser.doPrediction(null);
+        //测试数据,这部分需要前端传入
+        ArrayList<String> data = new ArrayList<>();
+        //'0.38 0.53 157 3 0 0 0'
+        data.add("0.38");
+        data.add("0.53");
+        data.add("157");
+        data.add("3");
+        data.add("0");
+        data.add("0");
+        data.add("0");
+        //获取训练数据集的URL
+        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+        ArrayList<String> results = analyser.getProbability(data, "1", "IT");
+        //是否离职 0不离职，1离职
+        ArrayList<Float> leftResult = analyser.getResult(results,0);
+        //上一个结果的准确度（可能是）
+        ArrayList<Float> successResult = analyser.getResult(results,1);
+        //离职与否的不准确度（可能是）
+        ArrayList<Float> failureResult = analyser.getResult(results,2);
+        //该模型的拟合度
+        ArrayList<Float> scoreResult = analyser.getResult(results,3);
+
     }
 }
