@@ -34,24 +34,24 @@ class Test {
 
 
     public static TreeNode buildTree(){
+
         ArrayList<ArrayList<String>> datas = importCsv(new File("test.csv"));
         ArrayList<String> attrList = datas.get(0);
 
+        trainSet = new ArrayList<>();
+        testSet = new ArrayList<>();
         datas.remove(0);
         int sum = datas.size();
         int n = (int)(sum*ratio);
-        for(int i= 0;i<n;i++){
-            trainSet.add(datas.get(i));
+        for (ArrayList<String> data:
+                datas) {
+            if(n>0 && Math.random()<ratio){
+                n--;
+                trainSet.add(data);
+            }else {
+                testSet.add(data);
+            }
         }
-        for(int i= n;i<datas.size();i++){
-            testSet.add(datas.get(i));
-        }
-//        for(int i= 0;i<datas.size()-n;i++){
-//            testSet.add(datas.get(i));
-//        }
-//        for(int i= datas.size()-n;i<datas.size();i++){
-//            trainSet.add(datas.get(i));
-//        }
         attrs = new ArrayList<>();
         int i = 0;
         for (String attr:
@@ -65,7 +65,7 @@ class Test {
             i++;
         }
         DecisionTree tree = new DecisionTree();
-        //tree.buildArrayList(trainSet,attrs);
+        tree.buildArrayList(trainSet,attrs);
         return tree.buildTree(trainSet,attrs);
     }
 

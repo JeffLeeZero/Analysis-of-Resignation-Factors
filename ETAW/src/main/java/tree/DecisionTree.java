@@ -63,8 +63,6 @@ public class DecisionTree {
         //TODO:剪枝操作
         TreeNode node;
         node = new TreeNode();
-//        node.setDatas(datas);
-//        node.setCandAttrs(attrList);
 
         Map<String,Integer> classes = classOfDatas(datas);
 
@@ -83,7 +81,7 @@ public class DecisionTree {
         node.setName(attrList.get(bestAttrIndex).getName());
         attrList = new ArrayList<>(attrList);
         attrList.remove(bestAttrIndex);
-
+        
         ArrayList<ArrayList<String>> group;
         ArrayList<Attr> newAttr;
         //元组划分
@@ -99,7 +97,6 @@ public class DecisionTree {
                 newGroup.add(tuple);
             }
             group = newGroup;
-            //事实上这个判断条件应该不会发生
             if(group.size()==0||attrList.size()==0){
                 TreeNode leafNode = new TreeNode();
                 leafNode.setName(maxc);
@@ -114,6 +111,15 @@ public class DecisionTree {
         }
         return node;
         //TODO:1、浅拷贝得到的众多List可否释放掉
+    }
+
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
+        return treeNode.doPrediction(data,attrlist);
+    }
+
+    public Map<String,String> getFinalAttr(ArrayList<String> data,ArrayList<Attr> attrlist){
+        //TODO:
+        return null;
     }
 
     /**

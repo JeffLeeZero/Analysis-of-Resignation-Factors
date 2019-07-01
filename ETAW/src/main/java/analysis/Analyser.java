@@ -3,6 +3,7 @@ package analysis;
 import analysis.DBUtil.DBUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.ibatis.session.SqlSessionException;
 import tree.Attr;
 import tree.DecisionTree;
 import tree.TreeNode;
@@ -165,6 +166,50 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public String doPrediction(ArrayList<String> data) {
         tree.getTree().doPrediction(data,attrs);
+        Connection conn = DBUtil.getConnection();
+        String aid="";
+        try{
+            PreparedStatement state = conn.prepareStatement("select tree,aid from tree natural join analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            if(set.next()){
+                Clob clob = set.getClob("tree");//java.sql.Clob
+                aid = set.getString("aid");
+                String detailinfo = "";
+                if(clob != null){
+                    detailinfo = clob.getSubString((long)1,(int)clob.length());
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<TreeNode>(){}.getType();
+                    tree = new DecisionTree();
+                    tree.setTree(gson.fromJson(detailinfo,type));
+                }
+            }
+            set.close();
+            state.close();
+            state = conn.prepareStatement("select * from attribute where aid = ?");
+            state.setString(1,aid);
+            set = state.executeQuery();
+            int M,seperated;
+            double len,min,D;
+            String name;
+            Attr attr;
+            while(set.next()){
+                name = set.getString("attrname");
+                len = set.getDouble("len");
+                min = set.getDouble("min");
+                D = set.getDouble("D");
+                M = set.getInt("M");
+                seperated = set.getInt("seperated");
+                attr = new Attr(name,seperated>0,M,min,len);
+                attrs.add(attr);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+        }
+        return tree.doPrediction(data,attrs);
     }
 
     private void trainTree(){
@@ -175,11 +220,14 @@ public class Analyser implements ResignationAnalyser {
         datas.remove(0);
         int sum = datas.size();
         int n = (int)(sum*ratio);
-        for(int i= 0;i<n;i++){
-            trainSet.add(datas.get(i));
-        }
-        for(int i= n;i<datas.size();i++){
-            testSet.add(datas.get(i));
+        for (ArrayList<String> data:
+                datas) {
+            if(n>0 && Math.random()<ratio){
+                n--;
+                trainSet.add(data);
+            }else {
+                testSet.add(data);
+            }
         }
         attrs = new ArrayList<>();
         int i = 0;
@@ -196,6 +244,15 @@ public class Analyser implements ResignationAnalyser {
         tree = new DecisionTree();
         tree.buildArrayList(trainSet,attrs);
         tree.setTree(tree.buildTree(trainSet,attrs));
+        int trueNum = 0;
+        for (ArrayList<String> data:
+                testSet) {
+            String pre = tree.getTree().doPrediction(data,attrs);
+            if(pre.equals(data.get(9))){
+                trueNum++;
+            }
+        }
+        tree.setAccuracy((double)trueNum/testSet.size());
     }
 
     private String saveInfo(){
