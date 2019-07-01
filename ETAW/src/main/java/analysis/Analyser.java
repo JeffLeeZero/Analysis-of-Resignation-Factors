@@ -164,7 +164,7 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public String doPrediction(ArrayList<String> data) {
-        return null;
+        tree.getTree().doPrediction(data,attrs);
     }
 
     private void trainTree(){
