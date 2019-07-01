@@ -43,8 +43,7 @@ public class Analyser implements ResignationAnalyser {
         saveNode(aid);
         Process proc;
         try{
-            String testAid = "1";
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  aid, url};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -326,6 +325,7 @@ public class Analyser implements ResignationAnalyser {
 
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff11");
+        analyser.trainModel("test.csv");
         //analyser.doPrediction(null);
         //测试数据,这部分需要前端传入
         ArrayList<String> data = new ArrayList<>();
