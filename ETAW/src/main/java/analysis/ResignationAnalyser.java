@@ -62,5 +62,13 @@ public interface ResignationAnalyser {
      */
     Map<String,Double> getAttrRatio(String attrName);
 
+    ArrayList<String> getProbabilityFromCSV(String csvURL, String aid);
+    /**
+     * 获取批量导入的测试数据集结果
+     *
+     * @return arrayList<String>类型 其中每一个元素包含三个数值，以“，”分割，之后进行数据处理可以采用StringD的split方法
+     * 每一个String元素中，第一个值代表是否会离职，[0]留任或者[1]离职；第二个值是预测可能性，其中包含两个数值，相加为1
+     * 第三个值是该模型的拟合程度
+     */
 
 }

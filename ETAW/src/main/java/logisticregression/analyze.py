@@ -1,7 +1,10 @@
+import sys,os
+PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(PATH)
 import pandas as pd
 import cx_Oracle as oracle
 import _pickle as pickle
-import sys
+from logisticregression.logistic_regression import LogisticRegression
 
 def data2dataframe(data):
     """
@@ -44,22 +47,18 @@ def export_model(aid, department):
     db.close()
     return log_reg, score
 
-def main(data,aid, department):
+def main(data,aid,department):
     predict_result_float_arry = []
 
     x_test = data2dataframe(data)
     log_reg, score = export_model(aid, department)
     predict_result = log_reg.predict(x_test)
-    predict_result_proba = log_reg.predict_proba(x_test)
 
     predict_result_float_arry.append(str(float(predict_result)))
-    predict_result_float_arry.append(predict_result_proba[0][0])
-    predict_result_float_arry.append(predict_result_proba[0][1])
     predict_result_float_arry.append(score)
 
     for i in predict_result_float_arry:
         print(i)
-
 
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
 if __name__ == "__main__":

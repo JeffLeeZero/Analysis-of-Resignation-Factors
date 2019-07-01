@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from LogisticRegression import metrics
+from logisticregression import metrics
 
 class LogisticRegression:
     def __init__(self):
