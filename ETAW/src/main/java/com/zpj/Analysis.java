@@ -40,8 +40,8 @@ public class Analysis {
     }
 
     public static void getAttrRatio(){
-        Analyser analyser = new Analyser(LoginServlet.account);
-        analyser.getAttrRatio();
+//        Analyser analyser = new Analyser(account);
+//        analyser.getAttrRatio();
     }
 
 }

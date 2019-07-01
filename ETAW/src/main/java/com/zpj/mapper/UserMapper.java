@@ -11,4 +11,5 @@ public interface UserMapper {
     String queryAccountExist(@Param("account") String account);
 
     int insertAttachment(User user);
+
 }
