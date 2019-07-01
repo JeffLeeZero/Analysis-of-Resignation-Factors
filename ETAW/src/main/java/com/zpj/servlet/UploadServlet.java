@@ -25,6 +25,7 @@ import java.util.List;
 @WebServlet(name = "UploadServlet")
 public class UploadServlet extends HttpServlet {
     private User user = new User();
+    private String account;
     private static final long serialVersionUID = 1L;
 
     //分析数据
@@ -199,10 +200,11 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //user.setAccount("123");
-        user.setAccount(LoginServlet.account);
+
+        user.setAccount(account);
         String url = getUploadUrl(req,resp);
         insetAttach(url,req,resp);
-        trainModel(LoginServlet.account,url);
+        trainModel(account,url);
 
         req.getSession().setAttribute("allNumber", allNumber);
         req.getSession().setAttribute("leftNumber", leftNumber);
