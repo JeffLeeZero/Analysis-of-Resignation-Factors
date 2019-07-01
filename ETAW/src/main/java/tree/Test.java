@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 class Test {
 
@@ -14,21 +16,32 @@ class Test {
 
     private static ArrayList<Attr> attrs = null;
 
-    private static int trueNum = 0;
-
     private static double ratio = 0.8;
 
+    private static int N = 100;
     public static void main(String[] args){
+//        double sum = 0.0;
+//        int trueNum;
+//        for(int i = 0;i<N;i++){
+//            trueNum = 0;
+//            TreeNode node = buildTree();
+//            for (ArrayList<String> data:
+//                    testSet) {
+//                String pre = node.doPrediction(data,attrs);
+//                if(pre.equals(data.get(9))){
+//                    trueNum++;
+//                }
+//            }
+//            sum += (double)trueNum/testSet.size();
+//        }
+//        double average = sum/N;
+//        System.out.println("average accuracy:"+average);
         TreeNode node = buildTree();
-        System.out.println("safa");
-        for (ArrayList<String> data:
-             testSet) {
-            String pre = node.doPrediction(data,attrs);
-            if(pre.equals(data.get(9))){
-                trueNum++;
-            }
-        }
-        System.out.println((double)trueNum/testSet.size());
+        ArrayList<String> data = testSet.get(0);
+        DecisionTree tree = new DecisionTree();
+        tree.setTree(node);
+        String predict = tree.doPrediction(data,attrs);
+        List<String> map = tree.getFinalAttr(data,attrs);
     }
 
 

@@ -137,8 +137,12 @@ public class Analyser implements ResignationAnalyser {
         }
     }
 
+    /**
+     * 获取改进（挽留）员工措施
+     * @return [0]关键因素名称，[1,2,3...]如何改变可以挽回
+     */
     @Override
-    public Map<String, String> improveMeasure() {
+    public List<String> improveMeasure() {
         return null;
     }
 
