@@ -25,7 +25,7 @@ $(document).ready(function () {
 
             success:function(data){//处理返回的信息，true则跳转，false则提示密码错误
                 if (data.isSuccess){
-
+                    //window.localStorage.id =
                     window.location.href = "index.jsp";
                 } else {
                     var message = data.message;
