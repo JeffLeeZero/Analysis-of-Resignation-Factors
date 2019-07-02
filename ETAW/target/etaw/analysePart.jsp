@@ -33,7 +33,6 @@
 							<div class="layui-input-block" style="margin-left: 50px">
 								<select name="modules" lay-filter="attribute">
 									<option value="">请选择</option>
-									<option value="left">total left</option>
 									<option value="sales">sales</option>
 									<option value="satisfaction_level">satisfaction_level</option>
 									<option value="last_evaluation">last_evaluation</option>
@@ -75,7 +74,7 @@
 						url: "http://localhost:8080/AnalysisPartServlet",
 						dataType: "json",
 						data: JSON.stringify({
-							"reqId": "jeff11",
+							"reqId": "jeff11",//window.localStorage.id,
 							"reqParam": {
 								"name": data.value
 							}
