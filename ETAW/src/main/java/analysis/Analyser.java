@@ -51,8 +51,8 @@ public class Analyser implements ResignationAnalyser {
 
             //String testAid = "1";
             //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
-            String testAid = "1";
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  testAid, url};
+            String choosemodel = account + name;
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  choosemodel, url};
 
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -92,12 +92,12 @@ public class Analyser implements ResignationAnalyser {
     }
 
     @Override
-    public ArrayList<String> getProbability(ArrayList<String> data, String aid, String department) {
+    public ArrayList<String> getProbability(ArrayList<String> data, String choosemodel, String department) {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
             String testDatas = String.join(",", data);
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py",testDatas,aid,department};
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py",testDatas,choosemodel,department};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -432,6 +432,7 @@ public class Analyser implements ResignationAnalyser {
         data.add("0");
         //获取训练数据集的URL(前端传入对应的训练文件URL）
         analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+
         ArrayList<String> result1 = analyser.getProbability(data, "1", "IT");
         System.out.println(result1);
         //是否离职 0不离职，1离职
