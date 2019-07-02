@@ -292,7 +292,7 @@ public class Analyser implements ResignationAnalyser {
     private void saveNode(String aid){
         Type type = new TypeToken<TreeNode>(){}.getType();
         Gson gson = new Gson();
-        String content = gson.toJson(tree,type);
+        String content = gson.toJson(tree.getTree(),type);
         Connection conn = DBUtil.getConnection();
         try{
             PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");

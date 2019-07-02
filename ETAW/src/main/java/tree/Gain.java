@@ -1,4 +1,4 @@
-package tree;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,14 +20,15 @@ public class Gain {
      * @author 李沛昊
      */
     public ArrayList<String> getValues(ArrayList<ArrayList<String>> datas,int attrIndex){
-        if(!attrList.get(attrIndex).isSeperated()){
-            return attrList.get(attrIndex).getValues();
+        Attr attr = attrList.get(attrIndex);
+        if(!attr.isSeperated()){
+            return attr.getValues();
         }
         ArrayList<String> values = new ArrayList<>();
         String value;
         for (ArrayList<String> list:
              datas) {
-            value = list.get(attrIndex);
+            value = list.get(attr.getIndex());
             if(!values.contains(value)){
                 values.add(value);
             }
@@ -44,14 +45,15 @@ public class Gain {
      * @author 李沛昊
      */
     public Map<String,Integer> valueCounts(ArrayList<ArrayList<String>> datas,int attrIndex){
-        if(!attrList.get(attrIndex).isSeperated()){
+        Attr attr = attrList.get(attrIndex);
+        if(!attr.isSeperated()){
             return valueCounts(datas,attrIndex,false);
         }
         Map<String,Integer> valueCount = new HashMap<>();
         String value;
         for (ArrayList<String> tuple:
                 datas) {
-            value = tuple.get(attrIndex);
+            value = tuple.get(attr.getIndex());
             if(valueCount.containsKey(value)){
                 valueCount.put(value,valueCount.get(value)+1);
             }else{
@@ -67,7 +69,7 @@ public class Gain {
         Attr attr = attrList.get(attrIndex);
         for (ArrayList<String> tuple:
                 datas) {
-            value = tuple.get(attrIndex);
+            value = tuple.get(attr.getIndex());
             value = attr.getValue(value);
             if(valueCount.containsKey(value)){
                 valueCount.put(value,valueCount.get(value)+1);
@@ -94,7 +96,6 @@ public class Gain {
         //各个参考属性在取各自的值对应目标属性的分割
         Map<String,Integer> classes = valueCounts(datas,attrList.size()-1);
 
-        //classes.size()==data.size();
         Integer[] counts = new Integer[classes.size()];
         Integer count;
         int i = 0;
@@ -104,14 +105,6 @@ public class Gain {
             counts[i] = count;
             ++i;
         }
-
-//        Iterator<Map.Entry<String,Integer>> iter = classes.entrySet().iterator();
-//        for(int i = 0;iter.hasNext();i++){
-//            Map.Entry<String,Integer> entry = iter.next();
-//            count = entry.getValue();
-//            counts[i] = count;
-//        }
-
         double base;
         for (Integer n:
              counts) {
@@ -129,13 +122,14 @@ public class Gain {
      * @author 李沛昊
      */
     public ArrayList<ArrayList<String>> datasOfValue(int attrIndex,String value){
-        if(!attrList.get(attrIndex).isSeperated()){
+        Attr attr = attrList.get(attrIndex);
+        if(!attr.isSeperated()){
             return datasOfValue(attrIndex,value,false);
         }
         ArrayList<ArrayList<String>> Di = new ArrayList<>();
         for (ArrayList<String> t:
              D) {
-            if(t.get(attrIndex).equals(value)){
+            if(t.get(attr.getIndex()).equals(value)){
                 Di.add(t);
             }
         }
@@ -148,7 +142,7 @@ public class Gain {
         Attr attr = attrList.get(attrIndex);
         for (ArrayList<String> t:
                 D) {
-            if(attr.getValue(t.get(attrIndex)).equals(value)){
+            if(attr.getValue(t.get(attr.getIndex())).equals(value)){
                 Di.add(t);
             }
         }
