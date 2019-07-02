@@ -268,6 +268,7 @@ public class Analyser implements ResignationAnalyser {
             }else{
                 attrs.add(new Attr(attr));
             }
+            attrs.get(i).setIndex(i);
             i++;
         }
         tree = new DecisionTree();
@@ -410,7 +411,7 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("jeff11");
+        ResignationAnalyser analyser = new Analyser("jeff12");
 
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
 
@@ -418,30 +419,30 @@ public class Analyser implements ResignationAnalyser {
 
         //analyser.doPrediction(null);
         //测试数据,这部分需要前端传入
-        ArrayList<String> data = new ArrayList<>();
-        //'0.38 0.53 157 3 0 0 0'
-        data.add("0.38");
-        data.add("0.53");
-        data.add("157");
-        data.add("3");
-        data.add("0");
-        data.add("0");
-        data.add("0");
-        //获取训练数据集的URL(前端传入对应的训练文件URL）
-        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-        ArrayList<String> result1 = analyser.getProbability(data, "1", "IT");
-        System.out.println(result1);
-        //是否离职 0不离职，1离职
-        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
-        //该模型的拟合度
-        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
-        System.out.println(leftResult1+"\n"+scoreResult1);
-
-        ArrayList<String> result2 = analyser.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv", "1");
-        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
-        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
-        System.out.println(leftResult2);
-        System.out.println(scoreResult2);
+//        ArrayList<String> data = new ArrayList<>();
+//        //'0.38 0.53 157 3 0 0 0'
+//        data.add("0.38");
+//        data.add("0.53");
+//        data.add("157");
+//        data.add("3");
+//        data.add("0");
+//        data.add("0");
+//        data.add("0");
+//        //获取训练数据集的URL(前端传入对应的训练文件URL）
+//        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+//        ArrayList<String> result1 = analyser.getProbability(data, "1", "IT");
+//        System.out.println(result1);
+//        //是否离职 0不离职，1离职
+//        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+//        //该模型的拟合度
+//        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
+//        System.out.println(leftResult1+"\n"+scoreResult1);
+//
+//        ArrayList<String> result2 = analyser.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv", "1");
+//        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+//        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+//        System.out.println(leftResult2);
+//        System.out.println(scoreResult2);
         /*
 
         */
