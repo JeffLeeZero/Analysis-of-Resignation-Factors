@@ -37,11 +37,11 @@ def train(saleset, data):
     for i in saleset:
         #区分出每个职位的数据集
         salesrow = data.loc[data['sales'] == i]
-        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company',
+        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company','number_project',
                              'Work_accident', 'promotion_last_5years', 'salary']]
         y = salesrow.iloc[:, 9]
         #训练模型
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=0)
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=1)
         log_reg = LogisticRegression()
         log_reg.fit(x_train, y_train)
         #用于序列化模型对象
@@ -73,7 +73,7 @@ def import_model(mp,ms,s,aid):
     if (len(aid_set)):
         for i in aid_set:
             #比较是否已存在该用户ID，如果有则跳过不存
-            if (i == tuple(aid)):
+            if (str(i[0]) == aid):
                 break
             else:
                 #获取到model_data的行总数，依次选出对应的model_parameter、model_score和职位
@@ -83,7 +83,7 @@ def import_model(mp,ms,s,aid):
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
                     db.commit()
-                break
+            break
     #为空直接导入
     else:
         for i in range(model_data.shape[0]):

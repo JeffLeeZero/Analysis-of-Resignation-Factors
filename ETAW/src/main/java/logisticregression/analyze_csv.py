@@ -25,7 +25,7 @@ def data2dataframe(csvfile):
     if('high' in salarylist):
         data.loc[data.salary == 'high', 'salary'] = 2
 
-    z = data.iloc[:, 7]
+    z = data.loc[:,data['sales']]
     sale_data = []
     saleset = set()
     for i in z:
@@ -33,7 +33,7 @@ def data2dataframe(csvfile):
     for i in saleset:
         #区分出每个职位的数据集
         salesrow = data.loc[data['sales'] == i]
-        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company',
+        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company','number_project',
                              'Work_accident', 'promotion_last_5years', 'salary']]
         sale_data.append(x)
     return sale_data, saleset

@@ -78,7 +78,6 @@ function verifyLogin() {
         success:function(data){
             getCheckCodeTime();
             verifiedCode = data.message;
-            alert(verifiedCode);
             // layer.msg(message, {icon: 2,time: 1500});
         },
         error:function(err){

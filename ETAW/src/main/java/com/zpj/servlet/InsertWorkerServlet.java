@@ -38,10 +38,10 @@ public class InsertWorkerServlet extends HttpServlet {
             System.out.println(data);
             Analyser analyser = new Analyser(LoginServlet.account);
             //得到离职率
-            double leftRatio = analyser.getProbability(data);
-            System.out.println("该员工的离职概率为:" + leftRatio);
+            //double leftRatio = analyser.getProbability(data);
+            //System.out.println("该员工的离职概率为:" + leftRatio);
 
-            request.getSession().setAttribute("leftRatio", leftRatio);
+            //request.getSession().setAttribute("leftRatio", leftRatio);
             request.getRequestDispatcher("analyseWorker.jsp").forward(request, response);
 
 //            String message = "提交成功";

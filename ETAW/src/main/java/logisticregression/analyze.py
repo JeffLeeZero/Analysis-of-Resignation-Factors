@@ -18,10 +18,11 @@ def data2dataframe(data):
     test_data = pd.DataFrame(data_float_list[0], columns=['satisfaction_level'])
     test_data['last_evaluation'] = pd.Series(float(data_float_list[1]))
     test_data['average_montly_hours'] = pd.Series(float(data_float_list[2]))
-    test_data['time_spend_company'] = pd.Series(float(data_float_list[3]))
-    test_data['Work_accident'] = pd.Series(float(data_float_list[4]))
-    test_data['promotion_last_5years'] = pd.Series(float(data_float_list[5]))
-    test_data['salary'] = pd.Series(float(data_float_list[6]))
+    test_data['number_project'] = pd.Series(float(data_float_list[3]))
+    test_data['time_spend_company'] = pd.Series(float(data_float_list[4]))
+    test_data['Work_accident'] = pd.Series(float(data_float_list[5]))
+    test_data['promotion_last_5years'] = pd.Series(float(data_float_list[6]))
+    test_data['salary'] = pd.Series(float(data_float_list[7]))
     return test_data
 
 def export_model(aid, department):

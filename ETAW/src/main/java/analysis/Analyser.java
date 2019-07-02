@@ -416,7 +416,6 @@ public class Analyser implements ResignationAnalyser {
         ResignationAnalyser analyser = new Analyser("jeff11");
 
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-
         analyser.trainModel("test.csv");
 
         //analyser.doPrediction(null);
@@ -426,14 +425,13 @@ public class Analyser implements ResignationAnalyser {
         data.add("0.38");
         data.add("0.53");
         data.add("157");
+        data.add("2");
         data.add("3");
         data.add("0");
         data.add("0");
         data.add("0");
-        //获取训练数据集的URL(前端传入对应的训练文件URL）
-        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
 
-        ArrayList<String> result1 = analyser.getProbability(data, "1", "IT");
+        ArrayList<String> result1 = analyser.getProbability(data, "jeff11分析方案","IT");
         System.out.println(result1);
         //是否离职 0不离职，1离职
         ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
@@ -441,11 +439,17 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
         System.out.println(leftResult1+"\n"+scoreResult1);
 
-        ArrayList<String> result2 = analyser.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv", "1");
+        ArrayList<String> result2 = analyser.getProbabilityFromCSV("import_test.csv", "jeff11分析方案");
         ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
         ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
         System.out.println(leftResult2);
         System.out.println(scoreResult2);
+
+        /*
+
+
+         */
+
         /*
 
         */
