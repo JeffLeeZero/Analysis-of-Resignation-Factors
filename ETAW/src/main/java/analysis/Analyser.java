@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 import oracle.sql.ARRAY;
 
+import oracle.sql.CLOB;
 import org.apache.ibatis.session.SqlSessionException;
 
 import tree.Attr;
@@ -321,15 +322,32 @@ public class Analyser implements ResignationAnalyser {
         String content = gson.toJson(tree.getTree(),type);
         Connection conn = DBUtil.getConnection();
         try{
-            PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");
-            Reader reader = new StringReader(content);
-            state.setString(1,aid);
-            state.setCharacterStream(2,reader,content.length());
-            int i = state.executeUpdate();
-            if(i<1){
-                System.err.println("clob error!");
+            String sql = "insert into tree values(?,empty_clob())";
+            //锁住该列，防止并发写入时候该字段同时被多次写入造成错误
+            String sqlClob = "select tree from tree where aid=? for update";
+            PreparedStatement pst =null;
+            ResultSet rs = null;
+            Writer writer = null;
+            conn.setAutoCommit(false);//设置不自动提交，开启事务
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,aid);
+            pst.executeUpdate();
+            pst= conn.prepareStatement(sqlClob);
+            pst.setString(1, aid);
+            rs = pst.executeQuery();
+            CLOB clob = null;
+            if(rs.next()){
+                clob = (CLOB) rs.getClob(1);
+                writer = clob.getCharacterOutputStream(); //拿到clob的字符输入流
+                writer.write(content);
+                writer.flush();
+                writer.close();
             }
+            conn.commit();
         }catch (SQLException e){
+            e.printStackTrace();
+            DBUtil.rollback(conn);
+        }catch (IOException e){
             e.printStackTrace();
             DBUtil.rollback(conn);
         }finally {
