@@ -7,7 +7,7 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: #9acfea;
+    background-color: #3d4d62;
 }
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
@@ -162,6 +162,14 @@ h1 {
     font-family: 'Muli', sans-serif;
     width: 100%;
     border-radius: 25px;
+}
+
+#veri_btn:hover{
+    background: #fff7a0;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
 }
 
 .div_main input[type="button"]:hover {
