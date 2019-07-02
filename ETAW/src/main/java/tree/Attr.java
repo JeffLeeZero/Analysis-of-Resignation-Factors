@@ -1,3 +1,4 @@
+package tree;
 import java.util.*;
 
 public class Attr {
@@ -133,5 +134,25 @@ public class Attr {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLen() {
+        return len;
+    }
+
+    public void setLen(double len) {
+        this.len = len;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
     }
 }

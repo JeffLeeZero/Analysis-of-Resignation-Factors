@@ -1,9 +1,13 @@
+import sys,os
+PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from LogisticRegression.logistic_regression import LogisticRegression
+from logisticregression.logistic_regression import LogisticRegression
 import cx_Oracle as oracle
 import _pickle as pickle
-import sys
+
+
 
 def get_csvfile(filepath):
     """
@@ -91,7 +95,7 @@ def import_model(mp,ms,s,aid):
     cursor.close()
     db.close()
 
-def main(filepath, aid = '1'):
+def main(aid,filepath):
     filepath = open(filepath)
     saleset, data = get_csvfile(filepath)
     model_parameter, model_score, saleset = train(saleset, data)
@@ -99,8 +103,9 @@ def main(filepath, aid = '1'):
 
 if __name__ == "__main__":
     a = []
-    a.append(str(sys.argv[1]))
-    a.append(int(sys.argv[2]))
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
     main(a[0],a[1])
-    print("Java successfully execute py!")
+
+
 

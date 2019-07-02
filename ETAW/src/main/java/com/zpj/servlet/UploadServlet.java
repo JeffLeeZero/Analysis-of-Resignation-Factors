@@ -13,6 +13,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.omg.CORBA.Request;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +26,7 @@ import java.util.List;
 @WebServlet(name = "UploadServlet")
 public class UploadServlet extends HttpServlet {
     private User user = new User();
-    private String account;
+    private String account = LoginServlet.account;
     private static final long serialVersionUID = 1L;
 
     //分析数据
@@ -166,26 +167,21 @@ public class UploadServlet extends HttpServlet {
         }
         System.out.println("导入成功");
         out.print("<script>alert('导入成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
-        Upload.getAllByExcel(filePath);
-
-        allNumber = Analysis.getAllNumber();
-        leftNumber = Analysis.getLeftNumber();
-        remainNumber = Analysis.getRemainNumber();
-        leftRatio = Analysis.getLeftRatio();
-
-        System.out.println(allNumber);
-        System.out.println(leftNumber);
-        System.out.println(remainNumber);
-        System.out.println(leftRatio);
-
         sqlSession.commit();
         sqlSession.close();
+
+
+
     }
 
     private void trainModel(String account, String url){
         try {
-            Analyser analyser = new Analyser(account);
 
+            System.out.println("url:" + url);
+            System.out.println("account:" +account);
+            Analyser analyser = new Analyser(account);
+            analyser.trainModel(url);
+            System.out.println("训练模型成功");
         } catch (Exception e){
             System.out.println("训练模型错误" + e);
             e.printStackTrace();
@@ -203,7 +199,18 @@ public class UploadServlet extends HttpServlet {
 
         user.setAccount(account);
         String url = getUploadUrl(req,resp);
-        insetAttach(url,req,resp);
+        //insetAttach(url,req,resp);
+        //Upload.getAllByExcel(filePath);
+//        allNumber = Analysis.getAllNumber();
+//        leftNumber = Analysis.getLeftNumber();
+//        remainNumber = Analysis.getRemainNumber();
+//        leftRatio = Analysis.getLeftRatio();
+//
+//        System.out.println(allNumber);
+//        System.out.println(leftNumber);
+//        System.out.println(remainNumber);
+//        System.out.println(leftRatio);
+
         trainModel(account,url);
 
         req.getSession().setAttribute("allNumber", allNumber);

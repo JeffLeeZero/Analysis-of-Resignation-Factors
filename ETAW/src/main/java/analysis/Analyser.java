@@ -3,7 +3,11 @@ package analysis;
 import analysis.DBUtil.DBUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import oracle.sql.ARRAY;
+
 import org.apache.ibatis.session.SqlSessionException;
+
 import tree.Attr;
 import tree.DecisionTree;
 import tree.TreeNode;
@@ -44,7 +48,9 @@ public class Analyser implements ResignationAnalyser {
         saveNode(aid);
         Process proc;
         try{
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  aid, url};
+            String choosemodel = account + name;
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  aid, url};
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -84,12 +90,32 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public ArrayList<String> getProbability(ArrayList<String> data, String aid, String department) {
-        //TODO:
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
             String testDatas = String.join(",", data);
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py", testDatas, aid, department};
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py",testDatas,aid,department};
+            proc = Runtime.getRuntime().exec(fileData);
+            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null){
+                dataset.add(line);
+            }
+            in.close();
+            proc.waitFor();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return dataset;
+    }
+
+    @Override
+    public ArrayList<String> getProbabilityFromCSV(String csvURL, String aid){
+        Process proc;
+        ArrayList<String> dataset = new ArrayList<>();
+        try{
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -109,11 +135,10 @@ public class Analyser implements ResignationAnalyser {
     public ArrayList<Float> getResult(ArrayList<String> result, int index){
         ArrayList<Float> which = new ArrayList<>();
         for(int i = 0;i<result.size();i++){
-            if(i%4 == index){
+            if(i%2 == index){
                 which.add(Float.parseFloat(result.get(i)));
             }
         }
-        System.out.println(which);
         return which;
     }
 
@@ -243,6 +268,7 @@ public class Analyser implements ResignationAnalyser {
             }else{
                 attrs.add(new Attr(attr));
             }
+            attrs.get(i).setIndex(i);
             i++;
         }
         tree = new DecisionTree();
@@ -273,7 +299,7 @@ public class Analyser implements ResignationAnalyser {
             aid = String.valueOf(count);
             set.close();
             state.close();
-            state = conn.prepareStatement("insert into analysis values(?,?,?,?,?)");
+            state = conn.prepareStatement("insert into analysis values(?,?,?,?)");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
@@ -385,30 +411,46 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("jeff11");
+        ResignationAnalyser analyser = new Analyser("jeff12");
+
+        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+
         analyser.trainModel("test.csv");
+
         //analyser.doPrediction(null);
         //测试数据,这部分需要前端传入
-        ArrayList<String> data = new ArrayList<>();
-        //'0.38 0.53 157 3 0 0 0'
-        data.add("0.38");
-        data.add("0.53");
-        data.add("157");
-        data.add("3");
-        data.add("0");
-        data.add("0");
-        data.add("0");
-        //获取训练数据集的URL
-        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-        ArrayList<String> results = analyser.getProbability(data, "1", "IT");
-        //是否离职 0不离职，1离职
-        ArrayList<Float> leftResult = analyser.getResult(results,0);
-        //上一个结果的准确度（可能是）
-        ArrayList<Float> successResult = analyser.getResult(results,1);
-        //离职与否的不准确度（可能是）
-        ArrayList<Float> failureResult = analyser.getResult(results,2);
-        //该模型的拟合度
-        ArrayList<Float> scoreResult = analyser.getResult(results,3);
+//        ArrayList<String> data = new ArrayList<>();
+//        //'0.38 0.53 157 3 0 0 0'
+//        data.add("0.38");
+//        data.add("0.53");
+//        data.add("157");
+//        data.add("3");
+//        data.add("0");
+//        data.add("0");
+//        data.add("0");
+//        //获取训练数据集的URL(前端传入对应的训练文件URL）
+//        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+//        ArrayList<String> result1 = analyser.getProbability(data, "1", "IT");
+//        System.out.println(result1);
+//        //是否离职 0不离职，1离职
+//        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+//        //该模型的拟合度
+//        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
+//        System.out.println(leftResult1+"\n"+scoreResult1);
+//
+//        ArrayList<String> result2 = analyser.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv", "1");
+//        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+//        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+//        System.out.println(leftResult2);
+//        System.out.println(scoreResult2);
+        /*
+
+        */
+        /*
+        批量处理的测试集（前端传入测试数据的URL，csv格式）
+
+        */
+
 
     }
 }

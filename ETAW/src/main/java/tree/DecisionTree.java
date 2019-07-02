@@ -90,7 +90,7 @@ public class DecisionTree {
             for (ArrayList<String> tuple:
                     group) {
                 tuple = new ArrayList<>(tuple);
-                tuple.remove(bestAttrIndex);
+                //tuple.remove(bestAttrIndex);
                 newGroup.add(tuple);
             }
             group = newGroup;
