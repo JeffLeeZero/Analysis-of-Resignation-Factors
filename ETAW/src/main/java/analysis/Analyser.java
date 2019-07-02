@@ -42,17 +42,14 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public void trainModel(String url) {
         this.url = url;
-        //trainTree();
-        //String aid = saveInfo();
-        //saveAttr(aid);
-        //saveNode(aid);
+        trainTree();
+        String aid = saveInfo();
+        saveAttr(aid);
+        saveNode(aid);
         Process proc;
         try{
-
-            //String testAid = "1";
-            //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
-            String testAid = "1";
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  testAid, url};
+            String choosemodel = account + name;
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  aid, url};
 
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -301,7 +298,7 @@ public class Analyser implements ResignationAnalyser {
             aid = String.valueOf(count);
             set.close();
             state.close();
-            state = conn.prepareStatement("insert into analysis values(?,?,?,?,?)");
+            state = conn.prepareStatement("insert into analysis values(?,?,?,?)");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
@@ -320,7 +317,7 @@ public class Analyser implements ResignationAnalyser {
     private void saveNode(String aid){
         Type type = new TypeToken<TreeNode>(){}.getType();
         Gson gson = new Gson();
-        String content = gson.toJson(tree,type);
+        String content = gson.toJson(tree.getTree(),type);
         Connection conn = DBUtil.getConnection();
         try{
             PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");

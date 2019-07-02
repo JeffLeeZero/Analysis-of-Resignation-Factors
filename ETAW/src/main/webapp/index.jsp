@@ -27,7 +27,14 @@
 					<legend>导入数据</legend>
 				</fieldset>
 
-				<form method="post" action="UploadServlet" enctype="multipart/form-data">
+				<form method="post" action="<%=request.getContextPath()%>/UploadServlet" enctype="multipart/form-data" class="attachment">
+					选择文件:
+					<input type="file" name="uploadFile" />
+					<br/>
+					<input type="submit" value="上传" />
+				</form>
+
+				<form method="post" action="<%=request.getContextPath()%>/UploadServlet" enctype="multipart/form-data" class="attachment">
 
 					<div class="layui-upload">
 						<div class="layui-upload-list" style="margin-left: 50px; margin-right: 50px">
@@ -51,6 +58,7 @@
 		</div>
 
 		<script src="plugins/layui/layui.js"></script>
+
 		<script>
 			//JavaScript代码区域
 			layui.use('element', function() {
@@ -117,6 +125,7 @@
 						tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
 					}
 				});
+
 			});
 		</script>
 
