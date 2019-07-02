@@ -21,6 +21,8 @@ import java.util.Random;
 
 
 public class SmsLoginServlet extends HttpServlet {
+    private String type;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("get");
@@ -28,6 +30,9 @@ public class SmsLoginServlet extends HttpServlet {
         resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
         Gson gson = new Gson();
+
+        //判断是登陆还是注册的验证码
+
 
         //生成验证码
         Random random = new Random();
@@ -58,7 +63,8 @@ public class SmsLoginServlet extends HttpServlet {
         String message="";
         String jsonPhone = null;
 
-        if (queryPhone(phoneNumbers[0])==0){
+
+        if (type.equals("isLogin") && queryPhone(phoneNumbers[0])==0){
             message = "不存在该用户或手机未注册";
             LoginBean loginBean = new LoginBean(message,isSuccess);
             jsonPhone = gson.toJson(loginBean);
@@ -101,7 +107,8 @@ public class SmsLoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("post");
+        type=req.getParameter("alert_type");
+        System.out.println(type);
         doGet(req, resp);
     }
     private int queryPhone(String a)throws ServletException, IOException{
@@ -109,7 +116,7 @@ public class SmsLoginServlet extends HttpServlet {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         String pass = null;
         try {
-            pass = mapper.queryPassword(a);
+            pass = mapper.queryPassByAccount(a);
         } catch (Exception e) {
             pass="";
             e.printStackTrace();

@@ -20,7 +20,7 @@ import com.zpj.util.MybatiesUtil;
 
 public class LoginServlet extends HttpServlet {
 
-    public String account;
+    public static String account;
     private String password;
 
     @Override
@@ -30,15 +30,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("ser");
         account = req.getParameter("account");
         password = req.getParameter("password");
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String CONTENT_TYPE = "text/html; charset=GBK";
         resp.setContentType( CONTENT_TYPE);
-        BufferedReader reader = req.getReader();
-        String str = reader.readLine();
+
         PrintWriter out = resp.getWriter();
 
         //处理传入对象
@@ -81,7 +79,7 @@ public class LoginServlet extends HttpServlet {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         String pass = null;
         try {
-            pass = mapper.queryPassword(a);
+            pass = mapper.queryPassByAccount(a);
         } catch (Exception e) {
             pass="";
             e.printStackTrace();
