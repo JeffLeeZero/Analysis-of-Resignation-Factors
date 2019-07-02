@@ -9,6 +9,42 @@ public class Attr {
     private ArrayList<String> division;
     private double D;
     private Map<String,Double> probability = new HashMap<>();
+    private int index=-1;
+
+    /**
+     * 从数据库中还原属性
+     * @param name
+     * @param seperated
+     * @param M
+     * @param min
+     * @param len
+     */
+    public Attr(String name,boolean seperated,int M,double min,double len){
+        this.name = name;
+        this.seperated = seperated;
+        this.division = new ArrayList<>();
+        this.M = M;
+        this.min = min;
+        this.len = len;
+        divide();
+    }
+
+    public Attr(String name){
+        this(name,true);
+    }
+
+    /**
+     * @param name 属性名称
+     * @param seperated 是否是离散的
+     */
+    public Attr(String name,boolean seperated){
+        this.name = name;
+        this.seperated = seperated;
+        if(!isSeperated()){
+            this.division = new ArrayList<>();
+        }
+    }
+
 
     public Map<String,Double> getProbability() {
         return probability;
@@ -28,40 +64,6 @@ public class Attr {
 
     public void setD(double d) {
         D = d;
-    }
-
-    public Attr(String name){
-        this(name,true);
-    }
-
-    /**
-     * @param name 属性名称
-     * @param seperated 是否是离散的
-     */
-    public Attr(String name,boolean seperated){
-        this.name = name;
-        this.seperated = seperated;
-        if(!isSeperated()){
-            this.division = new ArrayList<>();
-        }
-    }
-
-    /**
-     * 从数据库中还原属性
-     * @param name
-     * @param seperated
-     * @param M
-     * @param min
-     * @param len
-     */
-    public Attr(String name,boolean seperated,int M,double min,double len){
-        this.name = name;
-        this.seperated = seperated;
-        this.division = new ArrayList<>();
-        this.M = M;
-        this.min = min;
-        this.len = len;
-        divide();
     }
 
     public String getName() {
@@ -123,5 +125,13 @@ public class Attr {
 
     public ArrayList<String> getValues(){
         return division;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

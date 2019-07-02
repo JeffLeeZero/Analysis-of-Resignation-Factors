@@ -1,12 +1,20 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+
+import java.util.*;
 
 public class DecisionTree {
     private TreeNode treeNode;
     private ArrayList<Attr> attrList = null;
-    private double ratio = 1;
+    private double ratio = 0.98;
+    private double accuracy;
 
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
+    }
 
     public TreeNode getTree() {
         return treeNode;
@@ -24,37 +32,17 @@ public class DecisionTree {
         this.attrList = new ArrayList<>(attrList);
         Gain gain = new Gain(datas,attrList);
         double d;
-        ArrayList<String> values;
-        ArrayList<ArrayList<String>> data;
-        Map<String,Integer> map;
+        Map<String, Integer> map;
         for(int i = 0;i<attrList.size();i++){
             d  = (double)((gain.infoD(datas) - gain.infoAttr(i)))/gain.splitInfo(i);
             this.attrList.get(i).setD(d);
-            values = gain.getValues(datas,i);
-
-            int n,sum;
-            for (String value:
-                 values) {
-                data = gain.datasOfValue(i,value);
-                if(data.size()==0){
-                    return;
-                }
-                map = gain.valueCounts(data,attrList.size()-1);
-                if(map.size()==1){
-                    if(map.containsKey("0")){
-                        n = sum = map.get("0");
-                    }else{
-                        n = sum = map.get("1");
-                    }
-                }else{
-                    try{
-                        n = map.get("1");
-                        sum = n + map.get("0");
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        return;
-                    }
-                }
+            map = gain.valueCounts(datas,attrList.size()-1);
+            String value;
+            int n,sum = datas.size();
+            for (Map.Entry<String,Integer> entry:
+                 map.entrySet()) {
+                value = entry.getKey();
+                n = entry.getValue();
                 this.attrList.get(i).addProbability(value,(double)n/sum);
             }
         }
@@ -68,13 +56,11 @@ public class DecisionTree {
      * @return 根节点
      * @author 李沛昊
      */
-    public TreeNode buildTree(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
+    public TreeNode buildTree(ArrayList<ArrayList<String>> datas, ArrayList<Attr> attrList){
         //TODO:退出条件的改进，防止过拟合
         //TODO:剪枝操作
         TreeNode node;
         node = new TreeNode();
-//        node.setDatas(datas);
-//        node.setCandAttrs(attrList);
 
         Map<String,Integer> classes = classOfDatas(datas);
 
@@ -83,8 +69,6 @@ public class DecisionTree {
         //退出递归条件：1、所有的元组目标属性都一样；2、已将所有待划分节点划分完毕
         if(isAlmost(classes,maxc) || attrList.size() == 1){
             node.setName(maxc);
-            node.setCandAttrs(null);
-            node.setDatas(null);
             return node;
         }
 
@@ -101,17 +85,15 @@ public class DecisionTree {
         //元组划分
         for (String rule:
                 rules) {
-            //TODO:任然存在拷贝问题
             group = gain.datasOfValue(bestAttrIndex,rule);
             ArrayList<ArrayList<String>> newGroup = new ArrayList<>();
             for (ArrayList<String> tuple:
                     group) {
                 tuple = new ArrayList<>(tuple);
-                tuple.remove(bestAttrIndex);
+                //tuple.remove(bestAttrIndex);
                 newGroup.add(tuple);
             }
             group = newGroup;
-            //事实上这个判断条件应该不会发生
             if(group.size()==0||attrList.size()==0){
                 TreeNode leafNode = new TreeNode();
                 leafNode.setName(maxc);
@@ -124,11 +106,57 @@ public class DecisionTree {
                 node.getChildren().add(newNode);
             }
         }
-        node.setDatas(null);
-        node.setCandAttrs(null);
         return node;
-        //TODO:1、浅拷贝得到的众多List可否释放掉
     }
+
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
+        return treeNode.doPrediction(data,attrlist);
+    }
+
+    public List<String> getFinalAttr(ArrayList<String> data,ArrayList<Attr> attrlist){
+        return getFinalAttr(treeNode,data,attrlist);
+    }
+
+    private List<String> getFinalAttr(TreeNode node,ArrayList<String> data,ArrayList<Attr> attrlist){
+        if(node.getChildren().size()==0){
+            return new ArrayList<>();
+        }
+        int i;
+        Attr attr=null;
+        for (i = 0;i < attrlist.size();i++){
+            attr = attrlist.get(i);
+            if(node.getName().equals(attr.getName())){
+                break;
+            }
+        }
+        for (TreeNode child:
+                node.getChildren()) {
+            boolean equal;
+            if(attr.isSeperated()){
+                equal = child.getValue().equals(data.get(i));
+            }else{
+                equal = child.getValue().equals(attr.getValue(data.get(i)));
+            }
+            if(equal){
+                List<String> map =  getFinalAttr(child,data,attrlist);
+                if(map!=null&&map.size()==0){
+                    String name = node.getName();
+                    map.add(name);
+                    for (TreeNode c:
+                         node.getChildren()) {
+                        if(c.getName().equals("0")){
+                            map.add(c.getValue());
+                        }
+                    }
+                    return map;
+                }else if(map!=null){
+                    return map;
+                }
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 获取属性集中目标属性的值域和计数
@@ -185,5 +213,7 @@ public class DecisionTree {
             return false;
         }
     }
+
+
 
 }

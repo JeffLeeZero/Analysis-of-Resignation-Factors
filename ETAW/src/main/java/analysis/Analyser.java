@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 import oracle.sql.ARRAY;
 
+import oracle.sql.CLOB;
 import org.apache.ibatis.session.SqlSessionException;
 
 import tree.Attr;
@@ -42,13 +43,12 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public void trainModel(String url) {
         this.url = url;
-        //trainTree();
-        //String aid = saveInfo();
-        //saveAttr(aid);
-        //saveNode(aid);
+        trainTree();
+        String aid = saveInfo();
+        saveAttr(aid);
+        saveNode(aid);
         Process proc;
         try{
-
             //String testAid = "1";
             //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
             String choosemodel = account + name;
@@ -271,6 +271,7 @@ public class Analyser implements ResignationAnalyser {
             }else{
                 attrs.add(new Attr(attr));
             }
+            attrs.get(i).setIndex(i);
             i++;
         }
         tree = new DecisionTree();
@@ -301,7 +302,7 @@ public class Analyser implements ResignationAnalyser {
             aid = String.valueOf(count);
             set.close();
             state.close();
-            state = conn.prepareStatement("insert into analysis values(?,?,?,?,?)");
+            state = conn.prepareStatement("insert into analysis values(?,?,?,?)");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
@@ -320,18 +321,35 @@ public class Analyser implements ResignationAnalyser {
     private void saveNode(String aid){
         Type type = new TypeToken<TreeNode>(){}.getType();
         Gson gson = new Gson();
-        String content = gson.toJson(tree,type);
+        String content = gson.toJson(tree.getTree(),type);
         Connection conn = DBUtil.getConnection();
         try{
-            PreparedStatement state = conn.prepareStatement("insert into tree values (?,?)");
-            Reader reader = new StringReader(content);
-            state.setString(1,aid);
-            state.setCharacterStream(2,reader,content.length());
-            int i = state.executeUpdate();
-            if(i<1){
-                System.err.println("clob error!");
+            String sql = "insert into tree values(?,empty_clob())";
+            //锁住该列，防止并发写入时候该字段同时被多次写入造成错误
+            String sqlClob = "select tree from tree where aid=? for update";
+            PreparedStatement pst =null;
+            ResultSet rs = null;
+            Writer writer = null;
+            conn.setAutoCommit(false);//设置不自动提交，开启事务
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,aid);
+            pst.executeUpdate();
+            pst= conn.prepareStatement(sqlClob);
+            pst.setString(1, aid);
+            rs = pst.executeQuery();
+            CLOB clob = null;
+            if(rs.next()){
+                clob = (CLOB) rs.getClob(1);
+                writer = clob.getCharacterOutputStream(); //拿到clob的字符输入流
+                writer.write(content);
+                writer.flush();
+                writer.close();
             }
+            conn.commit();
         }catch (SQLException e){
+            e.printStackTrace();
+            DBUtil.rollback(conn);
+        }catch (IOException e){
             e.printStackTrace();
             DBUtil.rollback(conn);
         }finally {
@@ -413,12 +431,16 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("jeff11");
+        ResignationAnalyser analyser = new Analyser("jeff12");
 
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
         analyser.trainModel("test.csv");
 
         //analyser.doPrediction(null);
+
+
+        /*
+
         //测试数据,这部分需要前端传入
         ArrayList<String> data = new ArrayList<>();
         //'0.38 0.53 157 3 0 0 0'
@@ -444,20 +466,7 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
         System.out.println(leftResult2);
         System.out.println(scoreResult2);
-
-        /*
-
-
          */
-
-        /*
-
-        */
-        /*
-        批量处理的测试集（前端传入测试数据的URL，csv格式）
-
-        */
-
 
     }
 }

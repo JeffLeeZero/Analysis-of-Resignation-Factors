@@ -85,7 +85,9 @@
 						url: "http://localhost:8080/AnalysisAllServlet",
 						dataType: "json",
 						data: JSON.stringify({
-							"reqId": "jeff11",//window.localStorage.id,
+
+							"reqId": window.localStorage.id,
+
 							"reqParam": {}
 						}),
 						success: function(res) {
