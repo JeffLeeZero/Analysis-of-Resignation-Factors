@@ -1,19 +1,13 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
-import analysis.ResignationAnalyser;
-import com.zpj.Analysis;
-import com.zpj.Upload;
 import com.zpj.mapper.UserMapper;
 import com.zpj.pojo.User;
 import com.zpj.util.MybatiesUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
-import org.omg.CORBA.Request;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -176,7 +170,6 @@ public class UploadServlet extends HttpServlet {
 
     private void trainModel(String account, String url){
         try {
-
             System.out.println("url:" + url);
             System.out.println("account:" +account);
             Analyser analyser = new Analyser(account);
@@ -211,12 +204,19 @@ public class UploadServlet extends HttpServlet {
 //        System.out.println(remainNumber);
 //        System.out.println(leftRatio);
 
-        trainModel(account,url);
+        PrintWriter out = resp.getWriter();
+        try{
+            trainModel(account,url);
+            out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
+        } catch (Exception e){
+            out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/index.jsp'</script>");
+        }
+        
+//        req.getSession().setAttribute("allNumber", allNumber);
+//        req.getSession().setAttribute("leftNumber", leftNumber);
+//        req.getSession().setAttribute("remainNumber", remainNumber);
+//        req.getSession().setAttribute("leftRatio", leftRatio);
+//        req.getRequestDispatcher("index.jsp").forward(req, resp);
 
-        req.getSession().setAttribute("allNumber", allNumber);
-        req.getSession().setAttribute("leftNumber", leftNumber);
-        req.getSession().setAttribute("remainNumber", remainNumber);
-        req.getSession().setAttribute("leftRatio", leftRatio);
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 }
