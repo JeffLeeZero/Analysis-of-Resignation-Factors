@@ -74,7 +74,6 @@
 						url: "http://localhost:8080/AnalysisPartServlet",
 						dataType: "json",
 						data: JSON.stringify({
-
 							"reqId": window.localStorage.id,
 							"reqParam": {
 								"name": data.value
