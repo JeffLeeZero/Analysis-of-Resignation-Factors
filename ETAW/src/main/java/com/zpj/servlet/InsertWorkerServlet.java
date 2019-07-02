@@ -1,6 +1,7 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,8 +39,11 @@ public class InsertWorkerServlet extends HttpServlet {
             System.out.println(data);
             Analyser analyser = new Analyser(LoginServlet.account);
             //得到离职率
-            double leftRatio = analyser.getProbability(data);
+            ArrayList<String> result = analyser.getProbability(data, LoginServlet.account,department);
+            double leftRatio = Double.valueOf(result.get(0));
+            double accuracyRate = Double.valueOf(result.get(1));
             System.out.println("该员工的离职概率为:" + leftRatio);
+            System.out.println("该预测的准确率为:" + accuracyRate);
 
             request.getSession().setAttribute("leftRatio", leftRatio);
             request.getRequestDispatcher("analyseWorker.jsp").forward(request, response);

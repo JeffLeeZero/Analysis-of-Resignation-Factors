@@ -30,7 +30,7 @@ $(document).ready(function () {
 
             success:function(data){//处理返回的信息，true则跳转，false则提示密码错误
                 if (data.isSuccess){
-                    //window.localStorage.id =
+                    window.localStorage.id = $("#account").val();
                     window.location.href = "index.jsp";
                 } else {
                     var message = data.message;
@@ -78,7 +78,6 @@ function verifyLogin() {
         success:function(data){
             getCheckCodeTime();
             verifiedCode = data.message;
-            alert(verifiedCode);
             // layer.msg(message, {icon: 2,time: 1500});
         },
         error:function(err){
