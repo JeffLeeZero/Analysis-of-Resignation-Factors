@@ -211,7 +211,7 @@ public class UploadServlet extends HttpServlet {
         } catch (Exception e){
             out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/index.jsp'</script>");
         }
-        
+
 //        req.getSession().setAttribute("allNumber", allNumber);
 //        req.getSession().setAttribute("leftNumber", leftNumber);
 //        req.getSession().setAttribute("remainNumber", remainNumber);
