@@ -47,27 +47,19 @@ public class Analyser implements ResignationAnalyser {
         String aid = saveInfo();
         saveAttr(aid);
         saveNode(aid);
-        Process proc;
+        Process svmProc, logProc;
         try{
-            //String testAid = "1";
-            //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\logistic_regression2.py",  testAid, url};
             String choosemodel = account + name;
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  choosemodel, url};
-
-            proc = Runtime.getRuntime().exec(fileData);
-            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null){
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
+            String[] svmProcData = new String[]{"python", "src\\main\\java\\logisticregression\\svm_train.py",  choosemodel, url};
+            String[] logProcData = new String[]{"python", "src\\main\\java\\logisticregression\\log_reg_train.py",  choosemodel, url};
+            svmProc = Runtime.getRuntime().exec(svmProcData);
+            logProc = Runtime.getRuntime().exec(logProcData);
+            logProc.waitFor();
+            svmProc.waitFor();
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override
@@ -434,16 +426,13 @@ public class Analyser implements ResignationAnalyser {
         ResignationAnalyser analyser = new Analyser("jeff12");
 
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-        analyser.trainModel("test.csv");
-
-        //analyser.doPrediction(null);
-
-
-        /*
-
+        //Long start = System.currentTimeMillis();
+        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
+        //Long end  =System.currentTimeMillis();
+        //System.out.println((end-start)/1000);
         ArrayList<String> data = new ArrayList<>();
-        //'0.38 0.53 157 3 0 0 0'
+        //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");
         data.add("0.53");
         data.add("157");
@@ -453,19 +442,25 @@ public class Analyser implements ResignationAnalyser {
         data.add("0");
         data.add("0");
 
-        ArrayList<String> result1 = analyser.getProbability(data, "jeff11分析方案","IT");
-        System.out.println(result1);
-        //是否离职 0不离职，1离职
-        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
-        //该模型的拟合度
-        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
-        System.out.println(leftResult1+"\n"+scoreResult1);
+//        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案","IT");
+//        System.out.println(result1);
+//        //是否离职 0不离职，1离职
+//        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+//        //该模型的拟合度
+//        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
+//        System.out.println(leftResult1+"\n"+scoreResult1);
 
-        ArrayList<String> result2 = analyser.getProbabilityFromCSV("import_test.csv", "jeff11分析方案");
+        ArrayList<String> result2 = analyser.getProbabilityFromCSV("import_test.csv", "jeff12分析方案");
         ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
         ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
         System.out.println(leftResult2);
         System.out.println(scoreResult2);
+        //analyser.doPrediction(null);
+
+
+        /*
+
+
          */
 
     }

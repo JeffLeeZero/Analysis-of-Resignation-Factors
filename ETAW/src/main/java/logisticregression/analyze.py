@@ -4,7 +4,15 @@ sys.path.append(PATH)
 import pandas as pd
 import cx_Oracle as oracle
 import _pickle as pickle
-from logisticregression.logistic_regression import LogisticRegression
+
+def get_connection(conn_str):
+    """
+    获取与oracle数据库的连接
+    :param conn_str:
+    :return:数据库操作对象
+    """
+    db = oracle.connect(conn_str)
+    return db
 
 def data2dataframe(data):
     """
@@ -25,40 +33,51 @@ def data2dataframe(data):
     test_data['salary'] = pd.Series(float(data_float_list[7]))
     return test_data
 
-def export_model(aid, department):
+def choose_model(aid, department):
     """
     根据用户ID和职位选择（java传入）选择数据库中的模型，导出
-    :param aid:用户ID
+    :param aid:用户模型分析方案
     :param department:职位
     :return:模型对象和拟合度
     """
-    conn_str = 'FRANK/ZD73330274@localhost/orcl'
-    db = oracle.connect(conn_str)
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
-    #选出特定的拟合度和模型数据
-    sql = "select SCORE, MODEL from REGRESSION where AID = '" + aid +"' and DEPARTMENT = '" + department +"'"
-    cursor.execute(sql)
+    #选出特定的逻辑回归模型
+    sql1 = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
+           + aid +"' and regression.department = '" + department +"' and svm.aid = '" + aid +"' and svm.department = '" + department + "'"
+    cursor.execute(sql1)
     db.commit()
     result = cursor.fetchall()
-    score = result[0][0]
-    result_log_reg = result[0][1].read()
+    #逻辑回归和svm模型
+    log_reg_score = result[0][0]
+    log_reg = result[0][1].read()
+    svm_score = result[0][2]
+    svm = result[0][3].read()
     #反序列化
-    log_reg = pickle.loads(result_log_reg)
+    log_reg = pickle.loads(log_reg)
+    svm = pickle.loads(svm)
     cursor.close()
     db.close()
-    return log_reg, score
+    return log_reg, log_reg_score, svm, svm_score
 
-def main(data,aid,department):
-    predict_result_float_arry = []
 
+def main(data='0.38,0.53,157,2,3,0,0,0',aid = 'jeff11分析方案', department = 'IT'):
+    log_reg_predict_float_result = []
+    svm_predict_float_result  =[]
     x_test = data2dataframe(data)
-    log_reg, score = export_model(aid, department)
-    predict_result = log_reg.predict(x_test)
+    log_reg, log_reg_score, svm, svm_score = choose_model(aid, department)
 
-    predict_result_float_arry.append(str(float(predict_result)))
-    predict_result_float_arry.append(score)
+    log_reg_predict = log_reg.predict(x_test)
+    log_reg_predict_float_result.append(str(float(log_reg_predict)))
+    log_reg_predict_float_result.append(log_reg_score)
 
-    for i in predict_result_float_arry:
+    svm_predict = svm.predict(x_test)
+    svm_predict_float_result.append(str(float(svm_predict)))
+    svm_predict_float_result.append(svm_score)
+
+    for i in log_reg_predict_float_result:
+        print(i)
+    for i in svm_predict_float_result:
         print(i)
 
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
