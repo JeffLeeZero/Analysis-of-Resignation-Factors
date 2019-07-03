@@ -1,13 +1,15 @@
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CyclicBarrier;
 
 public class RandomForest {
     private ArrayList<DecisionTree> forest;
     private int TREECOUNT;
-
+    private final CyclicBarrier barrier = new CyclicBarrier(11);
     public RandomForest(){
         this.forest = new ArrayList<>();
         this.TREECOUNT = 100;
@@ -18,10 +20,18 @@ public class RandomForest {
         int m = datas.size() * 2 / 3;
         DecisionTree tree;
         for(int i = 0;i<this.TREECOUNT;i++){
-            ForestRunnble runnble = new ForestRunnble(i,datas,attrList);
-            this.forest.add(runnble.getTree());
-            Thread thread = new Thread(runnble);
-            thread.run();
+            for(int j = 0;j<10;j++){
+                ForestRunnble runnble = new ForestRunnble(i,datas,attrList);
+                this.forest.add(runnble.getTree());
+                Thread thread = new Thread(runnble);
+                thread.start();
+            }
+            try{
+                barrier.await();
+                barrier.reset();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -50,34 +60,39 @@ public class RandomForest {
         return sub;
     }
 
+    class ForestRunnble implements Runnable{
+
+        public DecisionTree tree;
+        //public Map<> map;
+        private int index,m,n;
+        private ArrayList<ArrayList<String>> datas;
+        ArrayList<Attr> attrList;
+        public ForestRunnble(int i,ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
+            index = i;
+            tree = new DecisionTree();
+            this.datas = datas;
+            this.attrList = attrList;
+        }
+
+        @Override
+        public void run() {
+            ArrayList<ArrayList<String>> train = RandomForest.getRandomData(datas);
+            ArrayList<Attr> attrs = RandomForest.getRandomAttrs(attrList);
+            tree.setTree(tree.buildTree(train,attrs));
+            try{
+                barrier.await();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public DecisionTree getTree() {
+            return tree;
+        }
+
+        public void setTree(DecisionTree tree) {
+            this.tree = tree;
+        }
+    }
 }
 
-class ForestRunnble implements Runnable{
-
-    public DecisionTree tree;
-    //public Map<> map;
-    private int index,m,n;
-    private ArrayList<ArrayList<String>> datas;
-    ArrayList<Attr> attrList;
-    public ForestRunnble(int i,ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
-        index = i;
-        tree = new DecisionTree();
-        this.datas = datas;
-        this.attrList = attrList;
-    }
-
-    @Override
-    public void run() {
-        ArrayList<ArrayList<String>> train = RandomForest.getRandomData(datas);
-        ArrayList<Attr> attrs = RandomForest.getRandomAttrs(attrList);
-        tree.setTree(tree.buildTree(train,attrs));
-    }
-
-    public DecisionTree getTree() {
-        return tree;
-    }
-
-    public void setTree(DecisionTree tree) {
-        this.tree = tree;
-    }
-}

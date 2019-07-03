@@ -17,15 +17,13 @@ public class RandomForest {
         int n = (int)Math.sqrt(attrList.size());
         int m = datas.size() * 2 / 3;
         DecisionTree tree;
-        for(int i = 0;i<this.TREECOUNT;i++){
-            tree = new DecisionTree();
+        for(int i = 0;i<this.TREECOUNT;){
+            for(int j = 0;j<10;j++){
+                tree = new DecisionTree();
 
+                this.forest.add(tree);
+            }
 
-
-
-
-
-            this.forest.add(tree);
         }
     }
 

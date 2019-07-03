@@ -2,8 +2,7 @@
 
 import java.util.*;
 
-public class DecisionTree {
-    private TreeNode treeNode;
+public class DecisionTree extends Tree{
     private ArrayList<Attr> attrList = null;
     private double ratio = 0.98;
     private double accuracy;
@@ -17,11 +16,11 @@ public class DecisionTree {
     }
 
     public TreeNode getTree() {
-        return treeNode;
+        return getTreeNode();
     }
 
     public void setTree(TreeNode treeNode) {
-        this.treeNode = treeNode;
+        setTreeNode(treeNode);
     }
 
     public ArrayList<Attr> getAttrList() {
@@ -56,6 +55,7 @@ public class DecisionTree {
      * @return 根节点
      * @author 李沛昊
      */
+    @Override
     public TreeNode buildTree(ArrayList<ArrayList<String>> datas, ArrayList<Attr> attrList){
         //TODO:退出条件的改进，防止过拟合
         //TODO:剪枝操作
@@ -109,12 +109,13 @@ public class DecisionTree {
         return node;
     }
 
+    @Override
     public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
-        return treeNode.doPrediction(data,attrlist);
+        return getTree().doPrediction(data,attrlist);
     }
 
     public List<String> getFinalAttr(ArrayList<String> data,ArrayList<Attr> attrlist){
-        return getFinalAttr(treeNode,data,attrlist);
+        return getFinalAttr(getTree(),data,attrlist);
     }
 
     private List<String> getFinalAttr(TreeNode node,ArrayList<String> data,ArrayList<Attr> attrlist){

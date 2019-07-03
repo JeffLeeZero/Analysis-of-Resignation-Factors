@@ -75,6 +75,7 @@ class Test {
             }else{
                 attrs.add(new Attr(attr));
             }
+            attrs.get(i).setIndex(i);
             i++;
         }
         DecisionTree tree = new DecisionTree();

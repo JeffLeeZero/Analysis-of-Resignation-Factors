@@ -41,7 +41,10 @@ class Test {
 //        tree.setTree(node);
 //        String predict = tree.doPrediction(data,attrs);
 //        List<String> map = tree.getFinalAttr(data,attrs);
+        long startTime =  System.currentTimeMillis();/** 程序运行 processRun();*/ /** 获取当前的系统时间，与初始时间相减就是程序运行的毫秒数，除以1000就是秒数*/
         RandomForest forest = buildForest();
+        long endTime =  System.currentTimeMillis();
+        long usedTime = (endTime-startTime)/1000;
     }
 
     public static RandomForest buildForest(){
