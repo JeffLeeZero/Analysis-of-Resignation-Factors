@@ -9,10 +9,11 @@ import java.util.concurrent.CyclicBarrier;
 public class RandomForest {
     private ArrayList<ForestTree> forest;
     private int TREECOUNT;
-    private final CyclicBarrier barrier = new CyclicBarrier(11);
+    private int threadCount = 20;
+    private final CyclicBarrier barrier = new CyclicBarrier(threadCount+1);
     public RandomForest(){
         this.forest = new ArrayList<>();
-        this.TREECOUNT = 100;
+        this.TREECOUNT = 500;
     }
 
     public void buildForest(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
@@ -21,13 +22,13 @@ public class RandomForest {
         int m = datas.size() * 2 / 3;
         DecisionTree tree;
         for(int i = 0;i<this.TREECOUNT;){
-            for(int j = 0;j<10;j++){
+            for(int j = 0;j<threadCount;j++){
                 ForestRunnble runnble = new ForestRunnble(i,datas,attrList);
                 this.forest.add(runnble.getTree());
                 Thread thread = new Thread(runnble);
                 thread.start();
             }
-            i+=10;
+            i+=threadCount;
             try{
                 barrier.await();
                 barrier.reset();
@@ -47,6 +48,27 @@ public class RandomForest {
             sub.add(datas.get(m));
         }
         return sub;
+    }
+
+
+
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrList){
+        String result;
+        int count = 0;
+        for (ForestTree tree:
+             forest) {
+            result = tree.doPrediction(data,attrList);
+            if(result.equals("1")){
+                count++;
+            }else{
+                count--;
+            }
+        }
+        if(count>0){
+            return "1";
+        }else {
+            return "0";
+        }
     }
 
     private void computeAttrImportance(ArrayList<Attr> attrList){

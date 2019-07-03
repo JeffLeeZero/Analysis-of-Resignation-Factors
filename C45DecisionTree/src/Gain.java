@@ -226,4 +226,5 @@ public class Gain {
         }
         return index;
     }
+
 }
