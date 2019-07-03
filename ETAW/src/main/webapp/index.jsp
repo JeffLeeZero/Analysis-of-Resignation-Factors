@@ -131,42 +131,6 @@
                     }
                 });
 
-				// upload.render({
-				// 	elem: '#upload',
-				// 	method:"post",
-				// 	url: 'http://localhost:8080/UploadServlet',
-				// 	auto: false,
-				// 	dataType: "json",
-				// 	data: {formAccount:window.localStorage.id},
-				// 	success: function (res) {
-				// 		console.log(res);
-				// 	},
-				// 	bindAction: '#commit',
-				// 	//上传前的回调
-				// 	before: function () {
-				// 		this.data = {
-				// 			formAccount: window.localStorage.id
-				// 		}
-				// 	},
-				// 	//选择文件后的回调
-				// 	choose: function (obj) {
-				// 		// obj.preview(function (index, file, result) {
-				// 		// 	$('#preview').attr('src', result);
-				// 		// })
-				// 	},
-				// 	//操作成功的回调
-				// 	done: function (res, index, upload) {
-				// 		// var code = res.code === 0 ? 1 : 2;
-				// 		// layer.alert(res.msg, {icon: code}, function () {
-				// 		// 	parent.window.location.reload();
-				// 		// })
-				// 	},
-				// 	//上传错误回调
-				// 	error: function (index, upload) {
-				// 		layer.alert('上传失败！' + index);
-				// 	}
-				// });
-
                 function fsubmit(fd) {
                     $.ajax({
                         url: "http://localhost:8080/UploadServlet",

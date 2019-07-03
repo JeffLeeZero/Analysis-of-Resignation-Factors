@@ -4,6 +4,7 @@ import analysis.DBUtil.DBUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import com.sun.media.sound.WaveFloatFileReader;
 import oracle.sql.ARRAY;
 
 import oracle.sql.CLOB;
@@ -425,7 +426,10 @@ public class Analyser implements ResignationAnalyser {
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff12");
 
-        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+
+        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
+
+
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
@@ -440,7 +444,24 @@ public class Analyser implements ResignationAnalyser {
         data.add("3");
         data.add("0");
         data.add("0");
-        data.add("0");
+
+        //获取训练数据集的URL(前端传入对应的训练文件URL）
+        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案", "IT");
+        System.out.println(result1);
+        //是否离职 0不离职，1离职
+        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+        System.out.println(leftResult1);
+//        //该模型的拟合度
+        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
+        System.out.println(scoreResult1);
+        System.out.println(leftResult1+"\n"+scoreResult1);
+
+        ArrayList<String> result2 = analyser.getProbabilityFromCSV("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv", "123");
+        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+        System.out.println(leftResult2);
+        System.out.println(scoreResult2);
+        /*
 
 //        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案","IT");
 //        System.out.println(result1);
