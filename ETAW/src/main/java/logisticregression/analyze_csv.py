@@ -45,7 +45,7 @@ def export_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-    conn_str = 'FRANK/ZD73330274@localhost/orcl'
+    conn_str = 'admin/123456@localhost/SYSTEM'
     db = oracle.connect(conn_str)
     cursor = db.cursor()
     log_regs = []
@@ -62,6 +62,10 @@ def export_model(aid, department):
         log_reg = pickle.loads(result_log_reg)
         log_regs.append(log_reg)
         scores.append(score)
+        """
+        
+        """
+
     cursor.close()
     db.close()
     return log_regs, scores
@@ -70,7 +74,6 @@ def main(csvfileurl,aid):
     predict_result_float_arry = []
     sale_data, saleset = data2dataframe(csvfileurl)
     log_regs, scores = export_model(aid, saleset)
-
     """
     LogisticRegression2 方法
     count = 0
@@ -84,21 +87,25 @@ def main(csvfileurl,aid):
 
     """
 
+    """
+
+    """
     count = 0
     for i in sale_data:
         predict_result = log_regs[count].predict(i)
         for j in predict_result:
             predict_result_float_arry.append(str(float(j)))
             predict_result_float_arry.append(scores[count])
-        count = count+1
+        count = count + 1
 
     for i in predict_result_float_arry:
         print(i)
 
 
 
+
 if __name__ == "__main__":
-    a = []
-    a.append(sys.argv[1])
-    a.append(sys.argv[2])
-    main(a[0],a[1])
+    #a = []
+    #a.append(sys.argv[1])
+    #a.append(sys.argv[2])
+    main(r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\import_test.csv','123')

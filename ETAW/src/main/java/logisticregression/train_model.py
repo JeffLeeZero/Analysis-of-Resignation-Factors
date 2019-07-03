@@ -58,7 +58,7 @@ def import_model(mp,ms,s,aid):
     :param i:用户ID
     :return:
     """
-    conn_str = 'FRANK/ZD73330274@localhost/orcl'
+    conn_str = 'admin/123456@localhost/SYSTEM'
     db = oracle.connect(conn_str)
     model_data = pd.DataFrame(mp, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(s))
@@ -78,7 +78,7 @@ def import_model(mp,ms,s,aid):
             else:
                 #获取到model_data的行总数，依次选出对应的model_parameter、model_score和职位
                 for i in range(model_data.shape[0]):
-                    sql = "insert into REGRESSION (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+                    sql = "insert into REGRESSION (AID, DEPARTMENT, SCORE, MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
                         aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
@@ -87,7 +87,7 @@ def import_model(mp,ms,s,aid):
     #为空直接导入
     else:
         for i in range(model_data.shape[0]):
-            sql = "insert into REGRESSION (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+            sql = "insert into REGRESSION (AID, DEPARTMENT, SCORE, MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
                 aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
             cursor.setinputsizes(blobData=oracle.BLOB)
             cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
@@ -100,12 +100,11 @@ def main(aid,filepath):
     saleset, data = get_csvfile(filepath)
     model_parameter, model_score, saleset = train(saleset, data)
     import_model(model_parameter, model_score, saleset, aid)
-
 if __name__ == "__main__":
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])
-    main(a[0],a[1])
+    main(a[0], a[1])
 
 
 

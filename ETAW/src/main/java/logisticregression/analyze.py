@@ -31,7 +31,7 @@ def export_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-    conn_str = 'FRANK/ZD73330274@localhost/orcl'
+    conn_str = 'admin/123456@localhost/SYSTEM'
     db = oracle.connect(conn_str)
     cursor = db.cursor()
     #选出特定的拟合度和模型数据
