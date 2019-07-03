@@ -1,6 +1,10 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zpj.bean.RequestBean;
+import com.zpj.pojo.User;
 import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
@@ -8,12 +12,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 @WebServlet(name = "InsertWorkerServlet")
 public class InsertWorkerServlet extends HttpServlet {
+    private String account;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
         String satisfactionLevel = request.getParameter("SatisfactionLevel");
         String lastEvaluation = request.getParameter("LastEvaluation");
@@ -37,9 +46,9 @@ public class InsertWorkerServlet extends HttpServlet {
         data.add(salary);
         try{
             System.out.println(data);
-            Analyser analyser = new Analyser(LoginServlet.account);
+            Analyser analyser = new Analyser(account);
             //得到离职率
-            ArrayList<String> result = analyser.getProbability(data, LoginServlet.account,department);
+            ArrayList<String> result = analyser.getProbability(data, account, department);
             double leftRatio = Double.valueOf(result.get(0));
             double accuracyRate = Double.valueOf(result.get(1));
             System.out.println("该员工的离职概率为:" + leftRatio);
@@ -65,3 +74,4 @@ public class InsertWorkerServlet extends HttpServlet {
 
     }
 }
+

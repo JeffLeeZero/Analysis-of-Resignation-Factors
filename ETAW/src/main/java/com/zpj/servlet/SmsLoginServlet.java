@@ -64,7 +64,7 @@ public class SmsLoginServlet extends HttpServlet {
         String jsonPhone = null;
 
 
-        if (type.equals("isLogin") && queryPhone(phoneNumbers[0])==0){
+        if ((type.equals("isLogin") || type.equals("isFind") )&& queryPhone(phoneNumbers[0])==0){
             message = "不存在该用户或手机未注册";
             LoginBean loginBean = new LoginBean(message,isSuccess);
             jsonPhone = gson.toJson(loginBean);
@@ -108,7 +108,6 @@ public class SmsLoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         type=req.getParameter("alert_type");
-        System.out.println(type);
         doGet(req, resp);
     }
     private int queryPhone(String a)throws ServletException, IOException{
