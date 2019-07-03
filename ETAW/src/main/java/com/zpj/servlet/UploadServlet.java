@@ -1,19 +1,17 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
-import analysis.ResignationAnalyser;
-import com.zpj.Analysis;
-import com.zpj.Upload;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zpj.bean.RequestBean;
 import com.zpj.mapper.UserMapper;
 import com.zpj.pojo.User;
 import com.zpj.util.MybatiesUtil;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
-import org.omg.CORBA.Request;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,12 +19,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "UploadServlet")
 public class UploadServlet extends HttpServlet {
+
     private User user = new User();
-    private String account = LoginServlet.account;
+    private String account;
+
     private static final long serialVersionUID = 1L;
 
     //分析数据
@@ -54,6 +56,8 @@ public class UploadServlet extends HttpServlet {
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
 
         ServletFileUpload upload = new ServletFileUpload(factory);
+
+        List<String> plist = new ArrayList<>();
 
         // 设置最大文件上传值
         upload.setFileSizeMax(MAX_FILE_SIZE);
@@ -85,7 +89,11 @@ public class UploadServlet extends HttpServlet {
                 // 迭代表单数据
                 for (FileItem item : formItems) {
                     // 处理不在表单中的字段
-                    if (!item.isFormField()) {
+                    if (item.isFormField()) {
+                        String value = item.getString("UTF-8");
+                        plist.add(value);
+                        continue;
+                    }else{
                         String fileName = new File(item.getName()).getName();
                         filePath = uploadPath + File.separator + fileName;
                         fileUrl=filePath;
@@ -106,7 +114,11 @@ public class UploadServlet extends HttpServlet {
             ex.printStackTrace();
             return "0";
         }
+        account = plist.get(0);
+
         return fileUrl;
+
+
     }
 
     private void insetAttach(String url,HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
@@ -176,7 +188,6 @@ public class UploadServlet extends HttpServlet {
 
     private void trainModel(String account, String url){
         try {
-
             System.out.println("url:" + url);
             System.out.println("account:" +account);
             Analyser analyser = new Analyser(account);
@@ -190,15 +201,25 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         resp.getWriter().append("Served at: ").append(req.getContextPath());
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //user.setAccount("123");
+//        BufferedReader reader = req.getReader();
+//        String content = reader.readLine();
+//        Gson gson = new Gson();
+//        Type reqType = new TypeToken<RequestBean>(){}.getType();
+//        RequestBean reqBean = gson.fromJson(content,reqType);
+//        account = reqBean.getReqId();
 
-        user.setAccount(account);
         String url = getUploadUrl(req,resp);
+        System.out.println(account);
+        user.setAccount(account);
+
+
         //insetAttach(url,req,resp);
         //Upload.getAllByExcel(filePath);
 //        allNumber = Analysis.getAllNumber();
@@ -211,12 +232,19 @@ public class UploadServlet extends HttpServlet {
 //        System.out.println(remainNumber);
 //        System.out.println(leftRatio);
 
-        trainModel(account,url);
+        PrintWriter out = resp.getWriter();
+        try{
+            trainModel(account,url);
+            out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
+        } catch (Exception e){
+            out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/index.jsp'</script>");
+        }
 
-        req.getSession().setAttribute("allNumber", allNumber);
-        req.getSession().setAttribute("leftNumber", leftNumber);
-        req.getSession().setAttribute("remainNumber", remainNumber);
-        req.getSession().setAttribute("leftRatio", leftRatio);
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+//        req.getSession().setAttribute("allNumber", allNumber);
+//        req.getSession().setAttribute("leftNumber", leftNumber);
+//        req.getSession().setAttribute("remainNumber", remainNumber);
+//        req.getSession().setAttribute("leftRatio", leftRatio);
+//        req.getRequestDispatcher("index.jsp").forward(req, resp);
+
     }
 }

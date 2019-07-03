@@ -12,4 +12,6 @@ public interface UserMapper {
 
     int insertAttachment(User user);
 
+    int updatePassword(@Param("account") String account,@Param("password") String password);
+
 }

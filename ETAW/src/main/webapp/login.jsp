@@ -38,7 +38,7 @@
             <input id="login_btn" type="button" class="submit_btn" value="登录" name="loginBtn">
             <input id="register_btn" type="button" class="register_btn" value="注册">
             <a class="login_type" id="login_phone">手机验证码登陆</a>
-            <a class="forgetPass">忘记密码</a>
+            <a class="forgetPass" href="findPassword.jsp">忘记密码</a>
 
         </form>
     </div>
@@ -52,7 +52,7 @@
             <input id="veri_btn" type="button" class="submit_btn" value="获取验证码" onclick="verifyLogin()">
             <input id="veriLogin_btn" type="button" class="register_btn" value="登录" onclick="loginWithVerification()" name="typeBtn">
             <a class="login_type" id="login_pass">密码登陆</a>
-            <a class="forgetPass">忘记密码</a>
+            <a class="forgetPass" href="findPassword.jsp">忘记密码</a>
             <input type="text" id="alert_type" name="alert_type" value="isLogin" style="visibility: hidden">
 
         </form>

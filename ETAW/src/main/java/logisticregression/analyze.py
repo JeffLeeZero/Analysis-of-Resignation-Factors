@@ -87,3 +87,4 @@ if __name__ == "__main__":
     a.append(sys.argv[2])
     a.append(sys.argv[3])
     main(a[0],a[1],a[2])
+
