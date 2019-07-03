@@ -1,5 +1,3 @@
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -178,6 +176,9 @@ public class Gain {
             ratio = (double)(entry.getValue())/size;
             split += (-1)*ratio*Math.log(ratio);
         }
+        if(split==0){
+            System.out.println("afa");
+        }
         return split;
     }
 
@@ -191,7 +192,33 @@ public class Gain {
         double gain = 0.0;
         double temp = 0.0;
         for(int i = 0; i < attrList.size()-1; i++){
-            temp = (infoD(D) - infoAttr(i))/splitInfo(i);
+            temp = infoD(D) - infoAttr(i);
+            if (temp==0){
+                continue;
+            }
+            temp = temp/splitInfo(i);
+            if(temp > gain){
+                gain = temp;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public int bestGainAttrIndex(String type){
+        if(!type.equals("RECORD")){
+            return bestGainAttrIndex();
+        }
+        int index = 0;
+        double gain = 0.0;
+        double temp = 0.0;
+        for(int i = 0; i < attrList.size()-1; i++){
+            temp = infoD(D) - infoAttr(i);
+            if (temp<0.000000001){
+                continue;
+            }
+            temp = temp/splitInfo(i);
+            attrList.get(i).setD(attrList.get(i).getD()+temp);
             if(temp > gain){
                 gain = temp;
                 index = i;

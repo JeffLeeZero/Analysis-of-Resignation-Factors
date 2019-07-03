@@ -45,6 +45,7 @@ class Test {
         RandomForest forest = buildForest();
         long endTime =  System.currentTimeMillis();
         long usedTime = (endTime-startTime)/1000;
+        System.out.println(usedTime);
     }
 
     public static RandomForest buildForest(){

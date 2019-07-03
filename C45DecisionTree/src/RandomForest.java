@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CyclicBarrier;
 
 public class RandomForest {
-    private ArrayList<DecisionTree> forest;
+    private ArrayList<ForestTree> forest;
     private int TREECOUNT;
     private final CyclicBarrier barrier = new CyclicBarrier(11);
     public RandomForest(){
@@ -16,16 +16,18 @@ public class RandomForest {
     }
 
     public void buildForest(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
+
         int n = (int)Math.sqrt(attrList.size());
         int m = datas.size() * 2 / 3;
         DecisionTree tree;
-        for(int i = 0;i<this.TREECOUNT;i++){
+        for(int i = 0;i<this.TREECOUNT;){
             for(int j = 0;j<10;j++){
                 ForestRunnble runnble = new ForestRunnble(i,datas,attrList);
                 this.forest.add(runnble.getTree());
                 Thread thread = new Thread(runnble);
                 thread.start();
             }
+            i+=10;
             try{
                 barrier.await();
                 barrier.reset();
@@ -33,20 +35,7 @@ public class RandomForest {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static ArrayList<Attr> getRandomAttrs(ArrayList<Attr> attrList){
-        int count = attrList.size()-1;
-        int len = (int)Math.sqrt(count);
-        double ratio = (double)len/count;
-        ArrayList<Attr> attrs = new ArrayList<>();
-        for (int i = 0; i < count-1;i++){
-            if(Math.random()<ratio){
-                attrs.add(attrList.get(i));
-            }
-        }
-        attrs.add(attrList.get(attrList.size()-1));
-        return attrs;
+        computeAttrImportance(attrList);
     }
 
     public static ArrayList<ArrayList<String>> getRandomData(ArrayList<ArrayList<String>> datas){
@@ -60,25 +49,38 @@ public class RandomForest {
         return sub;
     }
 
+    private void computeAttrImportance(ArrayList<Attr> attrList){
+        ArrayList<Attr> attrs;
+        for (ForestTree tree:
+             forest) {
+            attrs = tree.getAttrList();
+            for(int i = 0;i<attrList.size()-1;i++){
+                attrList.get(i).setD(attrList.get(i).getD()+attrs.get(i).getD());
+            }
+        }
+        double sum = 0.0;
+        for(int i = 0;i<attrList.size()-1;i++){
+            sum += attrList.get(i).getD();
+        }
+        for(int i = 0;i<attrList.size()-1;i++){
+            attrList.get(i).setD(attrList.get(i).getD()/sum);
+        }
+    }
+
+
     class ForestRunnble implements Runnable{
 
-        public DecisionTree tree;
-        //public Map<> map;
-        private int index,m,n;
+        public ForestTree tree;
         private ArrayList<ArrayList<String>> datas;
-        ArrayList<Attr> attrList;
         public ForestRunnble(int i,ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
-            index = i;
-            tree = new DecisionTree();
+            tree = new ForestTree(attrList);
             this.datas = datas;
-            this.attrList = attrList;
         }
 
         @Override
         public void run() {
             ArrayList<ArrayList<String>> train = RandomForest.getRandomData(datas);
-            ArrayList<Attr> attrs = RandomForest.getRandomAttrs(attrList);
-            tree.setTree(tree.buildTree(train,attrs));
+            tree.setTreeNode(tree.buildTree(train,null));
             try{
                 barrier.await();
             }catch (Exception e){
@@ -86,13 +88,10 @@ public class RandomForest {
             }
         }
 
-        public DecisionTree getTree() {
+        public ForestTree getTree() {
             return tree;
         }
 
-        public void setTree(DecisionTree tree) {
-            this.tree = tree;
-        }
     }
 }
 
