@@ -20,7 +20,7 @@ import com.zpj.util.MybatiesUtil;
 
 public class LoginServlet extends HttpServlet {
 
-    public static String account;
+    public  String account;
     private String password;
 
     @Override
@@ -73,9 +73,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private int judgeLogin(String a, String p)throws ServletException, IOException{
-        System.out.println(111);
         SqlSession sqlSession = MybatiesUtil.getSession();
-        System.out.println(222);
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         String pass = null;
         try {
