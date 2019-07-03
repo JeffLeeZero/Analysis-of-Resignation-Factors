@@ -48,25 +48,19 @@ public class Analyser implements ResignationAnalyser {
         String aid = saveInfo();
         saveAttr(aid);
         saveNode(aid);
-        Process proc;
+        Process svmProc, logProc;
         try{
             String choosemodel = account + name;
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\train_model.py",  choosemodel, url};
-
-            proc = Runtime.getRuntime().exec(fileData);
-            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null){
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
+            String[] svmProcData = new String[]{"python", "src\\main\\java\\logisticregression\\svm_train.py",  choosemodel, url};
+            String[] logProcData = new String[]{"python", "src\\main\\java\\logisticregression\\log_reg_train.py",  choosemodel, url};
+            svmProc = Runtime.getRuntime().exec(svmProcData);
+            logProc = Runtime.getRuntime().exec(logProcData);
+            logProc.waitFor();
+            svmProc.waitFor();
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override
@@ -91,17 +85,12 @@ public class Analyser implements ResignationAnalyser {
     }
 
     @Override
-    public ArrayList<String> getProbability(ArrayList<String> data, String aid, String department) {
+    public ArrayList<String> getProbability(ArrayList<String> data, String choosemodel, String department) {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
             String testDatas = String.join(",", data);
-            //String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\analyze.py",testDatas,aid,department};
-            String[] fileData = new String[]{"python", "logisticregression\\analyze.py",testDatas,aid,department};
-            File directory = new File(".");
-            System.out.println(directory.getCanonicalPath()); //得到的是C:/test
-            System.out.println(directory.getAbsolutePath());    //得到的是C:/test/.
-
+            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py",testDatas,choosemodel,department};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -437,21 +426,25 @@ public class Analyser implements ResignationAnalyser {
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff12");
 
-        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
 
         //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
 
-        //analyser.doPrediction(null);
+
+        //Long start = System.currentTimeMillis();
+        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
+        //Long end  =System.currentTimeMillis();
+        //System.out.println((end-start)/1000);
         ArrayList<String> data = new ArrayList<>();
-        //'0.38 0.53 157 3 0 0 0'
+        //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");
         data.add("0.53");
         data.add("157");
+        data.add("2");
         data.add("3");
         data.add("0");
         data.add("0");
-        data.add("0");
+
         //获取训练数据集的URL(前端传入对应的训练文件URL）
         ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案", "IT");
         System.out.println(result1);
@@ -470,12 +463,26 @@ public class Analyser implements ResignationAnalyser {
         System.out.println(scoreResult2);
         /*
 
-        */
+//        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案","IT");
+//        System.out.println(result1);
+//        //是否离职 0不离职，1离职
+//        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+//        //该模型的拟合度
+//        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
+//        System.out.println(leftResult1+"\n"+scoreResult1);
+
+        ArrayList<String> result2 = analyser.getProbabilityFromCSV("import_test.csv", "jeff12分析方案");
+        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+        System.out.println(leftResult2);
+        System.out.println(scoreResult2);
+        //analyser.doPrediction(null);
+
+
         /*
-        批量处理的测试集（前端传入测试数据的URL，csv格式）
 
-        */
 
+         */
 
     }
 }

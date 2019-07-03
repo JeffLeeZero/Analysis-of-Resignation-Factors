@@ -76,7 +76,6 @@ public class InsertWorkerServlet extends HttpServlet {
             request.getSession().setAttribute("reason",reason);
             request.getRequestDispatcher("http://localhost:8080/analyseWorker.jsp").forward(request, response);
 
-
 //            String message = "提交成功";
 //            request.getSession().setAttribute("message",message);
 //            response.sendRedirect("http://localhost:8080/analyseWorker.jsp");

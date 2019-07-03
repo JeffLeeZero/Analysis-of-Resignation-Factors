@@ -5,7 +5,14 @@ import pandas as pd
 import cx_Oracle as oracle
 import _pickle as pickle
 
-
+def get_connection(conn_str):
+    """
+    获取与oracle数据库的连接
+    :param conn_str:
+    :return:数据库操作对象
+    """
+    db = oracle.connect(conn_str)
+    return db
 
 def data2dataframe(csvfile):
     """
@@ -25,7 +32,7 @@ def data2dataframe(csvfile):
     if('high' in salarylist):
         data.loc[data.salary == 'high', 'salary'] = 2
 
-    z = data.iloc[:, 7]
+    z = data.loc[:,data['sales']]
     sale_data = []
     saleset = set()
     for i in z:
@@ -33,79 +40,73 @@ def data2dataframe(csvfile):
     for i in saleset:
         #区分出每个职位的数据集
         salesrow = data.loc[data['sales'] == i]
-        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company',
+        x = salesrow.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company','number_project',
                              'Work_accident', 'promotion_last_5years', 'salary']]
         sale_data.append(x)
     return sale_data, saleset
 
-def export_model(aid, department):
+def choose_model(aid, department):
     """
     根据用户ID和职位选择（java传入）选择数据库中的模型，导出
     :param aid:用户ID
     :param department:职位
     :return:模型对象和拟合度
     """
-    conn_str = 'admin/123456@localhost/SYSTEM'
-    db = oracle.connect(conn_str)
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
     log_regs = []
-    scores = []
+    svms = []
+    log_reg_scores = []
+    svm_scores = []
     #选出特定的拟合度和模型数据
     for i in department:
-        sql = "select SCORE, MODEL from REGRESSION where AID = '" + aid + "' and DEPARTMENT = '" + i + "'"
+        sql = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
+              + aid + "' and regression.department = '" + i + "' and svm.aid = '" + aid + "' and svm.department = '" + i + "'"
         cursor.execute(sql)
         db.commit()
         result = cursor.fetchall()
-        score = result[0][0]
-        result_log_reg = result[0][1].read()
-        # 反序列化
-        log_reg = pickle.loads(result_log_reg)
-        log_regs.append(log_reg)
-        scores.append(score)
-        """
-        
-        """
+        # 逻辑回归和svm模型
+        log_reg_score = result[0][0]
+        log_reg = result[0][1].read()
+        svm_score = result[0][2]
+        svm = result[0][3].read()
 
+        # 反序列化
+        log_reg = pickle.loads(log_reg)
+        svm = pickle.loads(svm)
+        log_reg_scores.append(log_reg_score)
+        log_regs.append(log_reg)
+        svms.append(svm)
+        svm_scores.append(svm_score)
     cursor.close()
     db.close()
-    return log_regs, scores
+    return log_regs, log_reg_scores, svms, svm_scores
 
 def main(csvfileurl,aid):
-    predict_result_float_arry = []
+    log_reg_predict_float_result = []
+    svm_predict_float_result  =[]
     sale_data, saleset = data2dataframe(csvfileurl)
-    log_regs, scores = export_model(aid, saleset)
-    """
-    LogisticRegression2 方法
+    log_regs, log_reg_scores, svms, svm_scores = choose_model(aid, saleset)
+
     count = 0
     for i in sale_data:
-        predict_result = log_regs[count].predict(i)
-        predict_result_proba = log_regs[count].predict_proba(i)
-        for j in predict_result:
-            predict_result_float_arry.append(str(float(j)))
-            predict_result_float_arry.append(scores[count])
+        log_reg_predict = log_regs[count].predict(i)
+        svm_predict = svms[count].predict(i)
+        for j in log_reg_predict:
+            log_reg_predict_float_result.append(str(float(j)))
+            log_reg_predict_float_result.append(log_reg_scores[count])
+        for j in svm_predict:
+            svm_predict_float_result.append(str(float(j)))
+            svm_predict_float_result.append(svm_scores[count])
         count = count+1
 
-    """
-
-    """
-
-    """
-    count = 0
-    for i in sale_data:
-        predict_result = log_regs[count].predict(i)
-        for j in predict_result:
-            predict_result_float_arry.append(str(float(j)))
-            predict_result_float_arry.append(scores[count])
-        count = count + 1
-
-    for i in predict_result_float_arry:
+    for i in log_reg_predict_float_result:
+        print(i)
+    for i in svm_predict_float_result:
         print(i)
 
-
-
-
 if __name__ == "__main__":
-    #a = []
-    #a.append(sys.argv[1])
-    #a.append(sys.argv[2])
-    main(r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\import_test.csv','123')
+    a = []
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
+>>>>>>> 68b07d827698f2f3b1cc699e73aaa54831a05c58
