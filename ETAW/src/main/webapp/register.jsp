@@ -36,13 +36,14 @@
                    onblur="this.placeholder='输入手机号'" id="phone" maxlength="11" regex="^[1][3,4,5,7,8][0-9]{9}$">
         </div>
         <div class="icon1"><input class="input_c" type="password" placeholder="输入密码" onfocus="this.placeholder=''"
-                                  onblur="this.placeholder='输入密码'" id="password"></div>
+                                  onblur="this.placeholder='输入密码'" id="password">
+        </div>
 
         <div class="icon1"><input class="input_c" name="password" type="number" placeholder="输入验证码"
                                   onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification">
         </div>
-        <input id="veri_btn" type="button" class="submit_btn" value="获取验证码" >
-        <input id="registerBtn"  type="button" class="register_btn" value="注册" >
+        <input id="veri_btn" type="button" class="submit_btn" value="获取验证码">
+        <input id="registerBtn" type="button" class="register_btn" value="注册">
         <input type="text" id="alert_type" name="alert_type" value="isRegister" style="visibility: hidden">
 
     </form>
