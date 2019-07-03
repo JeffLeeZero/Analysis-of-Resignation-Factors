@@ -127,3 +127,27 @@ function loginWithVerification() {
     }
 }
 
+//找回密码验证码验证方法
+function judgeVerification() {
+    if ($("#phone").val()=="" ) {
+        $("#phone").focus();
+        layer.msg("请输入手机号",{icon: 0,time: 1500});
+        return;
+    }
+
+    if ($("#verification").val()=="") {
+        $("#verification").focus();
+        layer.msg("请输入验证码",{icon: 0,time: 1500});
+        return;
+    }
+    if($("#verification").val()==verifiedCode){
+        $("#inputVerification")[0].style.display="none";
+        $("#sure_btn")[0].style.display="none";
+        $("#inputPass")[0].style.display="block";
+        $("#submit_btn")[0].style.display="block";
+
+    }else{
+        layer.msg("验证码错误",{icon: 5,time: 1500});
+    }
+}
+

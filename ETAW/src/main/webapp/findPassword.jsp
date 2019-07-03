@@ -13,7 +13,7 @@
     <script src="plugins/layui/layui.all.js"></script>
     <script type="text/javascript" src="js/findPassword.js"></script>
     <%--<script type="text/javascript" src="js/register.js"></script>--%>
-    <%--<script type="text/javascript" src="js/login.js"></script>--%>
+    <script type="text/javascript" src="js/login.js"></script>
     <link rel="stylesheet" type="text/css" href="plugins/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="css/findPassword.css">
 </head>
@@ -30,7 +30,7 @@
     <div class="clear"></div>
 </div>
 <div class="div_main">
-    <form class="layui-form" >
+    <form class="layui-form" method="post">
         <h1>找回密码</h1>
         <div class="icon1" id="inputPhone">
             <input class="input_c" name="phone" type="tel" placeholder="输入手机号" onfocus="this.placeholder=''"
@@ -41,12 +41,13 @@
             <input class="input_c" name="password" type="number" placeholder="输入验证码"
                    onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification">
         </div>
-        <button class="layui-btn layui-btn-normal" id="sure_btn" type="button" onclick="sureBtn()">确定<i class="layui-icon layui-icon-right"></i></button>
+        <button class="layui-btn layui-btn-normal" id="sure_btn" type="button" onclick="judgeVerification()">确定<i class="layui-icon layui-icon-right"></i></button>
         <div class="icon1" id="inputPass">
             <input class="input_c" type="password" placeholder="输入密码" onfocus="this.placeholder=''"
                    onblur="this.placeholder='输入密码'" id="password">
         </div>
-        <button class="layui-btn layui-btn-normal" id="submit_btn"><i class="layui-icon layui-icon-edit"></i>提交</button>
+        <button class="layui-btn layui-btn-normal" id="submit_btn"type="button" ><i class="layui-icon layui-icon-edit"></i>提交</button>
+        <input type="text" id="alert_type" name="alert_type" value="isFind" style="visibility: hidden">
     </form>
 </div>
 </body>

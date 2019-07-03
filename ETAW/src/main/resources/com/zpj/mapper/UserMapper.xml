@@ -9,7 +9,6 @@
         where ACCOUNT=#{account}
     </update>
 
-
     <select id="queryPassByAccount" resultType="string">
         select PASSWORD from USERS where ACCOUNT = #{account}
     </select>
@@ -17,6 +16,11 @@
     <select id="queryAccountExist" resultType="int">
         select count(*) from USERS where ACCOUNT = #{account}
     </select>
+
+    <update id="updatePassword">
+        update USERS set PASSWORD = #{password}
+        where ACCOUNT = #{account}
+    </update>
 
 
 </mapper>
