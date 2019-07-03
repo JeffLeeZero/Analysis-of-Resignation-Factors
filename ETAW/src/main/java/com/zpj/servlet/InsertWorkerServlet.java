@@ -54,7 +54,7 @@ public class InsertWorkerServlet extends HttpServlet {
             System.out.println("该员工的离职概率为:" + leftRatio);
             System.out.println("该预测的准确率为:" + accuracyRate);
 
-            request.getSession().setAttribute("leftRatio", leftRatio);
+            //request.getSession().setAttribute("leftRatio", leftRatio);
             request.getRequestDispatcher("analyseWorker.jsp").forward(request, response);
 
 //            String message = "提交成功";

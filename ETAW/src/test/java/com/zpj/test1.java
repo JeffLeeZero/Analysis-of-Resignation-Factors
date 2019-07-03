@@ -22,10 +22,9 @@ public class test1 {
         User user = new User();
         user.setAccount("123");
         user.setPassword("123456");
-        int y=2;
+        String y="";
         try {
-            mapper.updatePassword("123","44343");
-            pass=mapper.queryPassByAccount("123");
+         y= mapper.queryPassByAccount("15198524595");
         } catch (Exception e) {
             e.printStackTrace();
         }

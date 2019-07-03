@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.zpj.bean.LoginBean;
 import com.zpj.mapper.UserMapper;
 import com.zpj.pojo.User;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.servlet.ServletException;
@@ -78,7 +79,7 @@ public class LoginServlet extends HttpServlet {
         String pass = null;
         try {
             pass = mapper.queryPassByAccount(a);
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             pass="";
             e.printStackTrace();
         }
