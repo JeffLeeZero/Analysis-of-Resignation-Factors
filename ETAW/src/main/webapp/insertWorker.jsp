@@ -33,6 +33,8 @@
 
         <form class="layui-form" method="post" action="<%=request.getContextPath()%>/InsertWorkerServlet"  enctype="multipart/form-data">
 
+            <input type="hidden" name="Account" id="formAccount"/>
+
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
             <div class="layui-input-block" style="margin-right: 300px">
@@ -143,6 +145,8 @@
 </div>
 <script src="plugins/layui/layui.js" charset="utf-8"></script>
 <script>
+    document.getElementById("formAccount").value = window.localStorage.id;
+
     layui.use('form', function(){
         var form = layui.form
             ,layer = layui.layer

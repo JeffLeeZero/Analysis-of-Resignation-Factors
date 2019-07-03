@@ -24,6 +24,7 @@ public class InsertWorkerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+        account = request.getParameter("Account");
         String satisfactionLevel = request.getParameter("SatisfactionLevel");
         String lastEvaluation = request.getParameter("LastEvaluation");
         String numberProject = request.getParameter("NumberProject");
@@ -42,7 +43,6 @@ public class InsertWorkerServlet extends HttpServlet {
         data.add(timeSpendCompany);
         data.add(workAccident);
         data.add(promotion);
-        data.add(department);
         data.add(salary);
         try{
             System.out.println(data);
