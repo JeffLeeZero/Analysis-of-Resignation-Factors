@@ -24,14 +24,14 @@ public class test1 {
         user.setPassword("123456");
         int y=2;
         try {
-
-         y= mapper.queryAccountExist("123");
+            mapper.updatePassword("123","44343");
+            pass=mapper.queryPassByAccount("123");
         } catch (Exception e) {
             e.printStackTrace();
         }
         sqlSession.commit();
         sqlSession.close();
-        System.out.println(y);
+        System.out.println(pass);
     }
 
 /*
