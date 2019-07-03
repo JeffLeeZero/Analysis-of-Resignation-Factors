@@ -4,6 +4,7 @@ import com.zpj.mapper.UserMapper;
 import com.zpj.mapper.WorkerMapper;
 import com.zpj.pojo.User;
 import com.zpj.pojo.Worker;
+import com.zpj.servlet.InsertMultiWorkerServlet;
 import com.zpj.util.MybatiesUtil;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class test1 {
+    /*
     @Test
     public void m1(){
         SqlSession sqlSession = MybatiesUtil.getSession();
@@ -22,10 +24,9 @@ public class test1 {
         User user = new User();
         user.setAccount("123");
         user.setPassword("123456");
-        int y=2;
+        String y="";
         try {
-            mapper.updatePassword("123","44343");
-            pass=mapper.queryPassByAccount("123");
+         y= mapper.queryPassByAccount("15198524595");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,7 +35,6 @@ public class test1 {
         System.out.println(pass);
     }
 
-/*
     @Test
     public void m2(){
         SqlSession sqlSession = MybatiesUtil.getSession();
@@ -158,6 +158,11 @@ public class test1 {
     }
 
 */
+    @Test
+    public void m4(){
+        String url = "";
+    }
+
 
 
 }

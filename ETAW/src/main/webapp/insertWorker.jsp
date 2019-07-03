@@ -28,10 +28,26 @@
         </div>
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-            <legend>员工数据</legend>
+            <legend>多个员工数据</legend>
+        </fieldset>
+
+        <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
+
+            <input type="file" name="uploadFile" />
+
+            <input type="hidden" name="account" id="account"/>
+
+            <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+
+        </form>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
+            <legend>单个员工数据</legend>
         </fieldset>
 
         <form class="layui-form" method="post" action="<%=request.getContextPath()%>/InsertWorkerServlet"  enctype="multipart/form-data">
+
+            <input type="hidden" name="Account" id="formAccount"/>
 
             <div class="layui-form-item" style="margin-left: 200px">
             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
@@ -143,6 +159,53 @@
 </div>
 <script src="plugins/layui/layui.js" charset="utf-8"></script>
 <script>
+    document.getElementById("formAccount").value = window.localStorage.id;
+    document.getElementById("account").value = window.localStorage.id;
+
+    layui.use('upload', function() {
+        var $ = layui.jquery,
+            upload = layui.upload;
+
+        upload.render({
+            elem: '#supplement_file'
+            , url: 'http://localhost:8080/InsertMultiWorkerServlet'
+            , accept: 'file'
+            , auto: false
+            // , bindAction: '#upfile' //关闭的上传按钮   html中此id所在元素也被注释
+            ,multiple: true
+            , done: function (res) {
+                alert("上传成功");
+            }
+        });
+
+        function fsubmit(fd) {
+            $.ajax({
+                url: "http://localhost:8080/InsertMultiWorkerServlet",
+                type: "POST",
+                data: fd,
+                async : false,
+                contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+                processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
+                error : function(request) {
+                    parent.layer.alert("网络超时")
+                    window.location.href = "/insertWorker.jsp";
+                },
+                success: function (data) {
+                    alert("上传成功！");
+                    window.location.href="/analyseMultiWorker.jsp";
+                }
+            });
+            return false;
+        }
+
+        $("#upup").on("click",function () {
+            var formSatellite = document.getElementById("up_form");//获取所要提交form的id
+            var fs1 = new FormData(formSatellite);  //用所要提交form做参数建立一个formdata对象
+            console.log(fs1);
+            fsubmit(fs1);//调用函数
+        })
+    });
+
     layui.use('form', function(){
         var form = layui.form
             ,layer = layui.layer
@@ -157,10 +220,6 @@
 
         //监听提交
         form.on('submit(demo1)', function(data){
-
-            // layer.alert(JSON.stringify(data.field), {
-            //     title: '最终的提交信息'
-            // });
 
             $.ajax({
                 url: "http://localhost:8080/InsertWorkerServlet",

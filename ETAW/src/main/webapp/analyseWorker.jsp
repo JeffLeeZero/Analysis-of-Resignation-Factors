@@ -21,12 +21,52 @@
     <div class="layui-body" style="background-color: #eeeeee;  ">
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-            <legend>离职分析</legend>
+            <legend>预测结果</legend>
+        </fieldset>
+
+        <div style="padding: 20px; background-color: #F2F2F2; margin-left: 300px">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <p style="font-size: medium; text-align: center">结果</p>
+                        </div>
+
+                        <div class="layui-card-body">
+                            经过逻辑回归方法预测，该员工
+                            <%=(String)session.getAttribute("left") %>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding: 20px; background-color: #F2F2F2; margin-left: 300px">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <p style="font-size: medium; text-align: center">分析</p>
+                    </div>
+
+                        <div class="layui-card-body">
+                            分析原因：
+                            <%=(String)session.getAttribute("reason") %>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
+            <legend>分析准确率</legend>
         </fieldset>
 
         <!--Step:1 Prepare a dom for ECharts which (must) has size (width & hight)-->
         <!--Step:1 为ECharts准备一个具备大小（宽高）的Dom-->
-        <div id="pie" style="height:400px;border:1px solid #ccc;padding:10px;"></div>
+        <div id="pie" style="height:300px;border:1px solid #ccc;padding:10px;"></div>
 
         <!--Step:2 Import echarts.js-->
         <!--Step:2 引入echarts.js-->
@@ -52,7 +92,7 @@
 
                     var option = {
                         title : {
-                            text: '该员工离职概率分析',
+                            text: '该员工离职概率分析准确率',
                             x:'center'
                         },
                         tooltip : {
@@ -62,16 +102,16 @@
                         legend: {
                             orient : 'vertical',
                             x : 'left',
-                            data:['离职','不离职']
+                            data:['准确','不准确']
                         },
                         toolbox: {
-                            show : true,
+                            show : false,
                             feature : {
                                 mark : {show: true},
                                 dataView : {show: true, readOnly: false},
                                 magicType : {
                                     show: true,
-                                    type: ['pie', 'funnel'],
+                                    type: ['pie'],
                                     option: {
                                         funnel: {
                                             x: '25%',
@@ -92,8 +132,8 @@
                                 radius : '55%',
                                 center: ['50%', '60%'],
                                 data:[
-                                    {value:<%=(String)session.getAttribute("leftRatio") %>, name:'离职'},
-                                    {value:<%=(String)session.getAttribute("allNumber") %>, name:'不离职'}
+                                    {value:<%=(String)session.getAttribute("accuracyRate") %>, name:'准确'},
+                                    {value:<%=(String)session.getAttribute("notAccuracyRate") %>, name:'不准确'}
                                 ]
                             }
                         ]

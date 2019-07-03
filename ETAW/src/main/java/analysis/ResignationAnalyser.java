@@ -38,7 +38,7 @@ public interface ResignationAnalyser {
      * 每一个String元素中，第一个值代表是否会离职，[0]留任或者[1]离职；第二个值是预测可能性，其中包含两个数值，相加为1
      * 第三个值是该模型的准确率
      */
-    ArrayList<String> getProbability(ArrayList<String> data, String aid, String department);
+    ArrayList<String> getProbability(ArrayList<String> data, String choosemodel, String department);
 
     /**
      * 获取py脚本返回的分析数据
@@ -60,6 +60,7 @@ public interface ResignationAnalyser {
      * @return
      */
     Map<String,Double> getAttrRatio(String attrName);
+
 
     /**
      * 获取批量导入的测试数据集结果

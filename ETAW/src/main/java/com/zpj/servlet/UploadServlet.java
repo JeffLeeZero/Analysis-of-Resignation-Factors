@@ -31,12 +31,6 @@ public class UploadServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    //分析数据
-    public static String allNumber;
-    public static String leftNumber;
-    public static String remainNumber;
-    public static String leftRatio;
-
     // 上传文件存储目录
     public static final String UPLOAD_DIRECTORY = "upload";
     public static String uploadPath;
@@ -47,7 +41,7 @@ public class UploadServlet extends HttpServlet {
     private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
     private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
 
-    private String getUploadUrl(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
+    public String getUploadUrl(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
         // 配置上传参数
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
@@ -71,7 +65,6 @@ public class UploadServlet extends HttpServlet {
         // 构造临时路径来存储上传的文件
         // 这个路径相对当前应用的目录
         uploadPath = getServletContext().getRealPath("/")  + UPLOAD_DIRECTORY;
-
 
         // 如果目录不存在则创建
         String fileUrl="";
@@ -118,8 +111,8 @@ public class UploadServlet extends HttpServlet {
 
         return fileUrl;
 
-
     }
+
 
     private void insetAttach(String url,HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
         req.setCharacterEncoding("UTF-8");
