@@ -11,6 +11,10 @@ public class PythonModel {
         this.aid = aid;
     }
 
+    /**
+     * 训练模型
+     * @param url
+     */
     public void trainModel(String url){
         try{
             Process svmProc,logProc;
@@ -29,6 +33,16 @@ public class PythonModel {
         }
     }
 
+    /**
+     * 预测离职结果
+     * @param data
+     * @param department
+     * @return
+     * [
+     *  (模型1)：[判断结果，准确率]，
+     * （模型2）：[判断结果，准确率]
+     * ]
+     */
     public ArrayList<ArrayList<Double>> getProbability(ArrayList<String> data, String department) {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
@@ -59,6 +73,18 @@ public class PythonModel {
         return result;
     }
 
+    /**
+     *
+     * @param csvURL
+     * @return
+     *[
+     *   [（模型1)：[判断结果，准确率]，
+     *   （模型2）：[判断结果，准确率]
+     *   ]，
+     *   [……],
+     *   ……
+     *]
+     */
     public ArrayList<ArrayList<ArrayList<Double>>> getProbabilityFromCSV(String csvURL){
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
@@ -80,10 +106,8 @@ public class PythonModel {
 
         /*
         [
-            [(逻辑回归模型)：[判断结果，准确率]，
-             （SVM）：[判断结果，准确率]，
-              （决策树）：[判断结果，准确率]，
-              （随机森林）：[判断结果，准确率]
+            [（模型1)：[判断结果，准确率]，
+             （模型2）：[判断结果，准确率]
             ]，
             [……],
             ……

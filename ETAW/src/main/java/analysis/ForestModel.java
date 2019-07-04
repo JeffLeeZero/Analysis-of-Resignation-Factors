@@ -100,11 +100,6 @@ public class ForestModel {
         }
     }
 
-
-    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrList){
-        return forest.doPrediction(data,attrList);
-    }
-
     public double getAccuracy() {
         return accuracy;
     }

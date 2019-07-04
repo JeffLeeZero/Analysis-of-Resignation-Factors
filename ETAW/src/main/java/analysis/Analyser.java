@@ -71,6 +71,7 @@ public class Analyser implements ResignationAnalyser {
     /**
      * 获取训练模型准确率
      * @return
+     *
      */
     @Override
     public double getAccuracy() {
@@ -94,6 +95,13 @@ public class Analyser implements ResignationAnalyser {
         }
     }
 
+    /**
+     * 预测离职结果
+     * @param data
+     * @return
+     * [预测结果，准确率]
+     * 判断结果取值范围{"离职","不离职"}
+     */
     @Override
     public ArrayList<String> getProbability(ArrayList<String> data) {
         String department = data.get(data.size()-1);
@@ -115,6 +123,17 @@ public class Analyser implements ResignationAnalyser {
         return getAverageResult(results);
     }
 
+    /**
+     * 批量预测
+     * @param csvURL 预测数据文件url
+     * @return
+     * [
+     *      [判断结果，准确率],
+     *      [判断结果，准确率],
+     *      ……
+     * ]
+     * 判断结果取值范围{"离职","不离职"}
+     */
     @Override
     public ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL){
         getAttrAndInfo();
