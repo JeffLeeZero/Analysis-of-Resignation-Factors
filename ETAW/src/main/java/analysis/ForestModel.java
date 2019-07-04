@@ -89,4 +89,11 @@ public class ForestModel {
             DBUtil.closeConn(conn);
         }
     }
+
+
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrList){
+        return forest.doPrediction(data,attrList);
+    }
+
+
 }
