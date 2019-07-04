@@ -3,7 +3,7 @@ PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from logisticregression.logistic_regression import LogisticRegression
+from logisticregression.logistic_regression import  LogisticRegression
 import cx_Oracle as oracle
 import _pickle as pickle
 
@@ -32,7 +32,7 @@ def get_csvfile(filepath):
         saleset.update([i])
     x_set = data.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company','number_project',
                              'Work_accident', 'promotion_last_5years', 'salary']]
-    y_set = data.loc[:,'left']
+    y_set = data.iloc[:,9]
     return saleset,data, x_set, y_set
 
 def train(saleset, data, x_set, y_set):
@@ -72,7 +72,7 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    db = get_connection('admin/123456@localhost/SYSTEM')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -92,20 +92,25 @@ def import_model(parameter,score,saleset,aid):
             else:
                 # 获取到model_data的行总数，依次选出对应的model_parameter、model_score和职位
                 for i in range(model_data.shape[0]):
-                    sql = "insert into regression (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
-                        aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
-                    sql = sql.replace('\'', '')
+                    sql = "insert into regression (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+                           aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
+
+                    # sql = "insert into regression (AID, DEPARTMENT,SCORE) VALUES ('%s', '%s','%s')" % (
+                    #       aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
+                    # cursor.execute(sql)
                     db.commit()
             break
     # 为空直接导入
     else:
         for i in range(model_data.shape[0]):
-            sql = "insert into regression (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
-                aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
+            sql = "insert into regression (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+                   aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
             cursor.setinputsizes(blobData=oracle.BLOB)
             cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
+
+
             db.commit()
     cursor.close()
     db.close()
@@ -115,13 +120,8 @@ def main(aid,filepath):
     saleset, data, x_set, y_set = get_csvfile(filepath)
     log_reg_parameter, log_reg_score, saleset = train(saleset, data, x_set, y_set)
     import_model(log_reg_parameter, log_reg_score, saleset, aid)
-
 if __name__ == "__main__":
-    a = []
-    a.append(sys.argv[1])
-    a.append(sys.argv[2])
-    main(a[0],a[1])
-
+    main('369分析方案', r"C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv")
 
 
 

@@ -52,7 +52,7 @@ def choose_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-    db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    db = get_connection('admin/123456@localhost/SYSTEM')
     cursor = db.cursor()
     log_regs = []
     svms = []
@@ -60,9 +60,10 @@ def choose_model(aid, department):
     svm_scores = []
     #选出特定的拟合度和模型数据
     for i in department:
-        sql = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
-              + aid + "' and regression.department = '" + i + "' and svm.aid = '" + aid + "' and svm.department = '" + i + "'"
-        cursor.execute(sql)
+        args = (aid,i,aid,i)
+        sql = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and" \
+              " regression.department = :2 and svm.aid = :3 and svm.department = :4"
+        cursor.execute(sql,args)
         db.commit()
         result = cursor.fetchall()
         # 逻辑回归和svm模型
@@ -104,9 +105,10 @@ def main(csvfileurl,aid):
         print(i)
     for i in svm_predict_float_result:
         print(i)
-
+# if __name__ == "__main__":
+#     main('C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv', '369分析方案' )
 if __name__ == "__main__":
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])
->>>>>>> 68b07d827698f2f3b1cc699e73aaa54831a05c58
+    main(a[0],a[1])

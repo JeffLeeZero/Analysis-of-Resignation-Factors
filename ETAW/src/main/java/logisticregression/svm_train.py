@@ -71,7 +71,7 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    db = get_connection('admin/123456@localhost/SYSTEM')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -91,7 +91,7 @@ def import_model(parameter,score,saleset,aid):
             else:
                 # 获取到model_data的行总数，依次选出对应的model_parameter、model_score和职位
                 for i in range(model_data.shape[0]):
-                    sql = "insert into svm (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+                    sql = "insert into svm (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
                         aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     sql = sql.replace('\'', '')
                     cursor.setinputsizes(blobData=oracle.BLOB)
@@ -101,7 +101,7 @@ def import_model(parameter,score,saleset,aid):
     # 为空直接导入
     else:
         for i in range(model_data.shape[0]):
-            sql = "insert into svm (AID, DEPARTMENT,SCORE，MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
+            sql = "insert into svm (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
                 aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
             cursor.setinputsizes(blobData=oracle.BLOB)
             cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
@@ -117,7 +117,4 @@ def main(aid,filepath):
     print("this is svm\n")
 
 if __name__ == "__main__":
-    a = []
-    a.append(sys.argv[1])
-    a.append(sys.argv[2])
-    main(a[0],a[1])
+    main('369分析方案', r"C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv")

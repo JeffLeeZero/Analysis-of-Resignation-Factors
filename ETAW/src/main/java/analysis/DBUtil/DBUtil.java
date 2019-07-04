@@ -15,9 +15,7 @@ public class DBUtil {
     //静态变量初始化
     static {
         try {
-
             InputStream in = DBUtil.class.getResourceAsStream("/jdbc.properties");
-
             Properties properties = new Properties();
             properties.load(in);
             dbDriver = properties.getProperty("jdbc.driver");
@@ -31,7 +29,6 @@ public class DBUtil {
             System.err.println("驱动配置异常");
         }
     }
-
     public static Connection getConnection(){
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
