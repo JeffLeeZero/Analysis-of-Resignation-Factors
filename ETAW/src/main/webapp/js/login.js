@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     //注册按钮跳转到注册页面
     $("#register_btn").click(function () {
