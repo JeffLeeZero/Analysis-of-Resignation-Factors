@@ -27,8 +27,9 @@ public class Analyser implements ResignationAnalyser {
     private String url;
     private String name;
 
-    private DecisionTree tree;
+    private DecisionTree tree = null;
     private ArrayList<Attr> attrs;
+    private ArrayList<String> data;
     private double ratio = 0.8;//训练集占总数据的比例
 
 
@@ -162,11 +163,14 @@ public class Analyser implements ResignationAnalyser {
 
     /**
      * 获取改进（挽留）员工措施
+     * 该方法需要在调用doPrediction(),获得为‘1’的判断结果后调用，
+     * 否则无法获取结果
      * @return [0]关键因素名称，[1,2,3...]如何改变可以挽回
      */
     @Override
     public List<String> improveMeasure() {
-        return null;
+        rebuildTree();
+        return tree.getFinalAttr(data,attrs);
     }
 
     @Override
@@ -192,50 +196,8 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public String doPrediction(ArrayList<String> data) {
-        tree.getTree().doPrediction(data,attrs);
-        Connection conn = DBUtil.getConnection();
-        String aid="";
-        try{
-            PreparedStatement state = conn.prepareStatement("select tree,aid from tree natural join analysis where account = ? and name = ?");
-            state.setString(1,account);
-            state.setString(2,name);
-            ResultSet set = state.executeQuery();
-            if(set.next()){
-                Clob clob = set.getClob("tree");//java.sql.Clob
-                aid = set.getString("aid");
-                String detailinfo = "";
-                if(clob != null){
-                    detailinfo = clob.getSubString((long)1,(int)clob.length());
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<TreeNode>(){}.getType();
-                    tree = new DecisionTree();
-                    tree.setTree(gson.fromJson(detailinfo,type));
-                }
-            }
-            set.close();
-            state.close();
-            state = conn.prepareStatement("select * from attribute where aid = ?");
-            state.setString(1,aid);
-            set = state.executeQuery();
-            int M,seperated;
-            double len,min,D;
-            String name;
-            Attr attr;
-            while(set.next()){
-                name = set.getString("attrname");
-                len = set.getDouble("len");
-                min = set.getDouble("min");
-                D = set.getDouble("D");
-                M = set.getInt("M");
-                seperated = set.getInt("seperated");
-                attr = new Attr(name,seperated>0,M,min,len);
-                attrs.add(attr);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBUtil.closeConn(conn);
-        }
+        this.data = data;
+        rebuildTree();
         return tree.doPrediction(data,attrs);
     }
 
@@ -423,6 +385,58 @@ public class Analyser implements ResignationAnalyser {
         }
 
         return dataList;
+    }
+
+    /**
+     * 从数据库中恢复树模型
+     */
+    private void rebuildTree(){
+        if(tree!=null){
+            return;
+        }
+        Connection conn = DBUtil.getConnection();
+        String aid="";
+        try{
+            PreparedStatement state = conn.prepareStatement("select tree,aid from tree natural join analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            if(set.next()){
+                Clob clob = set.getClob("tree");//java.sql.Clob
+                aid = set.getString("aid");
+                String detailinfo = "";
+                if(clob != null){
+                    detailinfo = clob.getSubString((long)1,(int)clob.length());
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<TreeNode>(){}.getType();
+                    tree = new DecisionTree();
+                    tree.setTree(gson.fromJson(detailinfo,type));
+                }
+            }
+            set.close();
+            state.close();
+            state = conn.prepareStatement("select * from attribute where aid = ?");
+            state.setString(1,aid);
+            set = state.executeQuery();
+            int M,seperated;
+            double len,min,D;
+            String name;
+            Attr attr;
+            while(set.next()){
+                name = set.getString("attrname");
+                len = set.getDouble("len");
+                min = set.getDouble("min");
+                D = set.getDouble("D");
+                M = set.getInt("M");
+                seperated = set.getInt("seperated");
+                attr = new Attr(name,seperated>0,M,min,len);
+                attrs.add(attr);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+        }
     }
 
     public static void main(String[] args){

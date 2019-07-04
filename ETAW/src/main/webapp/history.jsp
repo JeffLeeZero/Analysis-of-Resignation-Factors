@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>员工离职因素历史数据分析</title>
-
+    <script type="text/javascript" src="js/share.js"></script>
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
 </head>
 
