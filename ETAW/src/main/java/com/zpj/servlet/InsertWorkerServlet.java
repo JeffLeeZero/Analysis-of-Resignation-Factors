@@ -33,7 +33,7 @@ public class InsertWorkerServlet extends HttpServlet {
         account = request.getParameter("Account");
         String satisfactionLevel = request.getParameter("SatisfactionLevel");
         String lastEvaluation = request.getParameter("LastEvaluation");
-        //String numberProject = request.getParameter("NumberProject");
+        String numberProject = request.getParameter("NumberProject");
         String averageMonthly = request.getParameter("AverageMonthly");
         String timeSpendCompany = request.getParameter("TimeSpendCompany");
         String workAccident = request.getParameter("WorkAccident");
@@ -44,7 +44,7 @@ public class InsertWorkerServlet extends HttpServlet {
         ArrayList<String> data = new ArrayList<>();
         data.add(satisfactionLevel);
         data.add(lastEvaluation);
-        //data.add(numberProject);
+        data.add(numberProject);
         data.add(averageMonthly);
         data.add(timeSpendCompany);
         data.add(workAccident);
@@ -55,7 +55,7 @@ public class InsertWorkerServlet extends HttpServlet {
             Analyser analyser = new Analyser(account);
             //得到离职率
             String aid = account + "分析方案";
-            ArrayList<String> result = analyser.getProbability(data, account, "IT");
+            ArrayList<String> result = analyser.getProbability(data, aid, "IT");
             System.out.println(result);
             //double leftRatio = Double.valueOf(result.get(0));
             //double accuracyRate = Double.valueOf(result.get(1));
