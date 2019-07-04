@@ -40,16 +40,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${workers}" var="worker">
+                    <c:forEach items="${sessionScope.resultList}" var="worker">
                     <tr>
                         <td align="center">
-                            <%=(String)session.getAttribute("allNumber") %>
+                            ${worker.number}
                         </td>
                         <td align="center">
-                            <%=(String)session.getAttribute("leftNumber") %>
+                            ${worker.left}
                         </td>
                         <td align="center">
-                            <%=(String)session.getAttribute("leftRatio") %>%</td>
+                            ${worker.accuracyRate}
                         </c:forEach>
                     </tbody>
                 </table>
