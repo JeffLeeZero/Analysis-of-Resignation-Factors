@@ -14,7 +14,6 @@
     <script  src="plugins/layui/layui.all.js"></script>
     <script type="text/javascript" src="js/login.js" ></script>
 
-
     <link rel="stylesheet" type="text/css" href="css/login.css">
 
 </head>
