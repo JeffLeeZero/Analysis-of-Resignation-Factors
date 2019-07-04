@@ -50,19 +50,18 @@ public class InsertWorkerServlet extends HttpServlet {
         data.add(workAccident);
         data.add(promotion);
         data.add(salary);
+        data.add(department);
         try{
             System.out.println(data);
             Analyser analyser = new Analyser(account);
             //得到离职率
-            String aid = account + "分析方案";
-            ArrayList<String> result = analyser.getProbability(data, aid, "IT");
+            ArrayList<String> result = analyser.getProbability(data);
             System.out.println(result);
             //double leftRatio = Double.valueOf(result.get(0));
             //double accuracyRate = Double.valueOf(result.get(1));
-            String leftRatio = result.get(0);
+            String left = result.get(0);
             String accuracyRate = result.get(1);
             String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));
-            String left = leftRatio.equals("1.0") ? "离职" : "不离职";
             String reason = "该员工";
 
             System.out.println("该员工信息分析成功");

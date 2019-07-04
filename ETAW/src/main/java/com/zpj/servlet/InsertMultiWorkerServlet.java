@@ -115,13 +115,19 @@ public class InsertMultiWorkerServlet extends HttpServlet {
         String url = getUploadUrl(request,response);
         System.out.println(url);
         Analyser analyser = new Analyser(account);
-        String aid = account + "分析方案";
         try {
-            ArrayList<String> result = analyser.getProbabilityFromCSV(url,aid);
-            ArrayList<Float> leftResult2 = analyser.getResult(result,0);
-            ArrayList<Float> scoreResult2 = analyser.getResult(result,1);
-            System.out.println(leftResult2);
-            System.out.println(scoreResult2);
+            /*
+            [
+                [判断结果，准确率]，
+                [判断结果，准确率],
+                ……
+            ]
+             */
+            ArrayList<ArrayList<String>> result = analyser.getProbabilityFromCSV(url);
+//            ArrayList<Float> leftResult2 = analyser.getResult(result,0);
+//            ArrayList<Float> scoreResult2 = analyser.getResult(result,1);
+//            System.out.println(leftResult2);
+//            System.out.println(scoreResult2);
 
             System.out.println("批量读取文件成功");
             System.out.println(result);

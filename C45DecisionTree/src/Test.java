@@ -50,13 +50,13 @@ class Test {
         int trueNum = 0;
         double average = 0.0;
         for (ArrayList<String> data:
-             testSet) {
+             trainSet) {
             String answer = forest.doPrediction(data,attrs);
             if(answer.equals(data.get(9))){
                 trueNum++;
             }
         }
-        average = (double)trueNum/testSet.size();
+        average = (double)trueNum/trainSet.size();
         System.out.println("average:"+average);
     }
 
@@ -70,12 +70,13 @@ class Test {
         int n = (int)(sum*ratio);
         for (ArrayList<String> data:
                 datas) {
-            if(n>0 && Math.random()<ratio){
-                n--;
-                trainSet.add(data);
-            }else {
-                testSet.add(data);
-            }
+//            if(n>0 && Math.random()<ratio){
+////                n--;
+////                trainSet.add(data);
+////            }else {
+////                testSet.add(data);
+////            }
+            trainSet.add(data);
         }
         attrs = new ArrayList<>();
         int i = 0;
