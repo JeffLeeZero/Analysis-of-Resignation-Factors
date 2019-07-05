@@ -33,7 +33,7 @@ public class ForestModel {
                 trueNum++;
             }
         }
-        accuracy = (double)trueNum/trainSet.size();
+        accuracy = (double)trueNum/testSet.size();
     }
 
     public void save(){
@@ -115,7 +115,7 @@ public class ForestModel {
     }
 
     public static void main(String[] args){
-        ForestModel model = new ForestModel("1");
+        ForestModel model = new ForestModel("0");
         model.rebuildModel();
     }
 }

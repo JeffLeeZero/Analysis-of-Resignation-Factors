@@ -37,6 +37,7 @@
                     <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
                     <input type="hidden" class="layui-input" name="account" id="formAccount"/>
 
+
                     <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
 
                 </form>
@@ -57,15 +58,7 @@
         });
     });
     document.getElementById("formAccount").value = window.localStorage.id;
-    // $.ajax({
-    // 	type: "post",
-    // 	url: "http://localhost:8080/UploadServlet",
-    // 	dataType: "json",
-    // 	data: new FormData(document.getElementById("upload")),
-    // 	success: function (res) {
-    // 		console.log(res);
-    // 	}
-    // });
+
 
     //JavaScript代码区域
     layui.use('element', function() {

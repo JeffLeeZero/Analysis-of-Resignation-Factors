@@ -220,9 +220,17 @@ public class Analyser implements ResignationAnalyser {
             conn.setAutoCommit(false);
             int count = 0;
             PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
             ResultSet set = state.executeQuery();
             if (set.next()){
                 aid = set.getString("aid");
+                state = conn.prepareStatement("delete from attribute where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from attrvalue where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
                 return aid;
             }
             state = conn.prepareStatement("select count(*) from analysis");
@@ -286,6 +294,8 @@ public class Analyser implements ResignationAnalyser {
             DBUtil.closeConn(conn);
         }
     }
+
+
 
     private ArrayList<ArrayList<String>> importCsv(File file){
         ArrayList<ArrayList<String>> dataList=new ArrayList<>();
@@ -415,13 +425,14 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        Analyser analyser = new Analyser("jeff12");
+        Analyser analyser = new Analyser("jeff");
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
 
+        analyser.trainModel("test.csv");
         ArrayList<String> data = new ArrayList<>();
         //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");
