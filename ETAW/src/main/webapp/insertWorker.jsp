@@ -45,16 +45,23 @@
                         <input type="hidden" name="Account" id="formAccount"/>
 
                         <div class="layui-form-item" style="margin-left: 200px">
+                            <label class="layui-form-label" style="width: 200px">员工编号</label>
+                            <div class="layui-input-block" style="margin-right: 300px">
+                                <input type="text" name="Number" lay-verify="required" autocomplete="off" placeholder="请输入员工编号" class="layui-input" style="width: 200px">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据 0代表最低 1代表最高" class="layui-input" style="width: 200px">
+                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据 0代表最低 1代表最高" class="layui-input" style="width: 200px">
+                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
@@ -124,9 +131,9 @@
                                 <div class="layui-input-inline" style="margin-right: 300px">
                                     <select name="Salary" lay-verify="required" lay-search="">
                                         <option value="">选择薪资水平</option>
-                                        <option value="0">高</option>
-                                        <option value="1">中</option>
-                                        <option value="2">低</option>
+                                        <option value="high">高</option>
+                                        <option value="medium">中</option>
+                                        <option value="low">低</option>
                                     </select>
                                 </div>
                             </div>
@@ -253,12 +260,12 @@
                 contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
                 error : function(request) {
-                    alert("网络超时！")
-                    //window.location.href = "/insertWorker.jsp";
+                    alert("网络超时")
+                    window.location.href = "/analyseMultiWorker.jsp";
                 },
                 success: function (data) {
-                    alert("上传成功！");
-                    //window.location.href="/analyseMultiWorker.jsp";
+                    alert("上传成功");
+                    window.location.href="/analyseMultiWorker.jsp";
                 }
             });
             return false;

@@ -14,43 +14,37 @@
     <title>数据导入</title>
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
 
-    <link rel="stylesheet" type="text/css" href="plugins/background/css/bootstrap.css">
-    <link rel="stylesheet" href="plugins/background/css/style.css">
 </head>
 <body class="layui-layout-body">
+
 <div class="layui-layout layui-layout-admin">
 
     <jsp:include page="header.jsp" />
 
-        <div class="layui-body" style="background-color: #eeeeee;  ">
-            <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
+        <div class="layui-body" style="background-color: #eeeeee;">
 
-                <input type="file" name="uploadFile" />
+            <div class="background">
 
-                <input type="hidden" name="account" id="formAccount"/>
+                <img src="img/map.png" />
 
-                <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+            </div>
 
-            </form>
+            <div class="form">
+                <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
+                    <%--<input type="file" name="uploadFile" />--%>
+                    <input/>
+                    <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
+                    <input type="hidden" class="layui-input" name="account" id="formAccount"/>
 
+                    <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+
+                </form>
+            </div>
         </div>
-</div>
-    <%--<div id="top-image">--%>
-        <%--<div id="content" class="container center-block">--%>
-            <%--<div class="jumbotron">--%>
-                <%--<div class="container" style="margin-left: 150px; margin-top:300px">--%>
-                    <%--<div class="input-group input-group-lg">--%>
-
-                      <%----%>
-
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 
     <jsp:include page="footer.jsp" />
+
 </div>
 
 <script src="plugins/background/js/jquery.min.js"></script>
@@ -83,7 +77,7 @@
             upload = layui.upload;
 
         upload.render({
-            elem: '#supplement_file'
+            elem: '#test1'
             , url: 'http://localhost:8080/UploadServlet'
             , accept: 'file'
             , auto: false
@@ -154,7 +148,6 @@
                 url: "http://localhost:8080/UploadServlet",
                 type: "POST",
                 data: fd,
-                async : false,
                 contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
                 error : function(request) {
@@ -181,5 +174,62 @@
 </script>
 
 </body>
+
+<style>
+    .background{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+
+    }
+   .background > img{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #up_form{
+        background-color: #FFFFFF;
+        position: relative;
+    }
+    .form{
+        position: absolute;
+        top: 60%;
+        width: 100%;
+        height: 7%;
+        text-align: left;
+    }
+    form{
+        position: absolute;
+        width: 57%;
+        height: 100%;
+        top: 60%;
+        left: 21%;
+        opacity: 100%;
+    }
+    #upup{
+        background-color: #558AF5;
+        width: 14%;
+        height: 90%;
+        right: 0;
+        position: absolute;
+    }
+    #test1{
+        background-color: #3f51b5;
+        width: 18%;
+        height: 90%;
+        right: 16%;
+        position: absolute;
+    }
+    form > input{
+        width: 64%;
+        height: 90%;
+        right: 36%;
+        position: absolute;
+    }
+</style>
 
 </html>
