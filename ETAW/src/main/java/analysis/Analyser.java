@@ -138,6 +138,7 @@ public class Analyser implements ResignationAnalyser {
     public ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL){
         getAttrAndInfo();
         ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
+        datas.remove(0);
         if(tree==null){
             tree = new TreeModel(aid);
             tree.rebuildTree();
