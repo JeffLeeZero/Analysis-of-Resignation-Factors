@@ -159,17 +159,6 @@ public class Analyser implements ResignationAnalyser {
         return answers;
     }
 
-//    @Override
-//    public ArrayList<Float> getResult(ArrayList<String> result, int index){
-//        ArrayList<Float> which = new ArrayList<>();
-//        for(int i = 0;i<result.size();i++){
-//            if(i%2 == index){
-//                which.add(Float.parseFloat(result.get(i)));
-//            }
-//        }
-//        return which;
-//    }
-
     @Override
     public Map<String, Double> getAttrRatio() {
         Connection conn = DBUtil.getConnection();
@@ -417,17 +406,13 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("369");
-
-
-        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
-
-
+        Analyser analyser = new Analyser("jeff12");
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
+
         ArrayList<String> data = new ArrayList<>();
         //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");
@@ -439,6 +424,7 @@ public class Analyser implements ResignationAnalyser {
         data.add("0");
         data.add("0");
 
+        //ArrayList<String> result1 = analyser.getProbability(data);
 
 //        //获取训练数据集的URL(前端传入对应的训练文件URL）
 //        ArrayList<String> result1 = analyser.getProbability(data, "369分析方案", "IT");
@@ -446,7 +432,7 @@ public class Analyser implements ResignationAnalyser {
 //        //是否离职 0不离职，1离职
 //        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
 //        System.out.println(leftResult1);
-////        //该模型的拟合度
+//        //该模型的拟合度
 //        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
 //        System.out.println(scoreResult1);
 //        System.out.println(leftResult1+"\n"+scoreResult1);
@@ -458,7 +444,6 @@ public class Analyser implements ResignationAnalyser {
 //        System.out.println(leftResult2);
 //        System.out.println(scoreResult2);
 
-        //analyser.doPrediction(null);
 
 
     }
