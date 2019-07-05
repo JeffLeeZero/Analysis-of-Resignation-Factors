@@ -79,7 +79,7 @@
 
             <div class="item">
                 <div class="items scaleBg" style="background-image: url(plugins/login/image/banner1.jpg);"></div>
-                <div class="div_main block_txt" id="passLogin">
+                <div class="div_main" id="passLogin">
                 <form class="layui-form" method="post">
                 <h1>LOGIN IN</h1>
                 <div class="icon1"><input class="input_c" name="account" type="text" placeholder="输入手机号" onfocus="this.placeholder=''"onblur="this.placeholder='输入手机号'" id="account"></div>

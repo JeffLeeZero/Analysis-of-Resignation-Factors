@@ -33,7 +33,7 @@ public class RandomForest {
                 e.printStackTrace();
             }
         }
-        computeAttrImportance(attrList);
+        //computeAttrImportance(attrList);
     }
 
     public static ArrayList<ArrayList<String>> getRandomData(ArrayList<ArrayList<String>> datas){

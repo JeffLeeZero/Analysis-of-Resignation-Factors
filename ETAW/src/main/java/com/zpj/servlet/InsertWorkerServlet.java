@@ -44,8 +44,8 @@ public class InsertWorkerServlet extends HttpServlet {
         ArrayList<String> data = new ArrayList<>();
         data.add(satisfactionLevel);
         data.add(lastEvaluation);
-        data.add(numberProject);
         data.add(averageMonthly);
+        data.add(numberProject);
         data.add(timeSpendCompany);
         data.add(workAccident);
         data.add(promotion);

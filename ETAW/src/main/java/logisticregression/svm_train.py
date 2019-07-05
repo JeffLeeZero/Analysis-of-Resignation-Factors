@@ -117,4 +117,7 @@ def main(aid,filepath):
     print("this is svm\n")
 
 if __name__ == "__main__":
-    main('369分析方案', r"C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv")
+    a = []
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
+    main(a[0],a[1])

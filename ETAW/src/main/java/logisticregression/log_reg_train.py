@@ -121,7 +121,10 @@ def main(aid,filepath):
     log_reg_parameter, log_reg_score, saleset = train(saleset, data, x_set, y_set)
     import_model(log_reg_parameter, log_reg_score, saleset, aid)
 if __name__ == "__main__":
-    main('369分析方案', r"C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv")
+    a = []
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
+    main(a[0],a[1])
 
 
 

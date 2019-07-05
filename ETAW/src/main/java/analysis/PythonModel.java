@@ -1,5 +1,7 @@
 package analysis;
 
+import sun.awt.Symbol;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -62,14 +64,15 @@ public class PythonModel {
         catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println(dataset);
         ArrayList<ArrayList<Double>> result = new ArrayList<>();
         result.add(new ArrayList<Double>());
         result.add(new ArrayList<Double>());
-        int count = 3;
+        int count = 2;
         result.get(0).add(Double.valueOf(dataset.get(0)));
-        result.get(0).add(Double.valueOf(dataset.get(2)));
+        result.get(0).add(Double.valueOf(dataset.get(1)));
         result.get(1).add(Double.valueOf(dataset.get(count)));
-        result.get(1).add(Double.valueOf(dataset.get(count+2)));
+        result.get(1).add(Double.valueOf(dataset.get(count+1)));
         return result;
     }
 

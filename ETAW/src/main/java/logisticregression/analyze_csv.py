@@ -87,8 +87,8 @@ def main(csvfileurl,aid):
     log_reg_predict_float_result = []
     svm_predict_float_result  =[]
     sale_data, saleset = data2dataframe(csvfileurl)
-    log_regs, log_reg_scores, svms, svm_scores = choose_model(aid, saleset)
 
+    log_regs, log_reg_scores, svms, svm_scores = choose_model(aid, saleset)
     count = 0
     for i in sale_data:
         log_reg_predict = log_regs[count].predict(i)

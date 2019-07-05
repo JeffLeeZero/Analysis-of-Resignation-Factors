@@ -27,7 +27,7 @@ public class ForestModel {
         forest.buildForest(trainSet,attrs);
         int trueNum = 0;
         for (ArrayList<String> data:
-                trainSet) {
+                testSet) {
             String answer = forest.doPrediction(data,attrs);
             if(answer.equals(data.get(9))){
                 trueNum++;
@@ -78,13 +78,12 @@ public class ForestModel {
 
     public void rebuildModel(){
         Connection conn = DBUtil.getConnection();
-        String aid="";
         try{
             PreparedStatement state = conn.prepareStatement("select forest from forest where aid = ?");
             state.setString(1,aid);
             ResultSet set = state.executeQuery();
             if(set.next()){
-                Clob clob = set.getClob("tree");//java.sql.Clob
+                Clob clob = set.getClob("forest");//java.sql.Clob
                 String detailinfo = "";
                 if(clob != null){
                     detailinfo = clob.getSubString((long)1,(int)clob.length());
@@ -113,5 +112,10 @@ public class ForestModel {
         result.add(Double.valueOf(forest.doPrediction(data,attrList)));
         result.add(accuracy);
         return result;
+    }
+
+    public static void main(String[] args){
+        ForestModel model = new ForestModel("1");
+        model.rebuildModel();
     }
 }

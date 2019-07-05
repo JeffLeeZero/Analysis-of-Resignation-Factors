@@ -124,13 +124,12 @@ public class InsertMultiWorkerServlet extends HttpServlet {
             ]
              */
             ArrayList<ArrayList<String>> result = analyser.getProbabilityFromCSV(url);
+            System.out.println("批量读取文件成功");
+            System.out.println(result);
 //            ArrayList<Float> leftResult2 = analyser.getResult(result,0);
 //            ArrayList<Float> scoreResult2 = analyser.getResult(result,1);
 //            System.out.println(leftResult2);
 //            System.out.println(scoreResult2);
-
-            System.out.println("批量读取文件成功");
-            System.out.println(result);
 
         } catch (Exception e) {
             System.out.println("批量读取文件失败");
