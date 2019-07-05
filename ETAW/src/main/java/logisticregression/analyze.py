@@ -46,12 +46,13 @@ def choose_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-    db = get_connection('admin/123456@localhost/SYSTEM')
+    #db = get_connection('admin/123456@localhost/SYSTEM')
+    db = get_connection(('FRANK/ZD73330274@localhost/orcl'))
     cursor = db.cursor()
-    #选出特定的逻辑回归模型
-    sql1 = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
-           + aid +"' and regression.department = '" + department +"' and svm.aid = '" + aid +"' and svm.department = '" + department + "'"
-    cursor.execute(sql1)
+    #选出特定的逻辑回归模型和向量机模型
+    args = (aid, department,aid, department)
+    cursor.execute('select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and regression.department = :2 and svm.aid = :3 and svm.department = :4'
+               , args)
     db.commit()
     result = cursor.fetchall()
     #逻辑回归和svm模型
@@ -94,4 +95,3 @@ if __name__ == "__main__":
     a.append(sys.argv[2])
     a.append(sys.argv[3])
     main(a[0],a[1],a[2])
-
