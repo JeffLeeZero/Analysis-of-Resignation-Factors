@@ -99,8 +99,8 @@ public class PythonModel {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
-            String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
-            //String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
+            //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
+            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;

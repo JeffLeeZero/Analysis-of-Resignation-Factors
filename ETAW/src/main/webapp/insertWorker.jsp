@@ -260,12 +260,12 @@
                 contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
                 error : function(request) {
-                    alert("网络超时！")
-                    //window.location.href = "/insertWorker.jsp";
+                    alert("网络超时")
+                    window.location.href = "/analyseMultiWorker.jsp";
                 },
                 success: function (data) {
-                    alert("上传成功！");
-                    //window.location.href="/analyseMultiWorker.jsp";
+                    alert("上传成功");
+                    window.location.href="/analyseMultiWorker.jsp";
                 }
             });
             return false;

@@ -21,7 +21,7 @@
 
     <jsp:include page="header.jsp" />
 
-        <div class="" style="background-color: #eeeeee;">
+        <div class="layui-body" style="background-color: #eeeeee;">
 
             <div class="background">
 
@@ -32,9 +32,10 @@
             <div class="form">
                 <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
-                    <input type="file" name="uploadFile" />
-
-                    <input type="hidden" name="account" id="formAccount"/>
+                    <%--<input type="file" name="uploadFile" />--%>
+                    <input/>
+                    <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
+                    <input type="hidden" class="layui-input" name="account" id="formAccount"/>
 
                     <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
 
@@ -76,7 +77,7 @@
             upload = layui.upload;
 
         upload.render({
-            elem: '#supplement_file'
+            elem: '#test1'
             , url: 'http://localhost:8080/UploadServlet'
             , accept: 'file'
             , auto: false
@@ -147,7 +148,6 @@
                 url: "http://localhost:8080/UploadServlet",
                 type: "POST",
                 data: fd,
-                async : false,
                 contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
                 error : function(request) {
@@ -178,13 +178,13 @@
 <style>
     .background{
         position: absolute;
-        left: 242px;
-        top: 75px;
-        width: 1678px;
-        height: 859px;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
 
     }
-    img{
+   .background > img{
         position: absolute;
         left: 0;
         top: 0;
@@ -197,12 +197,38 @@
     }
     .form{
         position: absolute;
-        left: 596px;
-        top: 584px;
-        width: 656px;
-        height: 60px;
+        top: 60%;
+        width: 100%;
+        height: 7%;
         text-align: left;
-        border: 1px solid rgba(187, 187, 187, 1);
+    }
+    form{
+        position: absolute;
+        width: 57%;
+        height: 100%;
+        top: 60%;
+        left: 21%;
+        opacity: 100%;
+    }
+    #upup{
+        background-color: #558AF5;
+        width: 14%;
+        height: 90%;
+        right: 0;
+        position: absolute;
+    }
+    #test1{
+        background-color: #3f51b5;
+        width: 18%;
+        height: 90%;
+        right: 16%;
+        position: absolute;
+    }
+    form > input{
+        width: 64%;
+        height: 90%;
+        right: 36%;
+        position: absolute;
     }
 </style>
 
