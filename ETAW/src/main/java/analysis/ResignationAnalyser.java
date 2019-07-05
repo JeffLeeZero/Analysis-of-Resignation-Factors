@@ -12,14 +12,6 @@ public interface ResignationAnalyser {
     void trainModel(String url);
 
     /**
-     * 根据输入获取预测结果
-     * @param data
-     * @return
-     * 未完成
-     */
-    String doPrediction(ArrayList<String> data);
-
-    /**
      * 获取模型准确率
      * @return
      */
@@ -36,17 +28,11 @@ public interface ResignationAnalyser {
      *
      * @return arrayList<String>类型 其中每一个元素包含三个数值，以“，”分割，之后进行数据处理可以采用StringD的split方法
      * 每一个String元素中，第一个值代表是否会离职，[0]留任或者[1]离职；第二个值是预测可能性，其中包含两个数值，相加为1
-     * 第三个值是该模型的拟合程度
+     * 第三个值是该模型的准确率
      */
-    ArrayList<String> getProbability(ArrayList<String> data, String choosemodel, String department);
+    ArrayList<String> getProbability(ArrayList<String> data);
 
-    /**
-     * 获取py脚本返回的分析数据
-     *
-     * @return index代表需要的数据，0代表是否离职，1和2分别是离职和留任的可能性（可能是），3代表模型拟合程度
-     *
-     */
-    ArrayList<Float> getResult(ArrayList<String> result, int index);
+
 
     /**
      * 获取每个因素对结果的影响性（信息增益率）
@@ -61,13 +47,14 @@ public interface ResignationAnalyser {
      */
     Map<String,Double> getAttrRatio(String attrName);
 
-    ArrayList<String> getProbabilityFromCSV(String csvURL, String choosemodel);
+
     /**
      * 获取批量导入的测试数据集结果
-     *
-     * @return arrayList<String>类型 其中每一个元素包含三个数值，以“，”分割，之后进行数据处理可以采用StringD的split方法
-     * 每一个String元素中，第一个值代表是否会离职，[0]留任或者[1]离职；第二个值是预测可能性，其中包含两个数值，相加为1
-     * 第三个值是该模型的拟合程度
+     * @return
+     * [[判断结果，准确率],[判断结果，准确率],……]，
+     * 判断结果取值范围{"离职","不离职"}
      */
+    ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL);
+
 
 }

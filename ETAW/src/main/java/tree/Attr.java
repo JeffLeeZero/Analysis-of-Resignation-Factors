@@ -1,5 +1,8 @@
 package tree;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Attr {
     private String name;
@@ -46,6 +49,19 @@ public class Attr {
         }
     }
 
+    public Attr(Attr old){
+        this.name = old.getName();
+        setSeperated(old.isSeperated());
+        setD(0.0);
+        setIndex(old.getIndex());
+        setM(old.getM());
+        setMin(old.getMin());
+        setLen(old.getLen());
+        setProbability(old.getProbability());
+        if(!seperated){
+            divide();
+        }
+    }
 
     public Map<String,Double> getProbability() {
         return probability;
@@ -88,6 +104,7 @@ public class Attr {
     }
 
     private void divide(){
+        division = new ArrayList<>();
         for(int i = 0; i < M;i++){
             division.add(String.valueOf(min+i*len));
         }
@@ -134,10 +151,6 @@ public class Attr {
 
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getLen() {

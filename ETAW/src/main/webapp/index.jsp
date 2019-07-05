@@ -23,73 +23,6 @@
 					<p style="font-size: 30px; color: #009688;">欢迎使用员工离职分析系统</p>
 				</div>
 
-				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-					<legend>导入数据</legend>
-				</fieldset>
-
-				<%--<form class="layui-form" method="post" action="<%=request.getContextPath()%>/UploadServlet"  enctype="multipart/form-data">--%>
-					<%--<input type="hidden" name="account" id="formAccount"/>--%>
-
-					<%--<input type="file" name="uploadFile" />--%>
-					<%--<br/>--%>
-					<%--<input type="submit" value="上传" />--%>
-
-					<%--<div class="layui-form-item" style="margin-left: 300px">--%>
-						<%--<div class="layui-input-block">--%>
-							<%--<button type="submit" lay-submit="" lay-filter="demo1" class="layui-btn">上传</button>--%>
-						<%--</div>--%>
-					<%--</div>--%>
-
-				<%--</form>--%>
-
-				<%--<form id="upload" enctype="multipart/form-data" class="attachment">--%>
-					<%--选择文件:--%>
-					<%--<input type="hidden" name="account" id="formAccount"/>--%>
-					<%--<input type="file" name="uploadFile" />--%>
-					<%--<br/>--%>
-					<%--<input type="submit" value="上传" />--%>
-					<%--&lt;%&ndash;<button class="layui-btn" id="upload">提交</button>&ndash;%&gt;--%>
-				<%--</form>--%>
-
-                <%--<form class="layui-form" action="<%=request.getContextPath()%>/UploadServlet">--%>
-                <%--选择文件:--%>
-                <%--<input type="hidden" name="account" id="formAccount"/>--%>
-                <%--<input type="file" name="uploadFile" />--%>
-                <%--<input type="submit" value="上传" />--%>
-
-                <%--<div class="layui-form-item">--%>
-                <%--<div class="layui-input-block">--%>
-                <%--<button class="layui-btn" id="commit" onclick="return false">立即提交</button>--%>
-                <%--</div>--%>
-                <%--</div>--%>
-                <%--</form>--%>
-
-                <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
-
-                    <input type="file" name="uploadFile" />
-
-                    <input type="hidden" name="account" id="formAccount"/>
-
-                    <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
-
-                </form>
-
-					<%--<div class="layui-upload">--%>
-						<%--<div class="layui-upload-list" style="margin-left: 50px; margin-right: 50px">--%>
-							<%--<table class="layui-table">--%>
-								<%--<thead>--%>
-								<%--<tr><th>文件名</th>--%>
-									<%--<th>大小</th>--%>
-									<%--<th>状态</th>--%>
-									<%--<th>操作</th>--%>
-								<%--</tr></thead>--%>
-								<%--<tbody id="demoList"></tbody>--%>
-							<%--</table>--%>
-						<%--</div>--%>
-						<%--<input type="hidden" name="account" id="formAccount"/>--%>
-						<%--<button type="button" class="layui-btn layui-btn-normal" id="testList" style="margin: 20px 450px">选择文件</button>--%>
-						<%--<button type="button" class="layui-btn" id="testListAction" style="margin:10px 450px">开始上传</button>--%>
-					<%--</div>--%>
 
 			</div>
 
@@ -130,42 +63,6 @@
                         alert("上传成功");
                     }
                 });
-
-				// upload.render({
-				// 	elem: '#upload',
-				// 	method:"post",
-				// 	url: 'http://localhost:8080/UploadServlet',
-				// 	auto: false,
-				// 	dataType: "json",
-				// 	data: {formAccount:window.localStorage.id},
-				// 	success: function (res) {
-				// 		console.log(res);
-				// 	},
-				// 	bindAction: '#commit',
-				// 	//上传前的回调
-				// 	before: function () {
-				// 		this.data = {
-				// 			formAccount: window.localStorage.id
-				// 		}
-				// 	},
-				// 	//选择文件后的回调
-				// 	choose: function (obj) {
-				// 		// obj.preview(function (index, file, result) {
-				// 		// 	$('#preview').attr('src', result);
-				// 		// })
-				// 	},
-				// 	//操作成功的回调
-				// 	done: function (res, index, upload) {
-				// 		// var code = res.code === 0 ? 1 : 2;
-				// 		// layer.alert(res.msg, {icon: code}, function () {
-				// 		// 	parent.window.location.reload();
-				// 		// })
-				// 	},
-				// 	//上传错误回调
-				// 	error: function (index, upload) {
-				// 		layer.alert('上传失败！' + index);
-				// 	}
-				// });
 
                 function fsubmit(fd) {
                     $.ajax({

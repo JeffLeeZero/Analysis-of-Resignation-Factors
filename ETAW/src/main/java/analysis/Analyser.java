@@ -1,20 +1,10 @@
 package analysis;
 
 import analysis.DBUtil.DBUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import oracle.sql.ARRAY;
-
-import oracle.sql.CLOB;
-import org.apache.ibatis.session.SqlSessionException;
 
 import tree.Attr;
-import tree.DecisionTree;
-import tree.TreeNode;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,12 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Analyser implements ResignationAnalyser {
-    private String account;
+    private String account ;
     private String url;
     private String name;
-
-    private DecisionTree tree;
+    private String aid;
+    private ForestModel forest = null;
+    private TreeModel tree = null;
+    private PythonModel py = null;
     private ArrayList<Attr> attrs;
+    private ArrayList<ArrayList<String>> trainSet = null;
+    private ArrayList<ArrayList<String>> testSet = null;
+    private ArrayList<String> data;
     private double ratio = 0.8;//训练集占总数据的比例
 
 
@@ -40,30 +35,47 @@ public class Analyser implements ResignationAnalyser {
         this(account,"分析方案");
     }
 
+    /**
+     * 训练C4.5决策树、逻辑回归、随机森林、支撑向量机，
+     * 并将模型存入数据库。
+     * @param url
+     */
     @Override
     public void trainModel(String url) {
+        //TODO:训练速度上的优化
         this.url = url;
-        trainTree();
-        //String aid = saveInfo();
-        //saveAttr(aid);
-        //saveNode(aid);
-        Process svmProc, logProc;
-        try{
-            String choosemodel = account + name;
-            String[] svmProcData = new String[]{"python", "src\\main\\java\\logisticregression\\svm_train.py",  choosemodel, url};
-            String[] logProcData = new String[]{"python", "src\\main\\java\\logisticregression\\log_reg_train.py",  choosemodel, url};
-            svmProc = Runtime.getRuntime().exec(svmProcData);
-            logProc = Runtime.getRuntime().exec(logProcData);
-            logProc.waitFor();
-            svmProc.waitFor();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+
+        buildPreparement(importCsv(new File(url)));
+        //获取模型aid
+        String aid = saveInfo();
+
+        //训练随机森林并保存
+        forest = new ForestModel(aid);
+        forest.trainForest(trainSet,testSet,attrs);
+        forest.save();
+
+        //训练决策树并保存
+        tree = new TreeModel(aid);
+        tree.trainTree(trainSet,testSet,attrs);
+        tree.save();
+
+        //TODO:
+        saveAttr(aid);
+
+        //训练逻辑回归模型并保存
+        py = new PythonModel(aid);
+        py.trainModel(url);
+
     }
 
+    /**
+     * 获取训练模型准确率
+     * @return
+     *
+     */
     @Override
     public double getAccuracy() {
+        //TODO:需求暂不明确
         Connection conn = DBUtil.getConnection();
         double accuracy = 0;
         try{
@@ -83,58 +95,68 @@ public class Analyser implements ResignationAnalyser {
         }
     }
 
+    /**
+     * 预测离职结果
+     * @param data
+     * @return
+     * [预测结果，准确率]
+     * 判断结果取值范围{"离职","不离职"}
+     */
     @Override
-    public ArrayList<String> getProbability(ArrayList<String> data, String choosemodel, String department) {
-        Process proc;
-        ArrayList<String> dataset = new ArrayList<>();
-        try{
-            String testDatas = String.join(",", data);
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze.py",testDatas,choosemodel,department};
-            proc = Runtime.getRuntime().exec(fileData);
-            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null){
-                dataset.add(line);
-            }
-            in.close();
-            proc.waitFor();
+    public ArrayList<String> getProbability(ArrayList<String> data) {
+        String department = data.get(data.size()-1);
+        getAttrAndInfo();
+        if(tree==null){
+            tree = new TreeModel(aid);
+            tree.rebuildTree();
         }
-        catch (Exception e){
-            e.printStackTrace();
+        if(forest==null){
+            forest = new ForestModel(aid);
+            forest.rebuildModel();
         }
-        return dataset;
+        if(py == null){
+            py = new PythonModel(aid);
+        }
+        ArrayList<ArrayList<Double>> results = py.getProbability(data,department);
+        results.add(tree.getProbability(data,attrs));
+        results.add(forest.getProbability(data,attrs));
+        return getAverageResult(results);
     }
 
+    /**
+     * 批量预测
+     * @param csvURL 预测数据文件url
+     * @return
+     * [
+     *      [判断结果，准确率],
+     *      [判断结果，准确率],
+     *      ……
+     * ]
+     * 判断结果取值范围{"离职","不离职"}
+     */
     @Override
-    public ArrayList<String> getProbabilityFromCSV(String csvURL, String aid){
-        Process proc;
-        ArrayList<String> dataset = new ArrayList<>();
-        try{
-            String[] fileData = new String[]{"python", "src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
-            proc = Runtime.getRuntime().exec(fileData);
-            BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null){
-                dataset.add(line);
-            }
-            in.close();
-            proc.waitFor();
+    public ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL){
+        getAttrAndInfo();
+        ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
+        if(tree==null){
+            tree = new TreeModel(aid);
+            tree.rebuildTree();
         }
-        catch (Exception e){
-            e.printStackTrace();
+        if(forest==null){
+            forest = new ForestModel(aid);
+            forest.rebuildModel();
         }
-        return dataset;
-    }
-
-    @Override
-    public ArrayList<Float> getResult(ArrayList<String> result, int index){
-        ArrayList<Float> which = new ArrayList<>();
-        for(int i = 0;i<result.size();i++){
-            if(i%2 == index){
-                which.add(Float.parseFloat(result.get(i)));
-            }
+        if(py == null){
+            py = new PythonModel(aid);
         }
-        return which;
+        ArrayList<ArrayList<ArrayList<Double>>> results = py.getProbabilityFromCSV(csvURL);
+        ArrayList<ArrayList<String>> answers = new ArrayList<>();
+        for (int i = 0;i<results.size();i++){
+            results.get(i).add(tree.getProbability(datas.get(i),attrs));
+            results.get(i).add(forest.getProbability(datas.get(i),attrs));
+            answers.add(getAverageResult(results.get(i)));
+        }
+        return answers;
     }
 
     @Override
@@ -159,11 +181,13 @@ public class Analyser implements ResignationAnalyser {
 
     /**
      * 获取改进（挽留）员工措施
+     * 该方法需要在调用doPrediction(),获得为‘1’的判断结果后调用，
+     * 否则无法获取结果
      * @return [0]关键因素名称，[1,2,3...]如何改变可以挽回
      */
     @Override
     public List<String> improveMeasure() {
-        return null;
+        return tree.improveMeasure(data,attrs);
     }
 
     @Override
@@ -187,98 +211,6 @@ public class Analyser implements ResignationAnalyser {
         }
     }
 
-    @Override
-    public String doPrediction(ArrayList<String> data) {
-        tree.getTree().doPrediction(data,attrs);
-        Connection conn = DBUtil.getConnection();
-        String aid="";
-        try{
-            PreparedStatement state = conn.prepareStatement("select tree,aid from tree natural join analysis where account = ? and name = ?");
-            state.setString(1,account);
-            state.setString(2,name);
-            ResultSet set = state.executeQuery();
-            if(set.next()){
-                Clob clob = set.getClob("tree");//java.sql.Clob
-                aid = set.getString("aid");
-                String detailinfo = "";
-                if(clob != null){
-                    detailinfo = clob.getSubString((long)1,(int)clob.length());
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<TreeNode>(){}.getType();
-                    tree = new DecisionTree();
-                    tree.setTree(gson.fromJson(detailinfo,type));
-                }
-            }
-            set.close();
-            state.close();
-            state = conn.prepareStatement("select * from attribute where aid = ?");
-            state.setString(1,aid);
-            set = state.executeQuery();
-            int M,seperated;
-            double len,min,D;
-            String name;
-            Attr attr;
-            while(set.next()){
-                name = set.getString("attrname");
-                len = set.getDouble("len");
-                min = set.getDouble("min");
-                D = set.getDouble("D");
-                M = set.getInt("M");
-                seperated = set.getInt("seperated");
-                attr = new Attr(name,seperated>0,M,min,len);
-                attrs.add(attr);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBUtil.closeConn(conn);
-        }
-        return tree.doPrediction(data,attrs);
-    }
-
-    private void trainTree(){
-        ArrayList<ArrayList<String>> datas = importCsv(new File(url));
-        ArrayList<String> attrList = datas.get(0);
-        ArrayList<ArrayList<String>> trainSet = new ArrayList<>();
-        ArrayList<ArrayList<String>> testSet = new ArrayList<>();
-        datas.remove(0);
-        int sum = datas.size();
-        int n = (int)(sum*ratio);
-        for (ArrayList<String> data:
-                datas) {
-            if(n>0 && Math.random()<ratio){
-                n--;
-                trainSet.add(data);
-            }else {
-                testSet.add(data);
-            }
-        }
-        attrs = new ArrayList<>();
-        int i = 0;
-        for (String attr:
-                attrList) {
-            if(i<5){
-                attrs.add(new Attr(attr,false));
-                attrs.get(i).divide(datas,i);
-            }else{
-                attrs.add(new Attr(attr));
-            }
-            attrs.get(i).setIndex(i);
-            i++;
-        }
-        tree = new DecisionTree();
-        tree.buildArrayList(trainSet,attrs);
-        tree.setTree(tree.buildTree(trainSet,attrs));
-        int trueNum = 0;
-        for (ArrayList<String> data:
-                testSet) {
-            String pre = tree.getTree().doPrediction(data,attrs);
-            if(pre.equals(data.get(9))){
-                trueNum++;
-            }
-        }
-        tree.setAccuracy((double)trueNum/testSet.size());
-    }
 
     private String saveInfo(){
         Connection conn = DBUtil.getConnection();
@@ -298,7 +230,7 @@ public class Analyser implements ResignationAnalyser {
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,String.valueOf(aid));
-            state.setDouble(4,tree.getAccuracy());
+            state.setDouble(4,0);
             state.executeUpdate();
             conn.commit();
         }catch (SQLException e){
@@ -307,45 +239,6 @@ public class Analyser implements ResignationAnalyser {
         }finally {
             DBUtil.closeConn(conn);
             return aid;
-        }
-    }
-
-    private void saveNode(String aid){
-        Type type = new TypeToken<TreeNode>(){}.getType();
-        Gson gson = new Gson();
-        String content = gson.toJson(tree.getTree(),type);
-        Connection conn = DBUtil.getConnection();
-        try{
-            String sql = "insert into tree values(?,empty_clob())";
-            //锁住该列，防止并发写入时候该字段同时被多次写入造成错误
-            String sqlClob = "select tree from tree where aid=? for update";
-            PreparedStatement pst =null;
-            ResultSet rs = null;
-            Writer writer = null;
-            conn.setAutoCommit(false);//设置不自动提交，开启事务
-            pst = conn.prepareStatement(sql);
-            pst.setString(1,aid);
-            pst.executeUpdate();
-            pst= conn.prepareStatement(sqlClob);
-            pst.setString(1, aid);
-            rs = pst.executeQuery();
-            CLOB clob = null;
-            if(rs.next()){
-                clob = (CLOB) rs.getClob(1);
-                writer = clob.getCharacterOutputStream(); //拿到clob的字符输入流
-                writer.write(content);
-                writer.flush();
-                writer.close();
-            }
-            conn.commit();
-        }catch (SQLException e){
-            e.printStackTrace();
-            DBUtil.rollback(conn);
-        }catch (IOException e){
-            e.printStackTrace();
-            DBUtil.rollback(conn);
-        }finally {
-            DBUtil.closeConn(conn);
         }
     }
 
@@ -418,48 +311,138 @@ public class Analyser implements ResignationAnalyser {
                 }
             }
         }
-
         return dataList;
     }
 
+    private void buildPreparement(ArrayList<ArrayList<String>> datas){
+        ArrayList<String> attrList = datas.get(0);
+        trainSet = new ArrayList<>();
+        testSet = new ArrayList<>();
+        datas.remove(0);
+        int sum = datas.size();
+        int n = (int)(sum*ratio);
+        for (ArrayList<String> data:
+                datas) {
+            if(n>0 && Math.random()<ratio){
+                n--;
+                trainSet.add(data);
+            }else {
+                testSet.add(data);
+            }
+        }
+        attrs = new ArrayList<>();
+        int i = 0;
+        for (String attr:
+                attrList) {
+            if(i<5){
+                attrs.add(new Attr(attr,false));
+                attrs.get(i).divide(datas,i);
+            }else{
+                attrs.add(new Attr(attr));
+            }
+            attrs.get(i).setIndex(i);
+            i++;
+        }
+    }
+
+    private void getAttrAndInfo(){
+        Connection conn = DBUtil.getConnection();
+        try{
+            PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
+            ResultSet set = state.executeQuery();
+            if(set.next()){
+                aid = set.getString("aid");
+            }
+            set.close();
+            state.close();
+            state = conn.prepareStatement("select * from attribute where aid = ?");
+            state.setString(1,aid);
+            set = state.executeQuery();
+            int M,seperated;
+            double len,min,D;
+            String name;
+            Attr attr;
+            while(set.next()){
+                name = set.getString("attrname");
+                len = set.getDouble("len");
+                min = set.getDouble("min");
+                D = set.getDouble("D");
+                M = set.getInt("M");
+                seperated = set.getInt("seperated");
+                attr = new Attr(name,seperated>0,M,min,len);
+                attrs.add(attr);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConn(conn);
+        }
+    }
+
+    private ArrayList<String> getAverageResult(ArrayList<ArrayList<Double>>  results){
+        double sum = 0.0;
+        double OpAccuracy = 0,IpAccuracy = 0;
+        for (ArrayList<Double> result:
+                results) {
+            if(result.get(0)>0){
+                sum += result.get(1);
+                OpAccuracy = (result.get(1)>OpAccuracy)?result.get(1):OpAccuracy;
+            }else{
+                sum -= result.get(1);
+                IpAccuracy = (result.get(1)>IpAccuracy)?result.get(1):IpAccuracy;
+            }
+        }
+        ArrayList<String> result = new ArrayList<>();
+        if(sum>0){
+            result.add("离职");
+            result.add(String.valueOf(OpAccuracy));
+        }else {
+            result.add("不离职");
+            result.add(String.valueOf(IpAccuracy));
+        }
+        return result;
+    }
+
     public static void main(String[] args){
-        ResignationAnalyser analyser = new Analyser("jeff12");
-//        Long start = System.currentTimeMillis();
-//        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-//        Long end = System.currentTimeMillis();
-//        System.out.println((end-start)/1000);
+        Analyser analyser = new Analyser("jeff12");
         //Long start = System.currentTimeMillis();
-        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
-//        ArrayList<String> data = new ArrayList<>();
-//        //'0.38,0.53,157,3,2,0,0,0'
-//        data.add("0.38");
-//        data.add("0.53");
-//        data.add("157");
-//        data.add("2");
-//        data.add("3");
-//        data.add("0");
-//        data.add("0");
-//        data.add("0");
-//
-//        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案","IT");
+
+        ArrayList<String> data = new ArrayList<>();
+        //'0.38,0.53,157,3,2,0,0,0'
+        data.add("0.38");
+        data.add("0.53");
+        data.add("157");
+        data.add("2");
+        data.add("3");
+        data.add("0");
+        data.add("0");
+        data.add("0");
+
+        //ArrayList<String> result1 = analyser.getProbability(data);
+
+//        //获取训练数据集的URL(前端传入对应的训练文件URL）
+//        ArrayList<String> result1 = analyser.getProbability(data, "369分析方案", "IT");
 //        System.out.println(result1);
 //        //是否离职 0不离职，1离职
 //        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+//        System.out.println(leftResult1);
 //        //该模型的拟合度
-//        ArrayList<Float> scoreResult1 = analyser.getResult(result1,1);
+//        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
+//        System.out.println(scoreResult1);
 //        System.out.println(leftResult1+"\n"+scoreResult1);
 
-        ArrayList<String> result2 = analyser.getProbabilityFromCSV("import_test.csv", "jeff12分析方案");
-        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
-        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
-        System.out.println(leftResult2);
-        System.out.println(scoreResult2);
-        //analyser.doPrediction(null);
 
-
+//        ArrayList<String> result2 = analyser.getProbabilityFromCSV("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv", "369分析方案");
+//        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+//        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+//        System.out.println(leftResult2);
+//        System.out.println(scoreResult2);
 
 
 

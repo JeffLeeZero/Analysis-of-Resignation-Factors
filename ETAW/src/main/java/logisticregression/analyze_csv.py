@@ -52,6 +52,7 @@ def choose_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
+    #db = get_connection('admin/123456@localhost/SYSTEM')
     db = get_connection('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
     log_regs = []
@@ -105,7 +106,8 @@ def main(csvfileurl,aid):
         print(i)
     for i in svm_predict_float_result:
         print(i)
-
+# if __name__ == "__main__":
+#     main('C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv', '369分析方案' )
 if __name__ == "__main__":
     a = []
     a.append(sys.argv[1])

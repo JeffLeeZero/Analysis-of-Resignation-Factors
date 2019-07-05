@@ -76,6 +76,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>InsertMultiWorkerServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.InsertMultiWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsertMultiWorkerServlet</servlet-name>
+        <url-pattern>/InsertMultiWorkerServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>findPassServlet</servlet-name>
         <servlet-class>com.zpj.servlet.FindPassServlet</servlet-class>
     </servlet>
@@ -83,6 +92,10 @@
         <servlet-name>findPassServlet</servlet-name>
         <url-pattern>/FindPassServlet</url-pattern>
     </servlet-mapping>
+
+   <welcome-file-list>
+       <welcome-file>login.jsp</welcome-file>
+   </welcome-file-list>
     <!--<welcome-file-list>-->
         <!--<welcome-file>../test.jsp</welcome-file>-->
     <!--</welcome-file-list>-->

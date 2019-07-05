@@ -21,9 +21,16 @@ import java.util.ArrayList;
 public class InsertWorkerServlet extends HttpServlet {
     private String account;
 
+
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.getWriter().append("Served at: ").append(request.getContextPath());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+        account = request.getParameter("Account");
         String satisfactionLevel = request.getParameter("SatisfactionLevel");
         String lastEvaluation = request.getParameter("LastEvaluation");
         String numberProject = request.getParameter("NumberProject");
@@ -42,36 +49,45 @@ public class InsertWorkerServlet extends HttpServlet {
         data.add(timeSpendCompany);
         data.add(workAccident);
         data.add(promotion);
-        data.add(department);
         data.add(salary);
+        data.add(department);
         try{
             System.out.println(data);
             Analyser analyser = new Analyser(account);
             //得到离职率
-            ArrayList<String> result = analyser.getProbability(data, account, department);
-            double leftRatio = Double.valueOf(result.get(0));
-            double accuracyRate = Double.valueOf(result.get(1));
-            System.out.println("该员工的离职概率为:" + leftRatio);
-            System.out.println("该预测的准确率为:" + accuracyRate);
+            ArrayList<String> result = analyser.getProbability(data);
+            System.out.println(result);
+            //double leftRatio = Double.valueOf(result.get(0));
+            //double accuracyRate = Double.valueOf(result.get(1));
+            String left = result.get(0);
+            String accuracyRate = result.get(1);
+            String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));
+            String reason = "该员工";
 
-            //request.getSession().setAttribute("leftRatio", leftRatio);
-            request.getRequestDispatcher("analyseWorker.jsp").forward(request, response);
+            System.out.println("该员工信息分析成功");
+            System.out.println("该员工是否会离职？ " + left);
+            System.out.println("该预测的准确率为:" + accuracyRate);
+            System.out.println("结果分析：" + reason);
+
+            request.getSession().setAttribute("left", left);
+            request.getSession().setAttribute("accuracyRate", accuracyRate);
+            request.getSession().setAttribute("notAccuracyRate",notAccuracyRate);
+            request.getSession().setAttribute("reason",reason);
+            request.getRequestDispatcher("http://localhost:8080/analyseWorker.jsp").forward(request, response);
 
 //            String message = "提交成功";
 //            request.getSession().setAttribute("message",message);
-            response.sendRedirect("/analyseWorker.jsp");
+//            response.sendRedirect("http://localhost:8080/analyseWorker.jsp");
 
         } catch (Exception e){
             e.printStackTrace();
 //            String message = "提交失败";
 //            request.getSession().setAttribute("message",message);
-            response.sendRedirect("/insertWorker.jsp");
+//            response.sendRedirect("http://localhost:8080/insertWorker.jsp");
         }
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
 }
 

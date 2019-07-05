@@ -41,13 +41,43 @@ class Test {
 //        tree.setTree(node);
 //        String predict = tree.doPrediction(data,attrs);
 //        List<String> map = tree.getFinalAttr(data,attrs);
+        long startTime =  System.currentTimeMillis();/** 程序运行 processRun();*/ /** 获取当前的系统时间，与初始时间相减就是程序运行的毫秒数，除以1000就是秒数*/
         RandomForest forest = buildForest();
+
+        long endTime =  System.currentTimeMillis();
+        long usedTime = (endTime-startTime)/1000;
+        System.out.println(usedTime);
+        int trueNum = 0;
+        double average = 0.0;
+        for (ArrayList<String> data:
+             trainSet) {
+            String answer = forest.doPrediction(data,attrs);
+            if(answer.equals(data.get(9))){
+                trueNum++;
+            }
+        }
+        average = (double)trueNum/trainSet.size();
+        System.out.println("average:"+average);
     }
 
     public static RandomForest buildForest(){
         ArrayList<ArrayList<String>> datas = importCsv(new File("test.csv"));
         ArrayList<String> attrList = datas.get(0);
         datas.remove(0);
+        trainSet = new ArrayList<>();
+        testSet = new ArrayList<>();
+        int sum = datas.size();
+        int n = (int)(sum*ratio);
+        for (ArrayList<String> data:
+                datas) {
+//            if(n>0 && Math.random()<ratio){
+////                n--;
+////                trainSet.add(data);
+////            }else {
+////                testSet.add(data);
+////            }
+            trainSet.add(data);
+        }
         attrs = new ArrayList<>();
         int i = 0;
         for (String attr:
@@ -62,7 +92,7 @@ class Test {
             i++;
         }
         RandomForest forest = new RandomForest();
-        forest.buildForest(datas,attrs);
+        forest.buildForest(trainSet,attrs);
         return forest;
     }
 
