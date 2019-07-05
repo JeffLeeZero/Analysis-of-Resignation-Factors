@@ -1,7 +1,5 @@
 package analysis;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -64,6 +62,7 @@ public class PythonModel {
         catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println(dataset);
         ArrayList<ArrayList<Double>> result = new ArrayList<>();
         result.add(new ArrayList<Double>());
         result.add(new ArrayList<Double>());
