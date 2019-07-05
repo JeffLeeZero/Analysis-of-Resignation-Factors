@@ -43,9 +43,9 @@ def choose_model(aid, department):
     db = get_connection('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
     #选出特定的逻辑回归模型
-    sql1 = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
-           + aid +"' and regression.department = '" + department +"' and svm.aid = '" + aid +"' and svm.department = '" + department + "'"
-    cursor.execute(sql1)
+    args = (aid, department,aid, department)
+    cursor.execute('select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and regression.department = :2 and svm.aid = :3 and svm.department = :4'
+                   , args)
     db.commit()
     result = cursor.fetchall()
     #逻辑回归和svm模型
@@ -61,7 +61,7 @@ def choose_model(aid, department):
     return log_reg, log_reg_score, svm, svm_score
 
 
-def main(data='0.38,0.53,157,2,3,0,0,0',aid = 'jeff11分析方案', department = 'IT'):
+def main(data,aid, department):
     log_reg_predict_float_result = []
     svm_predict_float_result  =[]
     x_test = data2dataframe(data)

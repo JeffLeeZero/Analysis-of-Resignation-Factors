@@ -44,9 +44,9 @@ public class Analyser implements ResignationAnalyser {
     public void trainModel(String url) {
         this.url = url;
         trainTree();
-        String aid = saveInfo();
-        saveAttr(aid);
-        saveNode(aid);
+        //String aid = saveInfo();
+        //saveAttr(aid);
+        //saveNode(aid);
         Process svmProc, logProc;
         try{
             String choosemodel = account + name;
@@ -424,24 +424,26 @@ public class Analyser implements ResignationAnalyser {
 
     public static void main(String[] args){
         ResignationAnalyser analyser = new Analyser("jeff12");
-
-        //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+//        Long start = System.currentTimeMillis();
+//        analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
+//        Long end = System.currentTimeMillis();
+//        System.out.println((end-start)/1000);
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
-        ArrayList<String> data = new ArrayList<>();
-        //'0.38,0.53,157,3,2,0,0,0'
-        data.add("0.38");
-        data.add("0.53");
-        data.add("157");
-        data.add("2");
-        data.add("3");
-        data.add("0");
-        data.add("0");
-        data.add("0");
-
+//        ArrayList<String> data = new ArrayList<>();
+//        //'0.38,0.53,157,3,2,0,0,0'
+//        data.add("0.38");
+//        data.add("0.53");
+//        data.add("157");
+//        data.add("2");
+//        data.add("3");
+//        data.add("0");
+//        data.add("0");
+//        data.add("0");
+//
 //        ArrayList<String> result1 = analyser.getProbability(data, "jeff12分析方案","IT");
 //        System.out.println(result1);
 //        //是否离职 0不离职，1离职
@@ -458,10 +460,8 @@ public class Analyser implements ResignationAnalyser {
         //analyser.doPrediction(null);
 
 
-        /*
 
 
-         */
 
     }
 }

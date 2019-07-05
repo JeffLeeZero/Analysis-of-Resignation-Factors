@@ -60,9 +60,10 @@ def choose_model(aid, department):
     svm_scores = []
     #选出特定的拟合度和模型数据
     for i in department:
-        sql = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
-              + aid + "' and regression.department = '" + i + "' and svm.aid = '" + aid + "' and svm.department = '" + i + "'"
-        cursor.execute(sql)
+        args = (aid,i,aid,i)
+        sql = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and" \
+              " regression.department = :2 and svm.aid = :3 and svm.department = :4"
+        cursor.execute(sql,args)
         db.commit()
         result = cursor.fetchall()
         # 逻辑回归和svm模型
@@ -109,3 +110,4 @@ if __name__ == "__main__":
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])
+    main(a[0],a[1])
