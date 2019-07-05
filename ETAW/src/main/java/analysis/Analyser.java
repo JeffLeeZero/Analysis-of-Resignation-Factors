@@ -112,14 +112,14 @@ public class Analyser implements ResignationAnalyser {
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            forest.rebuildModel();
+            //forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
         }
         ArrayList<ArrayList<Double>> results = py.getProbability(data,department);
         results.add(tree.getProbability(data,attrs));
-        results.add(forest.getProbability(data,attrs));
+        //results.add(forest.getProbability(data,attrs));
         return getAverageResult(results);
     }
 
@@ -144,7 +144,7 @@ public class Analyser implements ResignationAnalyser {
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            forest.rebuildModel();
+            //forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
@@ -153,7 +153,7 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         for (int i = 0;i<results.size();i++){
             results.get(i).add(tree.getProbability(datas.get(i),attrs));
-            results.get(i).add(forest.getProbability(datas.get(i),attrs));
+            //results.get(i).add(forest.getProbability(datas.get(i),attrs));
             answers.add(getAverageResult(results.get(i)));
         }
         return answers;
@@ -353,6 +353,7 @@ public class Analyser implements ResignationAnalyser {
 
     private void getAttrAndInfo(){
         Connection conn = DBUtil.getConnection();
+        if (attrs==null){attrs = new ArrayList<Attr>();}
         try{
             PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
             state.setString(1,account);
@@ -378,6 +379,7 @@ public class Analyser implements ResignationAnalyser {
                 M = set.getInt("M");
                 seperated = set.getInt("seperated");
                 attr = new Attr(name,seperated>0,M,min,len);
+                attr.setD(D);
                 attrs.add(attr);
             }
         }catch (SQLException e){

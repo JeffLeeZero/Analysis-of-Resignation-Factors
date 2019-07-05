@@ -47,35 +47,37 @@
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据 0代表最低 1代表最高" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据 0代表最低 1代表最高" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工平均月工作时长</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="请输入整数 以小时计" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
+                            <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
+                            <div class="layui-input-block" style="margin-right: 300px">
+                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
+                            </div>
+                        </div>
+
+
+
+                        <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工工龄</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
@@ -101,11 +103,16 @@
                                 <div class="layui-input-inline" style="margin-right: 300px">
                                     <select name="Department" lay-verify="required" lay-search="">
                                         <option value="">直接选择或搜索选择部门</option>
-                                        <option value="1">销售部</option>
-                                        <option value="2">技术部</option>
-                                        <option value="3">人事部</option>
-                                        <option value="4">财务部</option>
-                                        <option value="5">管理部</option>
+                                        <option value="sales">销售部</option>
+                                        <option value="accounting">会计部</option>
+                                        <option value="hr">人力资源部</option>
+                                        <option value="technical">技术部</option>
+                                        <option value="support">供应部</option>
+                                        <option value="management">管理部</option>
+                                        <option value="IT">信息部</option>
+                                        <option value="product_mng">产品部</option>
+                                        <option value="marketing">市场部</option>
+                                        <option value="RandD">研发部</option>
                                     </select>
                                 </div>
                             </div>
