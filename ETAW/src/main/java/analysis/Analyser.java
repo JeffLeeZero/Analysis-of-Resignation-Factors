@@ -229,8 +229,14 @@ public class Analyser implements ResignationAnalyser {
         try{
             conn.setAutoCommit(false);
             int count = 0;
-            PreparedStatement state = conn.prepareStatement("select count(*) from analysis");
+            PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
             ResultSet set = state.executeQuery();
+            if (set.next()){
+                aid = set.getString("aid");
+                return aid;
+            }
+            state = conn.prepareStatement("select count(*) from analysis");
+            set = state.executeQuery();
             if(set.next()){
                 count = set.getInt(1);
             }

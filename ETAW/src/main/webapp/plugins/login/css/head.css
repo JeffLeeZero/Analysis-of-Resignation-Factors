@@ -21,6 +21,7 @@ body{background-color: #1b1b1b}
 .header .left .img2{
 	display: none;
 }
+
 /*右侧*/
 .header .nav{
 	-webkit-transition: 0.5s;
@@ -31,6 +32,7 @@ body{background-color: #1b1b1b}
 	line-height: 50px;
 	display: block;
 }
+
 .header .navbar_nav li{
 	float:left;
 	position: relative;
