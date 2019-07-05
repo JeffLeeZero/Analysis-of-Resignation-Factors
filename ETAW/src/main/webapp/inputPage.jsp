@@ -52,11 +52,7 @@
         </div>
     </div>
 
-    <%--<div class="layui-body" style="background-color: #eeeeee;  ">--%>
-        <%--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">--%>
-            <%--<legend>导入数据</legend>--%>
-        <%--</fieldset>--%>
-    <%--</div>--%>
+
 
     <jsp:include page="footer.jsp" />
 </div>
@@ -70,15 +66,7 @@
         });
     });
     document.getElementById("formAccount").value = window.localStorage.id;
-    // $.ajax({
-    // 	type: "post",
-    // 	url: "http://localhost:8080/UploadServlet",
-    // 	dataType: "json",
-    // 	data: new FormData(document.getElementById("upload")),
-    // 	success: function (res) {
-    // 		console.log(res);
-    // 	}
-    // });
+
 
     //JavaScript代码区域
     layui.use('element', function() {
