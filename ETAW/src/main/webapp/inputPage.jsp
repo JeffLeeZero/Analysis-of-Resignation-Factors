@@ -14,43 +14,36 @@
     <title>数据导入</title>
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
 
-    <link rel="stylesheet" type="text/css" href="plugins/background/css/bootstrap.css">
-    <link rel="stylesheet" href="plugins/background/css/style.css">
 </head>
 <body class="layui-layout-body">
+
 <div class="layui-layout layui-layout-admin">
 
     <jsp:include page="header.jsp" />
 
-        <div class="layui-body" style="background-color: #eeeeee;  ">
-            <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
+        <div class="" style="background-color: #eeeeee;">
 
-                <input type="file" name="uploadFile" />
+            <div class="background">
 
-                <input type="hidden" name="account" id="formAccount"/>
+                <img src="img/map.png" />
 
-                <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+            </div>
 
-            </form>
+            <div class="form">
+                <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
+                    <input type="file" name="uploadFile" />
 
+                    <input type="hidden" name="account" id="formAccount"/>
+
+                    <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+
+                </form>
+            </div>
         </div>
-</div>
-    <%--<div id="top-image">--%>
-        <%--<div id="content" class="container center-block">--%>
-            <%--<div class="jumbotron">--%>
-                <%--<div class="container" style="margin-left: 150px; margin-top:300px">--%>
-                    <%--<div class="input-group input-group-lg">--%>
-
-                      <%----%>
-
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 
     <jsp:include page="footer.jsp" />
+
 </div>
 
 <script src="plugins/background/js/jquery.min.js"></script>
@@ -181,5 +174,36 @@
 </script>
 
 </body>
+
+<style>
+    .background{
+        position: absolute;
+        left: 242px;
+        top: 75px;
+        width: 1678px;
+        height: 859px;
+
+    }
+    img{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #up_form{
+        background-color: #FFFFFF;
+        position: relative;
+    }
+    .form{
+        position: absolute;
+        left: 596px;
+        top: 584px;
+        width: 656px;
+        height: 60px;
+        text-align: left;
+        border: 1px solid rgba(187, 187, 187, 1);
+    }
+</style>
 
 </html>
