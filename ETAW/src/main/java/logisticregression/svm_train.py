@@ -122,6 +122,7 @@ def main(aid,filepath):
     import_model(svc_parameter, svc_score, saleset, aid)
 
 if __name__ == "__main__":
+    #main('1',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])

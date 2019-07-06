@@ -302,46 +302,46 @@
 
 </body>
 
-<style>
-    #up_form{
-        background-color: #FFFFFF;
-        position: relative;
-    }
+<%--<style>--%>
+    <%--#up_form{--%>
+        <%--background-color: #FFFFFF;--%>
+        <%--position: relative;--%>
+    <%--}--%>
 
-    .form{
-        position: absolute;
-        top: 60%;
-        width: 100%;
-        height: 7%;
-        text-align: left;
-    }
-    form{
-        position: absolute;
-        width: 57%;
-        height: 100%;
-        top: 60%;
-        left: 21%;
-        opacity: 100%;
-    }
-    #upup{
-        background-color: #558AF5;
-        width: 14%;
-        height: 90%;
-        right: 0;
-        position: absolute;
-    }
-    #test1{
-        background-color: #3f51b5;
-        width: 18%;
-        height: 90%;
-        right: 16%;
-        position: absolute;
-    }
-    form > input{
-        width: 64%;
-        height: 90%;
-        right: 36%;
-        position: absolute;
-    }
-</style>
+    <%--.form{--%>
+        <%--position: absolute;--%>
+        <%--top: 60%;--%>
+        <%--width: 100%;--%>
+        <%--height: 7%;--%>
+        <%--text-align: left;--%>
+    <%--}--%>
+    <%--form{--%>
+        <%--position: absolute;--%>
+        <%--width: 57%;--%>
+        <%--height: 100%;--%>
+        <%--top: 60%;--%>
+        <%--left: 21%;--%>
+        <%--opacity: 100%;--%>
+    <%--}--%>
+    <%--#upup{--%>
+        <%--background-color: #558AF5;--%>
+        <%--width: 14%;--%>
+        <%--height: 90%;--%>
+        <%--right: 0;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+    <%--#test1{--%>
+        <%--background-color: #3f51b5;--%>
+        <%--width: 18%;--%>
+        <%--height: 90%;--%>
+        <%--right: 16%;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+    <%--form > input{--%>
+        <%--width: 64%;--%>
+        <%--height: 90%;--%>
+        <%--right: 36%;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+<%--</style>--%>
 </html>
