@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${sessionScope.resultList}" var="worker">
+                    <c:forEach items="${sessionScope.result}" var="worker">
                     <tr>
                         <td align="center">
                             ${worker.number}
