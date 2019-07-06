@@ -59,8 +59,6 @@ public class InsertWorkerServlet extends HttpServlet {
             //得到离职率
             ArrayList<String> result = analyser.getProbability(data);
             System.out.println(result);
-            //double leftRatio = Double.valueOf(result.get(0));
-            //double accuracyRate = Double.valueOf(result.get(1));
             String left = result.get(0);
             String accuracyRate = result.get(1);
             String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));

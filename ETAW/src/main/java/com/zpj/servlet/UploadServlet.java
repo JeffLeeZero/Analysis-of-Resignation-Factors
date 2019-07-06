@@ -201,43 +201,19 @@ public class UploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        BufferedReader reader = req.getReader();
-//        String content = reader.readLine();
-//        Gson gson = new Gson();
-//        Type reqType = new TypeToken<RequestBean>(){}.getType();
-//        RequestBean reqBean = gson.fromJson(content,reqType);
-//        account = reqBean.getReqId();
-
         String url = getUploadUrl(req,resp);
-        System.out.println(account);
+        System.out.println(url);
         user.setAccount(account);
 
-
-        //insetAttach(url,req,resp);
-        //Upload.getAllByExcel(filePath);
-//        allNumber = Analysis.getAllNumber();
-//        leftNumber = Analysis.getLeftNumber();
-//        remainNumber = Analysis.getRemainNumber();
-//        leftRatio = Analysis.getLeftRatio();
-//
-//        System.out.println(allNumber);
-//        System.out.println(leftNumber);
-//        System.out.println(remainNumber);
-//        System.out.println(leftRatio);
-
+        resp.setContentType("text/html;charset=utf-8");
         PrintWriter out = resp.getWriter();
         try{
             trainModel(account,url);
-            out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
+            //out.print("<script>alert('模型生成成功');window.location.href = 'http://localhost:8080/analyseAll.jsp'</script>");
         } catch (Exception e){
-            out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/index.jsp'</script>");
+            //out.print("<script>alert('模型生成失败');window.location.href = 'http://localhost:8080/inputPage.jsp'</script>");
         }
-
-//        req.getSession().setAttribute("allNumber", allNumber);
-//        req.getSession().setAttribute("leftNumber", leftNumber);
-//        req.getSession().setAttribute("remainNumber", remainNumber);
-//        req.getSession().setAttribute("leftRatio", leftRatio);
-//        req.getRequestDispatcher("index.jsp").forward(req, resp);
-
+        out.flush();
+        out.close();
     }
 }
