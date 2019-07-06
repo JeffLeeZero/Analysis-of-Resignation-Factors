@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import com.zpj.bean.AttrBean;
 import com.zpj.bean.RequestBean;
 import com.zpj.bean.ResponseBean;
-import tree.Attr;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,22 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "AnalysisAllServlet")
-public class AnalysisAllServlet extends HttpServlet {
+@WebServlet(name = "LeftRatioServlet")
+public class LeftRatioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //对返回消息进行设置
-        /* 允许跨域的主机地址 */
-
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setCharacterEncoding("utf-8");
 
@@ -54,16 +49,14 @@ public class AnalysisAllServlet extends HttpServlet {
         Type resType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
 
         ResignationAnalyser analyser = new Analyser(account);
-        Map<String,Double> map = analyser.getAttrRatio();
-        List<AttrBean> list = new ArrayList<>();
-        map.remove("left");
+        Map<String,Double> map = analyser.getAttrRatio("left");
+        AttrBean attrBean = new AttrBean("left",0);
         for (Map.Entry<String, Double> entry
                 : map.entrySet()){
-            list.add(new AttrBean(entry.getKey(),entry.getValue()));
+            attrBean.addList(entry.getKey(),entry.getValue());
         }
-        ResponseBean<List<AttrBean>> respBean = new ResponseBean<>();
-        respBean.setReqId(account);
-        respBean.setResData(list);
+        ResponseBean<AttrBean> respBean = new ResponseBean<>();
+        respBean.setResData(attrBean);
         String res = gson.toJson(respBean,resType);
         try{
             out.print(res);
@@ -73,5 +66,7 @@ public class AnalysisAllServlet extends HttpServlet {
         }finally {
             out.close();
         }
+
+
     }
 }
