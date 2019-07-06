@@ -64,7 +64,7 @@ public class Analyser implements ResignationAnalyser {
 
         //训练逻辑回归模型并保存
         py = new PythonModel(aid);
-        py.trainModel(url);
+        //py.trainModel(url);
 
     }
 
@@ -297,7 +297,7 @@ public class Analyser implements ResignationAnalyser {
             PreparedStatement state2;
             for (Attr attr:
                  attrs) {
-                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?)");
+                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?,?)");
                 state.setString(1,attr.getName());
                 state.setString(2,aid);
                 state.setDouble(3,attr.getD());
@@ -305,6 +305,7 @@ public class Analyser implements ResignationAnalyser {
                 state.setDouble(5,attr.getMin());
                 state.setDouble(6,attr.getLen());
                 state.setInt(7,attr.getM());
+                state.setInt(8,attr.getIndex());
                 state.executeUpdate();
                 state.close();
                 for (Map.Entry<String,Double> entry:
@@ -422,6 +423,7 @@ public class Analyser implements ResignationAnalyser {
                 M = set.getInt("M");
                 seperated = set.getInt("seperated");
                 attr = new Attr(name,seperated>0,M,min,len);
+                attr.setIndex(set.getInt("in_dex"));
                 attr.setD(D);
                 attrs.add(attr);
             }
@@ -457,15 +459,13 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        Analyser analyser = new Analyser("jeff3");
+        Analyser analyser = new Analyser("jeff6");
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
-        analyser.getAttrRatio("left");
-        analyser.getAttrRatio();
-        //analyser.trainModel("test.csv");
+        analyser.trainModel("test.csv");
         ArrayList<String> data = new ArrayList<>();
         //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");

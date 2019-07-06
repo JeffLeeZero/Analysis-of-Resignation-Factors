@@ -99,7 +99,7 @@
             }
         });
     });
-    
+
     function fsubmit(fd) {
         $.ajax({
             url: "http://localhost:8080/UploadServlet",
