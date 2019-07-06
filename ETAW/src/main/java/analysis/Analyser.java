@@ -210,6 +210,10 @@ public class Analyser implements ResignationAnalyser {
                 isSeperated = set.getBoolean("seperated");
                 value = set.getString(1);
                 ratio = set.getDouble(2);
+                if(attrName.equals("left")){
+                    map.put(value,ratio);
+                    continue;
+                }
                 temp = (int)(ratio*100);
                 ratio = (double)temp/100;
                 if(!isSeperated){
@@ -446,8 +450,9 @@ public class Analyser implements ResignationAnalyser {
         //测试数据,这部分需要前端传入
         //Long end  =System.currentTimeMillis();
         //System.out.println((end-start)/1000);
-
-        analyser.trainModel("test.csv");
+        analyser.getAttrRatio("left");
+        analyser.getAttrRatio();
+        //analyser.trainModel("test.csv");
         ArrayList<String> data = new ArrayList<>();
         //'0.38,0.53,157,3,2,0,0,0'
         data.add("0.38");
