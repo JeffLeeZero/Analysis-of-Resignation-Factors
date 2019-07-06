@@ -250,6 +250,19 @@ public class Analyser implements ResignationAnalyser {
                 state = conn.prepareStatement("delete from attrvalue where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                state = conn.prepareStatement("delete from tree where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from regression where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from svm where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from forest where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                conn.commit();
                 return aid;
             }
             state = conn.prepareStatement("select count(*) from analysis");
