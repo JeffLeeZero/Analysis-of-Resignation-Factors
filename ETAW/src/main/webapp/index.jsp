@@ -12,8 +12,12 @@
 
 	<body class="layui-layout-body">
 		<div class="layui-layout layui-layout-admin">
-
+			<div class="div_background">
+				<img id="imgBack" src="img/map.png" style="z-index: 5">
+			</div>
 			<jsp:include page="header.jsp" />
+			
+
 
 			<div class="layui-body" style="background-color: #eeeeee;  ">
 				<!-- 内容主体区域 -->
@@ -94,7 +98,21 @@
 
 			});
 		</script>
-
+		<style>
+			.div_background{
+				position: absolute;
+				top: 20%;
+				left: 10%;
+				width: 900px;
+				height: 880px;
+				z-index: 5;
+			}
+			#imgBack{
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
 	</body>
 
 </html>
