@@ -88,50 +88,122 @@
 								header[i] = list[i].value;
 								value[i] = list[i].ratio;
 							}
-							require(
-								[
-									'echarts',
-									'echarts/chart/bar',
-								],
-								function(ec) {
-									// 基于准备好的dom，初始化echarts图表
-									var myChart = ec.init(document.getElementById('pie'));
+							if(res.resData.isSeperated){
+                                require(
+                                    [
+                                        'echarts',
+                                        'echarts/chart/bar',
+                                    ],
+                                    function(ec) {
+                                        // 基于准备好的dom，初始化echarts图表
+                                        var myChart = ec.init(document.getElementById('pie'));
 
-									var option = {
-										tooltip: {
-											show: true
-										},
-										legend: {
-											data: ['离职率']
-										},
-										xAxis: [{
-											type: 'category',
-											data: header
-										}],
-										yAxis: [{
-											type: 'value'
-										}],
-										series: [{
-											"name": "离职率",
-											"type": "bar",
-											"data": value,
-											itemStyle: {
-												normal: {
-													label: {
-														show: true,
-														position: 'top',
-														formatter: '{b}'
-													},
-													color: '#2f4554'
-												}
-											},
-										}]
-									};
+                                        var option = {
+                                            tooltip: {
+                                                show: true
+                                            },
+                                            legend: {
+                                                data: ['离职率']
+                                            },
+                                            xAxis: [{
+                                                type: 'category',
+                                                data: header
+                                            }],
+                                            yAxis: [{
+                                                type: 'value'
+                                            }],
+                                            series: [{
+                                                "name": "离职率",
+                                                "type": "bar",
+                                                "data": value,
+                                                itemStyle: {
+                                                    normal: {
+                                                        label: {
+                                                            show: true,
+                                                            position: 'top',
+                                                            formatter: '{b}'
+                                                        },
+                                                        color: '#2f4554'
+                                                    }
+                                                },
+                                            }]
+                                        };
 
-									// 为echarts对象加载数据
-									myChart.setOption(option);
-								}
-							)
+                                        // 为echarts对象加载数据
+                                        myChart.setOption(option);
+                                    })
+							}else{
+                                require(
+                                    [
+                                        'echarts',
+                                        'echarts/chart/line',
+                                    ],
+                                    function(ec) {
+                                        // 基于准备好的dom，初始化echarts图表
+                                        var myChart = ec.init(document.getElementById('pie'));
+
+                                        var option = {
+                                            title : {
+                                                text: '未来一周气温变化',
+                                                subtext: '纯属虚构'
+                                            },
+                                            tooltip : {
+                                                trigger: 'axis'
+                                            },
+                                            legend: {
+                                                data:['最高气温','最低气温']
+                                            },
+                                            toolbox: {
+                                                show : true,
+                                                feature : {
+                                                    mark : {show: true},
+                                                    dataView : {show: true, readOnly: false},
+                                                    magicType : {show: true, type: ['line', 'bar']},
+                                                    restore : {show: true},
+                                                    saveAsImage : {show: true}
+                                                }
+                                            },
+                                            calculable : true,
+                                            xAxis : [
+                                                {
+                                                    type : 'category',
+                                                    boundaryGap : false,
+                                                    data : header
+                                                }
+                                            ],
+                                            yAxis : [
+                                                {
+                                                    type : 'value',
+                                                    axisLabel : {
+                                                        formatter: '{value}'
+                                                    }
+                                                }
+                                            ],
+                                            series : [
+                                                {
+                                                    name:'最低气温',
+                                                    type:'line',
+                                                    data:value,
+                                                    markPoint : {
+                                                        data : [
+                                                            {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+                                                        ]
+                                                    },
+                                                    markLine : {
+                                                        data : [
+                                                            {type : 'average', name : '平均值'}
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        };
+
+                                        // 为echarts对象加载数据
+                                        myChart.setOption(option);
+                                    })
+							}
+
+
 						}
 					});
 				});
