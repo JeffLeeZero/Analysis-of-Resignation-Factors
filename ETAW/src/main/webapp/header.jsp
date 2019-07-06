@@ -32,7 +32,7 @@
                 <dl class="layui-nav-child">
                     <dd><a id="team1" href="inputPage.jsp" onclick="queryTeam()"><i class="layui-icon layui-icon-group"></i>
                         导入数据</a></dd>
-                    <dd><a href="history.jsp"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp历史趋势</a></dd>
+                    <%--<dd><a href="history.jsp"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp历史趋势</a></dd>--%>
                 </dl>
             </li>
 
@@ -41,7 +41,7 @@
                 <dl class="layui-nav-child">
                     <dd><a id="team2" href="analyseAll.jsp" onclick="queryTeam()"><i
                             class="layui-icon layui-icon-group"></i> 总体分析</a></dd>
-                    <dd><a href="analysePart.jsp" onclick="queryAthlete()"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp部门分析</a>
+                    <dd><a href="analysePart.jsp" onclick="queryAthlete()"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp单因素分析</a>
                     </dd>
                 </dl>
             </li>

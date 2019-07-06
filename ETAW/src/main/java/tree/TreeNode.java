@@ -95,7 +95,7 @@ public class TreeNode {
         if(attr.isSeperated()){
             for (TreeNode node:
                  children) {
-                if(node.getValue().equals(data.get(i))){
+                if(node.getValue().equals(data.get(attr.getIndex()))){
                     return node.doPrediction(data,attrlist);
                 }
             }
@@ -103,7 +103,7 @@ public class TreeNode {
         }else{
             for (TreeNode node:
                  children) {
-                if(node.getValue().equals(attr.getValue(data.get(i)))){
+                if(node.getValue().equals(attr.getValue(data.get(attr.getIndex())))){
                     return node.doPrediction(data,attrlist);
                 }
             }
