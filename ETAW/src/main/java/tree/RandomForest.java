@@ -10,7 +10,7 @@ public class RandomForest {
     private CyclicBarrier barrier;
     public RandomForest(){
         this.forest = new ArrayList<>();
-        this.TREECOUNT = 1000;
+        this.TREECOUNT = 500;
     }
 
     public void buildForest(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){

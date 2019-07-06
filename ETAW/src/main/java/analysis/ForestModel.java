@@ -115,7 +115,10 @@ public class ForestModel {
     }
 
     public static void main(String[] args){
+        long startTime = System.currentTimeMillis();
         ForestModel model = new ForestModel("0");
         model.rebuildModel();
+        long endTime = System.currentTimeMillis();
+        System.out.println((endTime-startTime)/1000);
     }
 }
