@@ -49,12 +49,20 @@ public class AnalysisPartServlet extends HttpServlet {
         value = attrBean.getName();
         ResignationAnalyser analyser = new Analyser(account);
         Map<String,Double> map = analyser.getAttrRatio(value);
-        int temp;
+        if(map.get("isSeperated")>0){
+            attrBean.setSeperated(true);
+        }else {
+            attrBean.setSeperated(false);
+        }
+        map.remove("isSeperated");
         for (Map.Entry<String,Double> entry:
              map.entrySet()) {
-            temp = (int)(entry.getValue()*1000);
-            attrBean.addList(entry.getKey(),((double)temp)/1000);
+            attrBean.addList(entry.getKey(),entry.getValue());
         }
+        if(!attrBean.isSeperated()){
+            attrBean.sortList();
+        }
+
         Type respType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
         ResponseBean<AttrBean> respBean = new ResponseBean<>();
         respBean.setResData(attrBean);

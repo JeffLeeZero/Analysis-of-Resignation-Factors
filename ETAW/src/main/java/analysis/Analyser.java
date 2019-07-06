@@ -191,18 +191,33 @@ public class Analyser implements ResignationAnalyser {
         return tree.improveMeasure(data,attrs);
     }
 
+
     @Override
     public Map<String, Double> getAttrRatio(String attrName) {
         Connection conn = DBUtil.getConnection();
         Map<String,Double> map = new HashMap<>();
         try{
-            PreparedStatement state = conn.prepareStatement("select value,ratio from attrvalue natural join analysis where account = ? and name = ? and attrname = ?");
+            PreparedStatement state = conn.prepareStatement("select value,ratio,seperated from attrvalue natural join analysis natural join attribute where account = ? and name = ? and attrname = ?");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,attrName);
             ResultSet set = state.executeQuery();
+            boolean isSeperated;
+            String value;
+            double ratio;
+            int temp;
             while(set.next()){
-                map.put(set.getString(1),set.getDouble(2));
+                isSeperated = set.getBoolean("seperated");
+                value = set.getString(1);
+                ratio = set.getDouble(2);
+                temp = (int)(ratio*100);
+                ratio = (double)temp/100;
+                if(!isSeperated){
+                    temp = (int)(Double.valueOf(value)*10);
+                    value = String.valueOf((double) temp/10.0);
+                }
+                map.put(value,ratio);
+                map.put("isSeperated",isSeperated?1.0:0.0);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -425,7 +440,7 @@ public class Analyser implements ResignationAnalyser {
     }
 
     public static void main(String[] args){
-        Analyser analyser = new Analyser("jeff");
+        Analyser analyser = new Analyser("jeff3");
         //Long start = System.currentTimeMillis();
         //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
         //测试数据,这部分需要前端传入
