@@ -297,7 +297,7 @@ public class Analyser implements ResignationAnalyser {
             PreparedStatement state2;
             for (Attr attr:
                  attrs) {
-                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?)");
+                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?,?)");
                 state.setString(1,attr.getName());
                 state.setString(2,aid);
                 state.setDouble(3,attr.getD());
@@ -305,6 +305,7 @@ public class Analyser implements ResignationAnalyser {
                 state.setDouble(5,attr.getMin());
                 state.setDouble(6,attr.getLen());
                 state.setInt(7,attr.getM());
+                state.setInt(8,attr.getIndex());
                 state.executeUpdate();
                 state.close();
                 for (Map.Entry<String,Double> entry:
@@ -422,6 +423,7 @@ public class Analyser implements ResignationAnalyser {
                 M = set.getInt("M");
                 seperated = set.getInt("seperated");
                 attr = new Attr(name,seperated>0,M,min,len);
+                attr.setIndex(set.getInt("in_dex"));
                 attr.setD(D);
                 attrs.add(attr);
             }
@@ -479,6 +481,7 @@ public class Analyser implements ResignationAnalyser {
 //        data.add("IT");
 //        //ArrayList<String> result1 = analyser.getProbability(data);
 //
+
 //        //获取训练数据集的URL(前端传入对应的训练文件URL）
 //        ArrayList<String> result1 = analyser.getProbability(data);
 //        System.out.println(result1);

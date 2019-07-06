@@ -80,40 +80,36 @@ public class TreeNode {
         tab--;
     }
 
-    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
-        try{
-            if(this.getChildren().size()==0){
-                return getName();
-            }
-            int i;
-            Attr attr=null;
-            for (i = 0;i < attrlist.size();i++){
-                attr = attrlist.get(i);
-                if(name.equals(attr.getName())){
-                    break;
-                }
-            }
-            if(attr.isSeperated()){
-                for (TreeNode node:
-                        children) {
-                    if(node.getValue().equals(data.get(i))){
-                        return node.doPrediction(data,attrlist);
-                    }
-                }
-                return "数据不足，无法预测。";
-            }else{
-                for (TreeNode node:
-                        children) {
-                    if(node.getValue().equals(attr.getValue(data.get(i)))){
-                        return node.doPrediction(data,attrlist);
-                    }
-                }
-                return "数据不足，无法预测。";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return "";
-        }
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist) {
 
+        if (this.getChildren().size() == 0) {
+            return getName();
+        }
+        int i;
+        Attr attr = null;
+        for (i = 0; i < attrlist.size(); i++) {
+            attr = attrlist.get(i);
+            if (name.equals(attr.getName())) {
+                break;
+            }
+        }
+        if (attr.isSeperated()) {
+            for (TreeNode node :
+                    children) {
+                if (node.getValue().equals(data.get(attr.getIndex()))) {
+                    return node.doPrediction(data, attrlist);
+                }
+            }
+            return "数据不足，无法预测。";
+        } else {
+            for (TreeNode node :
+                    children) {
+                if (node.getValue().equals(attr.getValue(data.get(attr.getIndex())))) {
+                    return node.doPrediction(data, attrlist);
+                }
+
+            }
+            return "数据不足，无法预测。";
+        }
     }
 }
