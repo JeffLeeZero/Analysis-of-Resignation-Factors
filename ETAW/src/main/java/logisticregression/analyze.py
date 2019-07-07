@@ -20,12 +20,12 @@ def data2dataframe(data):
     :param data:输入的数据字符串
     :return:测试数据集
     """
-    data_float_list = data.split(",")
+    data_float_list = data.split(";")
     if(data_float_list[7] == 'low'):
         data_float_list[7] = '0'
     elif(data_float_list[7] == 'medium'):
         data_float_list[7] = '1'
-    else:
+    elif(data_float_list[7] == 'high'):
         data_float_list[7] = '2'
     #处理数据
     data_float_list[0] = pd.Series(float(data_float_list[0]))
@@ -89,9 +89,9 @@ def main(data,aid, department):
 
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
 if __name__ == "__main__":
-    main('0.5, 0.5, 56, 5, 5, 0, 0, low', '1', 'IT')
-    # a = []
-    # a.append(sys.argv[1])
-    # a.append(sys.argv[2])
-    # a.append(sys.argv[3])
-    # main(a[0],a[1],a[2])
+    #main('0.5,0.5,75,5,5,0,0,medium,IT', '1', 'IT')
+    a = []
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
+    a.append(sys.argv[3])
+    main(a[0],a[1],a[2])

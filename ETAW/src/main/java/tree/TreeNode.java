@@ -80,32 +80,34 @@ public class TreeNode {
         tab--;
     }
 
-    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist){
-        if(this.getChildren().size()==0){
+    public String doPrediction(ArrayList<String> data,ArrayList<Attr> attrlist) {
+
+        if (this.getChildren().size() == 0) {
             return getName();
         }
         int i;
-        Attr attr=null;
-        for (i = 0;i < attrlist.size();i++){
+        Attr attr = null;
+        for (i = 0; i < attrlist.size(); i++) {
             attr = attrlist.get(i);
-            if(name.equals(attr.getName())){
+            if (name.equals(attr.getName())) {
                 break;
             }
         }
-        if(attr.isSeperated()){
-            for (TreeNode node:
-                 children) {
-                if(node.getValue().equals(data.get(attr.getIndex()))){
-                    return node.doPrediction(data,attrlist);
+        if (attr.isSeperated()) {
+            for (TreeNode node :
+                    children) {
+                if (node.getValue().equals(data.get(attr.getIndex()))) {
+                    return node.doPrediction(data, attrlist);
                 }
             }
             return "数据不足，无法预测。";
-        }else{
-            for (TreeNode node:
-                 children) {
-                if(node.getValue().equals(attr.getValue(data.get(attr.getIndex())))){
-                    return node.doPrediction(data,attrlist);
+        } else {
+            for (TreeNode node :
+                    children) {
+                if (node.getValue().equals(attr.getValue(data.get(attr.getIndex())))) {
+                    return node.doPrediction(data, attrlist);
                 }
+
             }
             return "数据不足，无法预测。";
         }
