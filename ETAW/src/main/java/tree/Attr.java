@@ -133,7 +133,7 @@ public class Attr {
         double num = Double.valueOf(v);
         int n = (int)((num-min)/len);
         try{
-            return division.get((n>=M)?M-1:n);
+            return division.get((n>=M)?M-1:((n<0)?0:n));
         }catch (Exception e){
             System.out.println(name+";value:"+v+";min:"+min+";len:"+len);
             e.printStackTrace();

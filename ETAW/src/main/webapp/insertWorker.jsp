@@ -20,18 +20,11 @@
     <jsp:include page="header.jsp"/>
 
     <div class="layui-body" style="background-color: #eeeeee;  ">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            <i class="layui-icon layui-icon-face-smile" style="font-size: 40px; color: #FF5722;">你好</i>
-            <br><br>
-            <p style="font-size: 30px; color: #009688;">欢迎使用员工离职分析系统</p>
-        </div>
 
         <div class="layui-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">单个员工数据</li>
-                <li>多个员工数据</li>
-
+                <li class="layui-this" style="font-size:18px">单个员工数据</li>
+                <li style="font-size:18px">多个员工数据</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -45,37 +38,46 @@
                         <input type="hidden" name="Account" id="formAccount"/>
 
                         <div class="layui-form-item" style="margin-left: 200px">
+                            <label class="layui-form-label" style="width: 200px">员工编号</label>
+                            <div class="layui-input-block" style="margin-right: 300px">
+                                <input type="text" name="Number" lay-verify="required" autocomplete="off" placeholder="请输入员工编号" class="layui-input" style="width: 200px">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工平均月工作时长</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="请输入整数 以小时计" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
                         <div class="layui-form-item" style="margin-left: 200px">
+                            <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
+                            <div class="layui-input-block" style="margin-right: 300px">
+                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
+                            </div>
+                        </div>
+
+
+
+                        <div class="layui-form-item" style="margin-left: 200px">
                             <label class="layui-form-label" style="width: 200px">该员工工龄</label>
                             <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" style="width: 200px">
+                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
                             </div>
                         </div>
 
@@ -101,11 +103,16 @@
                                 <div class="layui-input-inline" style="margin-right: 300px">
                                     <select name="Department" lay-verify="required" lay-search="">
                                         <option value="">直接选择或搜索选择部门</option>
-                                        <option value="1">销售部</option>
-                                        <option value="2">技术部</option>
-                                        <option value="3">人事部</option>
-                                        <option value="4">财务部</option>
-                                        <option value="5">管理部</option>
+                                        <option value="sales">销售部</option>
+                                        <option value="accounting">会计部</option>
+                                        <option value="hr">人力资源部</option>
+                                        <option value="technical">技术部</option>
+                                        <option value="support">供应部</option>
+                                        <option value="management">管理部</option>
+                                        <option value="IT">信息部</option>
+                                        <option value="product_mng">产品部</option>
+                                        <option value="marketing">市场部</option>
+                                        <option value="RandD">研发部</option>
                                     </select>
                                 </div>
                             </div>
@@ -117,9 +124,9 @@
                                 <div class="layui-input-inline" style="margin-right: 300px">
                                     <select name="Salary" lay-verify="required" lay-search="">
                                         <option value="">选择薪资水平</option>
-                                        <option value="0">高</option>
-                                        <option value="1">中</option>
-                                        <option value="2">低</option>
+                                        <option value="high">高</option>
+                                        <option value="medium">中</option>
+                                        <option value="low">低</option>
                                     </select>
                                 </div>
                             </div>
@@ -141,15 +148,17 @@
                         <legend>选择文件</legend>
                     </fieldset>
 
-                    <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
+                    <div class="form">
+                        <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
-                        <input type="file" name="uploadFile" />
+                            <input/>
+                            <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
+                            <input type="hidden" class="layui-input" name="account" id="account"/>
+                            <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
 
-                        <input type="hidden" name="account" id="account"/>
+                        </form>
+                    </div>
 
-                        <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
-
-                    </form>
                 </div>
 
             </div>
@@ -193,17 +202,6 @@
                     ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
                 })
             }
-            ,tabDelete: function(othis){
-                //删除指定Tab项
-                element.tabDelete('demo', '44'); //删除：“商品管理”
-
-
-                othis.addClass('layui-btn-disabled');
-            }
-            ,tabChange: function(){
-                //切换到指定Tab项
-                element.tabChange('demo', '22'); //切换到：用户管理
-            }
         };
 
         $('.site-demo-active').on('click', function(){
@@ -226,7 +224,7 @@
             upload = layui.upload;
 
         upload.render({
-            elem: '#supplement_file'
+            elem: '#test1'
             , url: 'http://localhost:8080/InsertMultiWorkerServlet'
             , accept: 'file'
             , auto: false
@@ -246,12 +244,12 @@
                 contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
                 error : function(request) {
-                    alert("网络超时！")
-                    //window.location.href = "/insertWorker.jsp";
+                    alert("网络超时")
+                    window.location.href = "/analyseMultiWorker.jsp";
                 },
                 success: function (data) {
-                    alert("上传成功！");
-                    //window.location.href="/analyseMultiWorker.jsp";
+                    alert("上传成功");
+                    window.location.href="/analyseMultiWorker.jsp";
                 }
             });
             return false;
@@ -299,5 +297,51 @@
         form.render();
     });
 </script>
+
+
+
 </body>
+
+<%--<style>--%>
+    <%--#up_form{--%>
+        <%--background-color: #FFFFFF;--%>
+        <%--position: relative;--%>
+    <%--}--%>
+
+    <%--.form{--%>
+        <%--position: absolute;--%>
+        <%--top: 60%;--%>
+        <%--width: 100%;--%>
+        <%--height: 7%;--%>
+        <%--text-align: left;--%>
+    <%--}--%>
+    <%--form{--%>
+        <%--position: absolute;--%>
+        <%--width: 57%;--%>
+        <%--height: 100%;--%>
+        <%--top: 60%;--%>
+        <%--left: 21%;--%>
+        <%--opacity: 100%;--%>
+    <%--}--%>
+    <%--#upup{--%>
+        <%--background-color: #558AF5;--%>
+        <%--width: 14%;--%>
+        <%--height: 90%;--%>
+        <%--right: 0;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+    <%--#test1{--%>
+        <%--background-color: #3f51b5;--%>
+        <%--width: 18%;--%>
+        <%--height: 90%;--%>
+        <%--right: 16%;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+    <%--form > input{--%>
+        <%--width: 64%;--%>
+        <%--height: 90%;--%>
+        <%--right: 36%;--%>
+        <%--position: absolute;--%>
+    <%--}--%>
+<%--</style>--%>
 </html>

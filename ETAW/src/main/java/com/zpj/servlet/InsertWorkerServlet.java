@@ -40,31 +40,31 @@ public class InsertWorkerServlet extends HttpServlet {
         String promotion = request.getParameter("Promotion");
         String department = request.getParameter("Department");
         String salary = request.getParameter("Salary");
+        String number = request.getParameter("Number");
 
         ArrayList<String> data = new ArrayList<>();
         data.add(satisfactionLevel);
         data.add(lastEvaluation);
-        data.add(numberProject);
         data.add(averageMonthly);
+        data.add(numberProject);
         data.add(timeSpendCompany);
         data.add(workAccident);
         data.add(promotion);
         data.add(salary);
         data.add(department);
+        data.add(number);
         try{
             System.out.println(data);
             Analyser analyser = new Analyser(account);
             //得到离职率
             ArrayList<String> result = analyser.getProbability(data);
             System.out.println(result);
-            //double leftRatio = Double.valueOf(result.get(0));
-            //double accuracyRate = Double.valueOf(result.get(1));
             String left = result.get(0);
             String accuracyRate = result.get(1);
             String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));
             String reason = "该员工";
 
-            System.out.println("该员工信息分析成功");
+            System.out.println("编号" + number + "员工信息分析成功");
             System.out.println("该员工是否会离职？ " + left);
             System.out.println("该预测的准确率为:" + accuracyRate);
             System.out.println("结果分析：" + reason);

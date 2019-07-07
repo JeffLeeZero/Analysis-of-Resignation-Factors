@@ -17,17 +17,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "AnalysisPartServlet")
-public class AnalysisPartServlet extends HttpServlet {
+@WebServlet(name = "LeftRatioServlet")
+public class LeftRatioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //对返回消息进行设置
-        /* 允许跨域的主机地址 */
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setCharacterEncoding("utf-8");
 
@@ -40,39 +40,33 @@ public class AnalysisPartServlet extends HttpServlet {
 
         //请求数据的bean类
 
-        String account = "",value = "";
+        String account = "";
         Gson gson = new Gson();
-        Type reqType = new TypeToken<RequestBean<AttrBean>>(){}.getType();
-        RequestBean<AttrBean> reqBean = gson.fromJson(content,reqType);
+        Type reqType = new TypeToken<RequestBean>(){}.getType();
+        RequestBean reqBean = gson.fromJson(content,reqType);
         account = reqBean.getReqId();
-        AttrBean attrBean = reqBean.getReqParam();
-        value = attrBean.getName();
+
+        Type resType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
+
         ResignationAnalyser analyser = new Analyser(account);
-        Map<String,Double> map = analyser.getAttrRatio(value);
-        if(map.get("isSeperated")>0){
-            attrBean.setSeperated(true);
-        }else {
-            attrBean.setSeperated(false);
-        }
-        map.remove("isSeperated");
-        for (Map.Entry<String,Double> entry:
-             map.entrySet()) {
+        Map<String,Double> map = analyser.getAttrRatio("left");
+        AttrBean attrBean = new AttrBean("left",0);
+        for (Map.Entry<String, Double> entry
+                : map.entrySet()){
             attrBean.addList(entry.getKey(),entry.getValue());
         }
-        if(!attrBean.isSeperated()){
-            attrBean.sortList();
-        }
-
-        Type respType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
         ResponseBean<AttrBean> respBean = new ResponseBean<>();
         respBean.setResData(attrBean);
+        String res = gson.toJson(respBean,resType);
         try{
-            out.print(gson.toJson(respBean,respType));
+            out.print(res);
+            out.flush();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            out.flush();
             out.close();
         }
+
+
     }
 }

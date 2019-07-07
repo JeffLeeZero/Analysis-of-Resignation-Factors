@@ -104,7 +104,7 @@ public class Analyser implements ResignationAnalyser {
      */
     @Override
     public ArrayList<String> getProbability(ArrayList<String> data) {
-        String department = data.get(data.size()-1);
+        String department = data.get(data.size()-2);
         getAttrAndInfo();
         if(tree==null){
             tree = new TreeModel(aid);
@@ -112,14 +112,14 @@ public class Analyser implements ResignationAnalyser {
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            forest.rebuildModel();
+            //forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
         }
         ArrayList<ArrayList<Double>> results = py.getProbability(data,department);
         results.add(tree.getProbability(data,attrs));
-        results.add(forest.getProbability(data,attrs));
+        //results.add(forest.getProbability(data,attrs));
         return getAverageResult(results);
     }
 
@@ -138,13 +138,14 @@ public class Analyser implements ResignationAnalyser {
     public ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL){
         getAttrAndInfo();
         ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
+        datas.remove(0);
         if(tree==null){
             tree = new TreeModel(aid);
             tree.rebuildTree();
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            forest.rebuildModel();
+            //forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
@@ -153,7 +154,7 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         for (int i = 0;i<results.size();i++){
             results.get(i).add(tree.getProbability(datas.get(i),attrs));
-            results.get(i).add(forest.getProbability(datas.get(i),attrs));
+            //results.get(i).add(forest.getProbability(datas.get(i),attrs));
             answers.add(getAverageResult(results.get(i)));
         }
         return answers;
@@ -190,18 +191,37 @@ public class Analyser implements ResignationAnalyser {
         return tree.improveMeasure(data,attrs);
     }
 
+
     @Override
     public Map<String, Double> getAttrRatio(String attrName) {
         Connection conn = DBUtil.getConnection();
         Map<String,Double> map = new HashMap<>();
         try{
-            PreparedStatement state = conn.prepareStatement("select value,ratio from attrvalue natural join analysis where account = ? and name = ? and attrname = ?");
+            PreparedStatement state = conn.prepareStatement("select value,ratio,seperated from attrvalue natural join analysis natural join attribute where account = ? and name = ? and attrname = ?");
             state.setString(1,account);
             state.setString(2,name);
             state.setString(3,attrName);
             ResultSet set = state.executeQuery();
+            boolean isSeperated;
+            String value;
+            double ratio;
+            int temp;
             while(set.next()){
-                map.put(set.getString(1),set.getDouble(2));
+                isSeperated = set.getBoolean("seperated");
+                value = set.getString(1);
+                ratio = set.getDouble(2);
+                if(attrName.equals("left")){
+                    map.put(value,ratio);
+                    continue;
+                }
+                temp = (int)(ratio*100);
+                ratio = (double)temp/100;
+                if(!isSeperated){
+                    temp = (int)(Double.valueOf(value)*10);
+                    value = String.valueOf((double) temp/10.0);
+                }
+                map.put(value,ratio);
+                map.put("isSeperated",isSeperated?1.0:0.0);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -218,8 +238,35 @@ public class Analyser implements ResignationAnalyser {
         try{
             conn.setAutoCommit(false);
             int count = 0;
-            PreparedStatement state = conn.prepareStatement("select count(*) from analysis");
+            PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
+            state.setString(1,account);
+            state.setString(2,name);
             ResultSet set = state.executeQuery();
+            if (set.next()){
+                aid = set.getString("aid");
+                state = conn.prepareStatement("delete from attribute where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from attrvalue where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from tree where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from regression where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from svm where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                state = conn.prepareStatement("delete from forest where aid = ?");
+                state.setString(1,aid);
+                state.executeUpdate();
+                conn.commit();
+                return aid;
+            }
+            state = conn.prepareStatement("select count(*) from analysis");
+            set = state.executeQuery();
             if(set.next()){
                 count = set.getInt(1);
             }
@@ -250,7 +297,7 @@ public class Analyser implements ResignationAnalyser {
             PreparedStatement state2;
             for (Attr attr:
                  attrs) {
-                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?)");
+                state = conn.prepareStatement("insert into attribute values (?,?,?,?,?,?,?,?)");
                 state.setString(1,attr.getName());
                 state.setString(2,aid);
                 state.setDouble(3,attr.getD());
@@ -258,6 +305,7 @@ public class Analyser implements ResignationAnalyser {
                 state.setDouble(5,attr.getMin());
                 state.setDouble(6,attr.getLen());
                 state.setInt(7,attr.getM());
+                state.setInt(8,attr.getIndex());
                 state.executeUpdate();
                 state.close();
                 for (Map.Entry<String,Double> entry:
@@ -279,6 +327,8 @@ public class Analyser implements ResignationAnalyser {
             DBUtil.closeConn(conn);
         }
     }
+
+
 
     private ArrayList<ArrayList<String>> importCsv(File file){
         ArrayList<ArrayList<String>> dataList=new ArrayList<>();
@@ -347,6 +397,7 @@ public class Analyser implements ResignationAnalyser {
 
     private void getAttrAndInfo(){
         Connection conn = DBUtil.getConnection();
+        if (attrs==null){attrs = new ArrayList<Attr>();}
         try{
             PreparedStatement state = conn.prepareStatement("select aid from analysis where account = ? and name = ?");
             state.setString(1,account);
@@ -372,6 +423,8 @@ public class Analyser implements ResignationAnalyser {
                 M = set.getInt("M");
                 seperated = set.getInt("seperated");
                 attr = new Attr(name,seperated>0,M,min,len);
+                attr.setIndex(set.getInt("in_dex"));
+                attr.setD(D);
                 attrs.add(attr);
             }
         }catch (SQLException e){
@@ -405,46 +458,49 @@ public class Analyser implements ResignationAnalyser {
         return result;
     }
 
-    public static void main(String[] args){
-        Analyser analyser = new Analyser("jeff12");
-        //Long start = System.currentTimeMillis();
-        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
-        //测试数据,这部分需要前端传入
-        //Long end  =System.currentTimeMillis();
-        //System.out.println((end-start)/1000);
-
-        ArrayList<String> data = new ArrayList<>();
-        //'0.38,0.53,157,3,2,0,0,0'
-        data.add("0.38");
-        data.add("0.53");
-        data.add("157");
-        data.add("2");
-        data.add("3");
-        data.add("0");
-        data.add("0");
-        data.add("0");
-
-        //ArrayList<String> result1 = analyser.getProbability(data);
+//    public static void main(String[] args){
+//        Analyser analyser = new Analyser("123");
+//        //Long start = System.currentTimeMillis();
+//        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
+//        //测试数据,这部分需要前端传入
+//        //Long end  =System.currentTimeMillis();
+//        //System.out.println((end-start)/1000);
+//        analyser.getAttrRatio("left");
+//        analyser.getAttrRatio();
+//        //analyser.trainModel("test.csv");
+//        ArrayList<String> data = new ArrayList<>();
+//        //'0.38,0.53,157,3,2,0,0,0'
+//        data.add("0.38");
+//        data.add("0.53");
+//        data.add("157");
+//        data.add("2");
+//        data.add("3");
+//        data.add("0");
+//        data.add("0");
+//        data.add("low");
+//        data.add("IT");
+//        //ArrayList<String> result1 = analyser.getProbability(data);
+//
 
 //        //获取训练数据集的URL(前端传入对应的训练文件URL）
-//        ArrayList<String> result1 = analyser.getProbability(data, "369分析方案", "IT");
+//        ArrayList<String> result1 = analyser.getProbability(data);
 //        System.out.println(result1);
-//        //是否离职 0不离职，1离职
-//        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
-//        System.out.println(leftResult1);
-//        //该模型的拟合度
-//        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
-//        System.out.println(scoreResult1);
-//        System.out.println(leftResult1+"\n"+scoreResult1);
-
-
-//        ArrayList<String> result2 = analyser.getProbabilityFromCSV("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv", "369分析方案");
-//        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
-//        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
-//        System.out.println(leftResult2);
-//        System.out.println(scoreResult2);
-
-
-
-    }
+////        //是否离职 0不离职，1离职
+////        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
+////        System.out.println(leftResult1);
+////        //该模型的拟合度
+////        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
+////        System.out.println(scoreResult1);
+////        System.out.println(leftResult1+"\n"+scoreResult1);
+//
+//
+////        ArrayList<String> result2 = analyser.getProbabilityFromCSV("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv", "369分析方案");
+////        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
+////        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
+////        System.out.println(leftResult2);
+////        System.out.println(scoreResult2);
+//
+//
+//
+//    }
 }
