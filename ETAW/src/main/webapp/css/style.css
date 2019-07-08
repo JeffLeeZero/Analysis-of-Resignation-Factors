@@ -317,7 +317,7 @@ a:hover {
     font-size: 15px;
     color: #fff;
 }
-input[type="checkbox" i] {
+input[type="checkbox"] {
     display: none;
 }
 /*-- w3layouts --*/

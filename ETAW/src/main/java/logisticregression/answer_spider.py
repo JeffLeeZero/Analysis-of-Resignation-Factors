@@ -1,17 +1,6 @@
 from pyquery import PyQuery as pq
 import cx_Oracle as oracle
 
-# from selenium import webdriver
-#
-# driver = webdriver.Chrome()
-#
-# driver.get(url)
-#
-# i = 100
-#
-# for i in range(2, 90):  # 也可以设置一个较大的数，一下到底
-#     js = "var q=document.documentElement.scrollTop={}".format(i * 100)  # javascript语句
-#     driver.execute_script(js)
 
 def get_page(url):
     headers = {
@@ -24,8 +13,6 @@ def get_page(url):
 
 def get_answer(doc):
     content = doc('.List-item')
-
-    print(content)
     result = []
     for i in content:
         answer = pq(i)
@@ -46,8 +33,7 @@ def get_answer(doc):
     return result
 
 def import_answer(result):
-    #db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
-    db = oracle.connect('admin/123456@localhost/SYSTEM')
+    db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
 
     sql1 = "select title, author from answer"
@@ -94,8 +80,8 @@ def main():
     doc6 = get_page('https://zhuanlan.zhihu.com/p/42602201')
     doc7 = get_page('https://www.zhihu.com/question/29671468')
     doc8 = get_page('https://zhuanlan.zhihu.com/p/42652323')
-
-
+    doc9 = get_page('https://zhuanlan.zhihu.com/p/32767077')
+    doc10 = get_page('https://zhuanlan.zhihu.com/p/33387057')
 
     results.append(get_answer(doc1))
     results.append(get_answer(doc2))
@@ -105,18 +91,11 @@ def main():
     results.append(get_column(doc6))
     results.append(get_answer(doc7))
     results.append(get_column(doc8))
+    results.append(get_column(doc9))
+    results.append(get_column(doc10))
     for i in results:
         import_answer(i)
 
-    # db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
-    # cursor = db.cursor()
-    #
-    # sql1 = "select content from answer"
-    # cursor.execute(sql1)
-    # db.commit()
-    # content = cursor.fetchall()
-    # for i in content:
-    #     print(i.read())
 
 if __name__ == '__main__':
     main()
