@@ -59,12 +59,10 @@
                 </p>
             </div>
 
-            <div class="loading" style="display: none">
-                <div class="loadingBorder">
-                    <img  class="loadingImage" src="img/loading.gif">
-                    <div class="loadingText">
-                        <p>模型生成中...</p>
-                    </div>
+            <div class="loading" style="display: none;">
+                <img  class="loadingImage" src="img/loading.gif">
+                <div class="loadingText">
+                    <p>模型生成中...</p>
                 </div>
             </div>
 
@@ -268,39 +266,32 @@
 
     .loading{
         position: absolute;
-        top: 30%;
-        left: 30%;
-        width: 30%;
-        height: 40%;
-        opacity: 0.8;
-    }
-
-    .loadingBorder{
-        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        border: 8px solid #b9def0;
-        border-radius: 5px;
+        opacity: 0.8;
+        background-color: #FFFFFF;
+
     }
+
 
     .loadingImage{
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 30%;
+        left: 30%;
+        width: 30%;
+        height: 30%;
     }
 
     .loadingText{
         position: absolute;
-        top: 85%;
-        left: 0;
+        top: 60%;
+        left: 40%;
         width: 100%;
         height: 20%;
         color: black;
-        font-size: 16px;
+        font-size: 18px;
     }
 
 </style>

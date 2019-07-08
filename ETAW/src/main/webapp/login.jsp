@@ -130,6 +130,12 @@
 
 	</body>
 	<style>
+		body{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			overflow: hidden;
+		}
 		.float_in {
 			animation: float_in_ani 1.5s forwards;
 		}

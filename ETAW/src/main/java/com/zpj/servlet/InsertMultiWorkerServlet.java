@@ -116,24 +116,23 @@ public class InsertMultiWorkerServlet extends HttpServlet {
         System.out.println(url);
         Analyser analyser = new Analyser(account);
         try {
-            /*
-            [
-                [判断结果，准确率]，
-                [判断结果，准确率],
-                ……
-            ]
-             */
             ArrayList<ArrayList<String>> result = analyser.getProbabilityFromCSV(url);
             System.out.println("批量读取文件成功");
             System.out.println(result);
             ArrayList<String> left = new ArrayList<>();
             ArrayList<String> accuracyRate = new ArrayList<>();
+            ArrayList<String> number = analyser.getNumberFromCSV(url);
+            System.out.println(number);
             for (int i = 0; i < result.size();i++) {
                 left.add(result.get(i).get(0));
                 accuracyRate.add(result.get(i).get(1));
             }
+            System.out.println(left);
+            System.out.println(accuracyRate);
+            request.getSession().setAttribute("number",number);
             request.getSession().setAttribute("left", left);
             request.getSession().setAttribute("accuracyRate", accuracyRate);
+            //request.getSession().setAttribute("result",result);
             request.getRequestDispatcher("http://localhost:8080/analyseMultiWorker.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -143,10 +142,9 @@ public class InsertMultiWorkerServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         try{
-            out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseMultiWorker.jsp'</script>");
+            //out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseMultiWorker.jsp'</script>");
         } catch (Exception e){
-            out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/insertWorker.jsp'</script>");
+            //out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/insertWorker.jsp'</script>");
         }
-
     }
 }

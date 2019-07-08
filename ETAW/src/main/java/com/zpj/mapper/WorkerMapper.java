@@ -1,13 +1,17 @@
 package com.zpj.mapper;
 
 import com.zpj.pojo.Worker;
-import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 public interface WorkerMapper {
 
     int insertWorker(Worker worker);
 
+    List<Worker> queryWorker(String account);
+
     String queryAllNumber();
 
     String queryLeftNumber();
+
+
 }

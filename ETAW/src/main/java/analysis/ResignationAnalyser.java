@@ -56,5 +56,6 @@ public interface ResignationAnalyser {
      */
     ArrayList<ArrayList<String>> getProbabilityFromCSV(String csvURL);
 
+    ArrayList<String> getNumberFromCSV(String csvURL);
 
 }

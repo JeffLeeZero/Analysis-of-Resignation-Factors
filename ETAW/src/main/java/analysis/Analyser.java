@@ -161,6 +161,17 @@ public class Analyser implements ResignationAnalyser {
     }
 
     @Override
+    public ArrayList<String> getNumberFromCSV(String csvURL){
+        getAttrAndInfo();
+        ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
+        ArrayList<String> number = new ArrayList<>();
+        for(int i = 1;i<=datas.size();i++){
+            number.add(datas.get(i).get(0));
+        }
+        return number;
+    }
+
+    @Override
     public Map<String, Double> getAttrRatio() {
         Connection conn = DBUtil.getConnection();
         Map<String,Double> map = new HashMap<>();
