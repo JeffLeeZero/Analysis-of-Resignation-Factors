@@ -44,17 +44,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${workers}" var="worker">
 									<tr>
-										<td align="center">
-											<%=(String)session.getAttribute("allNumber") %>
-										</td>
-										<td align="center">
-											<%=(String)session.getAttribute("leftNumber") %>
-										</td>
-										<td align="center">
-											<%=(String)session.getAttribute("leftRatio") %>%</td>
-								</c:forEach>
+										<td id="sumNumber" align="center"></td>
+										<td id="leftCount" align="center"></td>
+										<td id="leftRatio" align="center"></td>
+									</tr>
 							</tbody>
 						</table>
 					</div>
@@ -80,6 +74,23 @@
 							echarts: './js'
 						}
 					});
+                    $.ajax({
+                        type: "post",
+                        url: "http://localhost:8080/LeftRatioServlet",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "reqId": window.localStorage.id,
+                            "reqParam": {}
+                        }),
+                        success: function (res) {
+							var sum = parseInt(res.resData.list[0].ratio);
+							var ratio = res.resData.list[1].ratio;
+							var count = parseInt(sum * ratio);
+							document.getElementById("sumNumber").innerText = sum;
+                            document.getElementById("leftCount").innerText = count;
+                            document.getElementById("leftRatio").innerText = (ratio*100)+"%";
+                        }
+                    }),
 					$.ajax({
 						type: "post",
 						url: "http://localhost:8080/AnalysisAllServlet",

@@ -1,3 +1,4 @@
+
 window._bd_share_config = {
     "common": {
         "bdSnsKey": {},

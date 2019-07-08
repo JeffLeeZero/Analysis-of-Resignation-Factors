@@ -20,7 +20,13 @@ def data2dataframe(data):
     :param data:输入的数据字符串
     :return:测试数据集
     """
-    data_float_list = data.split(",")
+    data_float_list = data.split(";")
+    if(data_float_list[7] == 'low'):
+        data_float_list[7] = '0'
+    elif(data_float_list[7] == 'medium'):
+        data_float_list[7] = '1'
+    elif(data_float_list[7] == 'high'):
+        data_float_list[7] = '2'
     #处理数据
     data_float_list[0] = pd.Series(float(data_float_list[0]))
     test_data = pd.DataFrame(data_float_list[0], columns=['satisfaction_level'])
@@ -41,11 +47,12 @@ def choose_model(aid, department):
     :return:模型对象和拟合度
     """
     db = get_connection('admin/123456@localhost/SYSTEM')
+    #db = get_connection(('FRANK/ZD73330274@localhost/orcl'))
     cursor = db.cursor()
-    #选出特定的逻辑回归模型
-    sql1 = "select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = '" \
-           + aid +"' and regression.department = '" + department +"' and svm.aid = '" + aid +"' and svm.department = '" + department + "'"
-    cursor.execute(sql1)
+    #选出特定的逻辑回归模型和向量机模型
+    args = (aid, department,aid, department)
+    cursor.execute('select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and regression.department = :2 and svm.aid = :3 and svm.department = :4'
+               , args)
     db.commit()
     result = cursor.fetchall()
     #逻辑回归和svm模型
@@ -61,7 +68,7 @@ def choose_model(aid, department):
     return log_reg, log_reg_score, svm, svm_score
 
 
-def main(data='0.38,0.53,157,2,3,0,0,0',aid = 'jeff12分析方案', department = 'IT'):
+def main(data,aid, department):
     log_reg_predict_float_result = []
     svm_predict_float_result  =[]
     x_test = data2dataframe(data)
@@ -82,9 +89,9 @@ def main(data='0.38,0.53,157,2,3,0,0,0',aid = 'jeff12分析方案', department =
 
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
 if __name__ == "__main__":
+    #main('0.5,0.5,75,5,5,0,0,medium,IT', '1', 'IT')
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])
     a.append(sys.argv[3])
     main(a[0],a[1],a[2])
-

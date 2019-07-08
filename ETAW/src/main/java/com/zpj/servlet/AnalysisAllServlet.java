@@ -32,6 +32,7 @@ public class AnalysisAllServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //对返回消息进行设置
         /* 允许跨域的主机地址 */
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setCharacterEncoding("utf-8");
 
@@ -50,7 +51,7 @@ public class AnalysisAllServlet extends HttpServlet {
         RequestBean reqBean = gson.fromJson(content,reqType);
         account = reqBean.getReqId();
 
-        Type resType = new TypeToken<ResponseBean<List<AttrBean>>>(){}.getType();
+        Type resType = new TypeToken<ResponseBean<AttrBean>>(){}.getType();
 
         ResignationAnalyser analyser = new Analyser(account);
         Map<String,Double> map = analyser.getAttrRatio();

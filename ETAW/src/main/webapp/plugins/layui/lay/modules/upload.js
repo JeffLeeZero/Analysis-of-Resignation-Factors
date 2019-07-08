@@ -14,7 +14,7 @@ layui.define("layer", function(e) {
 			on: function(e, t) {
 				return layui.onevent.call(this, r, e, t)
 			}
-		},url
+		},
 		l = function() {
 			var e = this;
 			return {

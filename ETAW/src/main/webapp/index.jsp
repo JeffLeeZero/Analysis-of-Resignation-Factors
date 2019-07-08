@@ -84,17 +84,15 @@
                         }
                     });
                     return false;
-                }
 
-                $("#upup").on("click",function () {
-                    var formSatellite = document.getElementById("up_form");//获取所要提交form的id
-                    var formAccount = document.getElementById("formAccount").valueOf();
-                    var fs1 = new FormData(formSatellite);  //用所要提交form做参数建立一个formdata对象
-                    //var fs2 = new FormData(formAccount);
-                    console.log(fs1);
-                    fsubmit(fs1);//调用函数
-                    //fsubmit(fs2);
-                })
+                }
+            });
+            return false;
+        }
+        $("#upup").on("click",function () {
+            var formSatellite = document.getElementById("up_form");//获取所要提交form的id
+
+            var fs1 = new FormData(formSatellite);  //用所要提交form做参数建立一个formdata对象
 
 			});
 		</script>

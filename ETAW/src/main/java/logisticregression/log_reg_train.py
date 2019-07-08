@@ -6,6 +6,7 @@ import pandas as pd
 from logisticregression.logistic_regression import  LogisticRegression
 import cx_Oracle as oracle
 import _pickle as pickle
+from sklearn.preprocessing import StandardScaler
 
 def get_connection(conn_str):
     """
@@ -46,20 +47,22 @@ def train(saleset, data, x_set, y_set):
     """
     log_reg_score = []
     log_reg_parameter = []
-    svc_score = []
-    svc_parameter = []
     for i in saleset:
         #区分出每个职位的数据集
         x = x_set.loc[data['sales'] == i]
         y = y_set.loc[data['sales'] == i]
         #训练模型
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+        #训练集和测试集数据标准化
+        std = StandardScaler()
+        x_train_std = std.fit_transform(x_train)
+        x_test_std = std.fit_transform(x_test)
         #用逻辑回归训练模型
         log_reg = LogisticRegression()
-        log_reg.fit(x_train, y_train)
+        log_reg.fit(x_train_std, y_train)
         #用于序列化模型对象
         log_reg_parameter.append(pickle.dumps(log_reg))
-        log_reg_score.append(log_reg.score(x_test, y_test))
+        log_reg_score.append(log_reg.score(x_test_std, y_test))
     return log_reg_parameter, log_reg_score,saleset
 
 def import_model(parameter,score,saleset,aid):
@@ -73,6 +76,7 @@ def import_model(parameter,score,saleset,aid):
     :return:
     """
     db = get_connection('admin/123456@localhost/SYSTEM')
+    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -121,7 +125,10 @@ def main(aid,filepath):
     log_reg_parameter, log_reg_score, saleset = train(saleset, data, x_set, y_set)
     import_model(log_reg_parameter, log_reg_score, saleset, aid)
 if __name__ == "__main__":
-    main('369分析方案', r"C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv")
+    a = []
+    a.append(sys.argv[1])
+    a.append(sys.argv[2])
+    main(a[0],a[1])
 
 
 

@@ -124,13 +124,17 @@ public class InsertMultiWorkerServlet extends HttpServlet {
             ]
              */
             ArrayList<ArrayList<String>> result = analyser.getProbabilityFromCSV(url);
-//            ArrayList<Float> leftResult2 = analyser.getResult(result,0);
-//            ArrayList<Float> scoreResult2 = analyser.getResult(result,1);
-//            System.out.println(leftResult2);
-//            System.out.println(scoreResult2);
-
             System.out.println("批量读取文件成功");
             System.out.println(result);
+            ArrayList<String> left = new ArrayList<>();
+            ArrayList<String> accuracyRate = new ArrayList<>();
+            for (int i = 0; i < result.size();i++) {
+                left.add(result.get(i).get(0));
+                accuracyRate.add(result.get(i).get(1));
+            }
+            request.getSession().setAttribute("left", left);
+            request.getSession().setAttribute("accuracyRate", accuracyRate);
+            request.getRequestDispatcher("http://localhost:8080/analyseMultiWorker.jsp").forward(request, response);
 
         } catch (Exception e) {
             System.out.println("批量读取文件失败");

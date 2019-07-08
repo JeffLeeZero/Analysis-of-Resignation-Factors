@@ -7,14 +7,14 @@ public class RandomForest {
     private ArrayList<ForestTree> forest;
     private int TREECOUNT;
     private int threadCount = 20;
-    private final CyclicBarrier barrier = new CyclicBarrier(threadCount+1);
+    private CyclicBarrier barrier;
     public RandomForest(){
         this.forest = new ArrayList<>();
-        this.TREECOUNT = 500;
+        this.TREECOUNT = 300;
     }
 
     public void buildForest(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
-
+        barrier = new CyclicBarrier(threadCount+1);
         int n = (int)Math.sqrt(attrList.size());
         int m = datas.size() * 2 / 3;
         DecisionTree tree;
@@ -33,7 +33,8 @@ public class RandomForest {
                 e.printStackTrace();
             }
         }
-        computeAttrImportance(attrList);
+        barrier = null;
+        //computeAttrImportance(attrList);
     }
 
     public static ArrayList<ArrayList<String>> getRandomData(ArrayList<ArrayList<String>> datas){

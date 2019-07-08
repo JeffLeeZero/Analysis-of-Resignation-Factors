@@ -26,8 +26,11 @@ public class TreeModel {
     public void trainTree(ArrayList<ArrayList<String>> trainSet, ArrayList<ArrayList<String>> testSet, ArrayList<Attr> attrs){
         tree = new DecisionTree();
 
+        ArrayList<ArrayList<String>> list = new ArrayList<>();
+        list.addAll(trainSet);
+        list.addAll(testSet);
         //TODO:使用决策树的特征重要性还是随机森林的
-        tree.buildArrayList(trainSet,attrs);
+        tree.buildArrayList(list,attrs);
         tree.setTree(tree.buildTree(trainSet,attrs));
         int trueNum = 0;
         for (ArrayList<String> data:

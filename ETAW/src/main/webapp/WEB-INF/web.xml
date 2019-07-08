@@ -92,6 +92,15 @@
         <servlet-name>findPassServlet</servlet-name>
         <url-pattern>/FindPassServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>leftRatioServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.LeftRatioServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>leftRatioServlet</servlet-name>
+        <url-pattern>/LeftRatioServlet</url-pattern>
+    </servlet-mapping>
+
 
    <welcome-file-list>
        <welcome-file>frontPage.jsp</welcome-file>

@@ -1,13 +1,14 @@
 package com.zpj.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import tree.Attr;
+
+import java.util.*;
 
 public class AttrBean {
    private String name;
    private double D;
    private List<AttrValue> list = null;;
-
+   private boolean isSeperated;
     public AttrBean(String name) {
         this.name = name;
     }
@@ -39,6 +40,7 @@ public class AttrBean {
             list =  new ArrayList<>();
         }
         list.add(value);
+
     }
 
     public void addList(String values, double ratio)
@@ -48,11 +50,41 @@ public class AttrBean {
     }
 
 
+    public void sortList(){
+        list.sort(new Comparator<AttrValue>() {
+            @Override
+            public int compare(AttrValue o1, AttrValue o2) {
+                try{
+                    if(Double.valueOf(o1.value)>Double.valueOf(o2.value)){
+                        return 1;
+                    }else if(Double.valueOf(o1.value)<Double.valueOf(o2.value)){
+                        return -1;
+                    }else{
+                        return 0;
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return -1;
+                }
+            }
+        });
+    }
+
+    public boolean isSeperated() {
+        return isSeperated;
+    }
+
+    public void setSeperated(boolean seperated) {
+        isSeperated = seperated;
+    }
+
     class AttrValue{
        private String value;
        private double ratio;
 
-       public AttrValue(String value, double ratio) {
+
+
+        public AttrValue(String value, double ratio) {
            this.value = value;
            this.ratio = ratio;
        }
