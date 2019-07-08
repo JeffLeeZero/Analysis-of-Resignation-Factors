@@ -94,7 +94,7 @@
     </servlet-mapping>
 
    <welcome-file-list>
-       <welcome-file>login.jsp</welcome-file>
+       <welcome-file>frontPage.jsp</welcome-file>
    </welcome-file-list>
     <!--<welcome-file-list>-->
         <!--<welcome-file>../test.jsp</welcome-file>-->

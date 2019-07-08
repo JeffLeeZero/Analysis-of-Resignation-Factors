@@ -8,103 +8,77 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <title>员工离职分析网站</title>
+
+    <script src="js/findPassword.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/frontPage.css">
 </head>
 <body>
 <div class="splash">
     <div class="counter">
         <div><h1>员工离职分析</h1></div>
     </div>
-    <p class="tagline">世界那么大，我想···</p>
-    <p class="calories">工作那么忙，你别想···</p></div>
-<style>
-    html {
-        background-color: #fff;
-        color: #32353a;
-        font-family: Tahoma, Verdana, Segoe, sans-serif;
-        line-height: 1.5;
-    }
+    <div class="tagline_div" >
+        <p class="tagline" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)">世界那么大，我想···</p>
+        <img id="img_1" src="img/离职.png" >
+    </div>
+    <div class="calories_div" >
+        <p class="calories" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)">工作那么忙，你别想···</p>
+        <img id="img_2" src="img/不敢离职.jpg">
+    </div>
+    <script>
+        function mouseOver(flag) {
+            if (flag==1){
+                var img=document.getElementById("img_1");
+                img.style.display='block';
+            }else {
+                var img=document.getElementById("img_2");
+                img.style.display='block';
+            }
+        }
+        function mouseOut(flag) {
+            if (flag==1){
+                var img=document.getElementById("img_1");
+                img.style.display='none';
+            }else {
+                var img=document.getElementById("img_2");
+                img.style.display='none';
+            }
+        }
+    </script>
 
-    body {
-        margin: 0;
-    }
+</div>
+<div class="info" id="info_1">
+    <p class="tagline">探求员工离职原因</p>
+</div>
+<div class="info" id="info_2">
+    <p class="tagline">分析员工离职概率</p>
+</div>
+<div class="question" id="que_1">
+    <p class="tagline">为何员工突然辞职</p>
+</div>
+<div class="question" id="que_2">
+    <p class="tagline">哪个部门不堪重负</p>
+</div>
+<script language='javascript' type='text/javascript'>
+    $(function () {
+        setTime(function () {
+           $("#info_2").css('display','block');
+        },500);
+    });
+</script>
+<div class="aside-nav bounceInUp animated" id="aside-nav">
+    <a href="" class="aside-menu" title="按住拖动">菜单</a>
 
-    h1 {
-        font-family: 'American Typewriter', 'Rockwell Extra Bold', 'Book Antiqua', Georgia, serif;
-        font-size: 4em;
-    }
-
-    .counter {
-        margin-bottom: 1rem;
-        border-bottom: .1875em dashed #d2d6dd;
-    }
-
-    .tagline {
-        font-size: 1.125em;
-        margin: 2rem 1.5rem;
-    }
-
-    .calories {
-        color: #8b919b;
-        font-size: .875em;
-    }
-
-    .splash {
-        position: relative;
-        height: 100vh;
-        max-width: 30em;
-        text-align: center;
-    }
-
-    .splash {
-        box-sizing: border-box;
-        max-width: 30em;
-        margin: 0 auto;
-        padding: 1.5em;
-    }
-
-    .counter {
-        position: relative;
-        padding-top: 30vh;
-    }
-
-    .counter h1 {
-        position: relative;
-        text-align: center;
-        margin: 0;
-        line-height: .625;
-        z-index: 2;
-        transform-origin: bottom center;
-    }
-
-    .dish {
-        color: #e89c2b;
-        position: absolute;
-        width: 1em;
-        height: 1em;
-        margin-top: -.75em;
-        margin-left: -.5em;
-        font-size: 2rem;
-        top: 0;
-        transform: translateY(-3em);
-        transition-duration: .75s;
-        transition-timing-function: ease-in;
-        transition-property: transform;
-        z-index: 1;
-    }
-
-    .dish.drop {
-        transform: translateY(30vh);
-    }
-
-    .nommer {
-        position: absolute;
-        bottom: 2em;
-        margin-left: -1em;
-        color: rgba(0, 0, 0, .5);
-        font-size: 1.5rem;
-        transform-origin: bottom center;
-    }</style>
+    <a href="javascript:void(0)"  class="menu-item menu-first">点</a>
+    <a href="javascript:void(0)"  class="menu-item menu-second">击</a>
+    <a href="javascript:void(0)"  class="menu-item menu-third">登</a>
+    <a href="javascript:void(0)"  class="menu-item menu-line menu-fourth">录</a>
+</div>
 <script>
     (function () {
         var counter = document.querySelector('.counter');
