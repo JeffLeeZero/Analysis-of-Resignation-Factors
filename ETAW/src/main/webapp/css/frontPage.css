@@ -13,11 +13,28 @@ body {
     left: 0;
     overflow: hidden;
     margin: 0;
+    background: url("/img/bg.jpg") no-repeat center fixed;
+    /*!*background-repeat: no-repeat;*!*/
+    background-size: cover;
+    /*background-attachment: fixed;*/
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+
+
 }
 
 h1 {
     font-family: 'American Typewriter', 'Rockwell Extra Bold', 'Book Antiqua', Georgia, serif;
     font-size: 4em;
+    color: #fff9ec;
 }
 
 .counter {
@@ -28,10 +45,11 @@ h1 {
 .tagline {
     font-size: 1.125em;
     margin: 2rem 1.5rem;
+    color: whitesmoke;
 }
 
 .calories {
-    color: #8b919b;
+    color: #cbd3e2;
     font-size: .875em;
 }
 
@@ -92,11 +110,12 @@ h1 {
     transform-origin: bottom center;
 }
 
-.tagline_div{
+.tagline_div {
 
     margin: 2rem 1.5rem;
 }
-#img_1{
+
+#img_1 {
     display: none;
     position: absolute;
     top: 5em;
@@ -105,14 +124,16 @@ h1 {
     width: 30em;
     z-index: 5;
 }
-.calories_div{
-    border-image:url(/img/border.png) 30 30 round;
-    -moz-border-image:url(/img/border.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image:url(/img/border.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image:url(/img/border.png) 30 30 round; /* Opera */
+
+.calories_div {
+    border-image: url(/img/border.png) 30 30 round;
+    -moz-border-image: url(/img/border.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(/img/border.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(/img/border.png) 30 30 round; /* Opera */
     margin: 2rem 1.5rem;
 }
-#img_2{
+
+#img_2 {
     display: none;
     position: absolute;
     top: 15em;
@@ -121,104 +142,244 @@ h1 {
     width: 20em;
     z-index: 5;
 }
-.info{
-    border-image:url(/img/border2.png) 30 30 round;
-    -moz-border-image:url(/img/border2.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image:url(/img/border2.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image:url(/img/border2.png) 30 30 round; /* Opera */
-    line-height:24px;
+
+.info {
+    border-image: url(/img/border2.png) 30 30 round;
+    -moz-border-image: url(/img/border2.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(/img/border2.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(/img/border2.png) 30 30 round; /* Opera */
+    line-height: 24px;
     -webkit-writing-mode: vertical-rl;
-     writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
     width: 5%;
     height: 30%;
-    padding: 2em ;
-    overflow: hidden;
+    padding: 2em;
 }
-.info p:hover{
+
+.info p:hover {
     font-size: 1em;
 }
 
-#info_1{
+#info_1 {
     position: absolute;
     top: 40%;
     left: 5%;
-    animation:info_1_move 1.5s linear;
-    -webkit-animation:info_1_move 1.5s linear; /*Safari and Chrome*/
+    animation: info_1_move 1.5s linear;
+    -webkit-animation: info_1_move 1.5s linear; /*Safari and Chrome*/
 }
-@keyframes info_1_move
-{
-    from {top:-30%;}
-    to {top:40%;}
+
+@keyframes info_1_move {
+    from {
+        top: -30%;
+    }
+    to {
+        top: 40%;
+    }
 }
 
 @-webkit-keyframes info_1_move /*Safari and Chrome*/
 {
-    from {top:-30%;}
-    to {top:40%;}
+    from {
+        top: -30%;
+    }
+    to {
+        top: 40%;
+    }
 }
-#info_2{
+
+#info_2 {
     position: absolute;
     top: 30%;
     right: 10%;
-    animation:info_2_move 1.5s linear;
-    -webkit-animation:info_2_move 1.5s linear; /*Safari and Chrome*/
+    animation: info_2_move 1.5s linear;
+    -webkit-animation: info_2_move 1.5s linear; /*Safari and Chrome*/
 }
-@keyframes info_2_move
-{
-    from {top:100%;}
-    to {top:30%;}
+
+@keyframes info_2_move {
+    from {
+        top: 100%;
+    }
+    to {
+        top: 30%;
+    }
 }
 
 @-webkit-keyframes info_2_move /*Safari and Chrome*/
 {
-    from {top:100%;}
-    to {top:30%;}
+    from {
+        top: 100%;
+    }
+    to {
+        top: 30%;
+    }
 }
-.question{
-    border-image:url(/img/border3.png) 30 30 round;
-    -moz-border-image:url(/img/border3.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image:url(/img/border3.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image:url(/img/border3.png) 30 30 round; /* Opera */
-    line-height:24px;
+
+.question {
+    border-image: url(/img/border3.png) 30 30 round;
+    -moz-border-image: url(/img/border3.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(/img/border3.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(/img/border3.png) 30 30 round; /* Opera */
+    line-height: 24px;
     -webkit-writing-mode: vertical-rl;
     writing-mode: vertical-rl;
-    padding: 1em ;
+    padding: 1em;
     width: 5%;
     height: 30%;
 }
-#que_1{
+
+#que_1 {
     position: absolute;
     top: 20%;
     left: 20%;
-    animation:que_1_move 1.5s linear;
-    -webkit-animation:que_1_move 1.5s linear; /*Safari and Chrome*/
+    animation: que_1_move 1.5s linear;
+    -webkit-animation: que_1_move 1.5s linear; /*Safari and Chrome*/
 }
-@keyframes que_1_move
-{
-    from {top:100%;}
-    to {top:20%;}
+
+@keyframes que_1_move {
+    from {
+        top: 100%;
+    }
+    to {
+        top: 20%;
+    }
 }
 
 @-webkit-keyframes que_1_move /*Safari and Chrome*/
 {
-    from {top:100%;}
-    to {top:20%;}
+    from {
+        top: 100%;
+    }
+    to {
+        top: 20%;
+    }
 }
-#que_2{
+
+#que_2 {
     position: absolute;
     top: 50%;
     right: 20%;
-    animation:que_2_move 1.5s linear;
-    -webkit-animation:que_2_move 1.5s linear; /*Safari and Chrome*/
+    animation: que_2_move 1.5s linear;
+    -webkit-animation: que_2_move 1.5s linear; /*Safari and Chrome*/
 }
-@keyframes que_2_move
-{
-    from {top:-30%;}
-    to {top:50%;}
+
+@keyframes que_2_move {
+    from {
+        top: -30%;
+    }
+    to {
+        top: 50%;
+    }
 }
 
 @-webkit-keyframes que_2_move /*Safari and Chrome*/
 {
-    from {top:-30%;}
-    to {top:50%;}
+    from {
+        top: -30%;
+    }
+    to {
+        top: 50%;
+    }
+}
+
+#btn_div {
+    position: absolute;
+    top: 70%;
+    left: 45%;
+}
+
+.gotoLogin_btn {
+    position: absolute;
+    top: 70%;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 50px;
+    background-color: #81abff;
+    z-index: 5;
+    cursor: pointer;
+    animation: fade-in; /*动画名称*/
+    animation-duration: 1.5s; /*动画持续时间*/
+    -webkit-animation: fade-in 1.5s; /*针对webkit内核*/
+}
+
+.gotoLogin_btn p {
+    position: center;
+    font: 700 28px "Comic Sans MS";
+    color: #3d4d62;
+    text-shadow: 0 0 20px #fdec84;
+    /*10px -10px 30px #ffae35,*/
+    /*20px -20px 40px #ec760c,*/
+    /*-20px -60px 50px #cd4607,*/
+    /*0px -80px 60px #973717,*/
+    /*10px -40px 70px #451b0e;*/
+
+}
+
+.gotoLogin_btn:hover {
+    width: 110px;
+    height: 110px;
+    border-radius: 55px;
+    background-color: #ffa83e;
+    box-shadow: 0 0 20px #fdec84;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.gotoLogin_btn:hover p {
+    font: 700 31px "Comic Sans MS";
+    color: #ffffff;
+    text-shadow: 0 0 20px #fdec84;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    /*初始状态 透明度为0*/
+    20% {
+        opacity: 0.2;
+    }
+    /*过渡状态 透明度变化*/
+    40% {
+        opacity: 0.4;
+    }
+    60% {
+        opacity: 0.6;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+    /*结束状态 透明度为1*/
+}
+
+@-webkit-keyframes fade-in { /*针对webkit内核*/
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.2;
+    }
+    /*过渡状态 透明度变化*/
+    40% {
+        opacity: 0.4;
+    }
+    60% {
+        opacity: 0.6;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+a {
+    text-decoration: none
 }
