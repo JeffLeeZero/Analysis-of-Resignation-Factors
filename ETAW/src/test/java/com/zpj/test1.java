@@ -1,7 +1,9 @@
 package com.zpj;
 
+import com.zpj.mapper.AnswerMapper;
 import com.zpj.mapper.UserMapper;
 import com.zpj.mapper.WorkerMapper;
+import com.zpj.pojo.Answer;
 import com.zpj.pojo.User;
 import com.zpj.pojo.Worker;
 import com.zpj.servlet.InsertMultiWorkerServlet;
@@ -11,28 +13,155 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.*;
 
 public class test1 {
-    /*
+
     @Test
     public void m1(){
         SqlSession sqlSession = MybatiesUtil.getSession();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        String pass = null;
-        User user = new User();
-        user.setAccount("123");
-        user.setPassword("123456");
+        AnswerMapper mapper = sqlSession.getMapper(AnswerMapper.class);
+        List<Answer> answers =new List<Answer>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                return false;
+            }
+
+            @Override
+            public Iterator<Answer> iterator() {
+                return null;
+            }
+
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @Override
+            public <T> T[] toArray(T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(Answer answer) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(Collection<? extends Answer> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(int index, Collection<? extends Answer> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Answer get(int index) {
+                return null;
+            }
+
+            @Override
+            public Answer set(int index, Answer element) {
+                return null;
+            }
+
+            @Override
+            public void add(int index, Answer element) {
+
+            }
+
+            @Override
+            public Answer remove(int index) {
+                return null;
+            }
+
+            @Override
+            public int indexOf(Object o) {
+                return 0;
+            }
+
+            @Override
+            public int lastIndexOf(Object o) {
+                return 0;
+            }
+
+            @Override
+            public ListIterator<Answer> listIterator() {
+                return null;
+            }
+
+            @Override
+            public ListIterator<Answer> listIterator(int index) {
+                return null;
+            }
+
+            @Override
+            public List<Answer> subList(int fromIndex, int toIndex) {
+                return null;
+            }
+        };
         String y="";
         try {
-         y= mapper.queryPassByAccount("15198524595");
+            answers= mapper.queryAnswer();
         } catch (Exception e) {
             e.printStackTrace();
         }
         sqlSession.commit();
         sqlSession.close();
-        System.out.println(pass);
+        for (int i=0;i<answers.size();i++){
+            System.out.println("-----------------------------------");
+            System.out.println(answers.get(i).getTitle());
+            System.out.println(answers.get(i).getAuthor());
+            Clob clob = (Clob)answers.get(i).getContent();
+            String contentInfo = "";
+            if(clob != null){
+                try {
+                    contentInfo = clob.getSubString((long)1,(int)clob.length());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(contentInfo);
+        }
     }
 
     @Test
@@ -157,11 +286,11 @@ public class test1 {
         }
     }
 
-*/
-    @Test
-    public void m4(){
-        String url = "";
-    }
+
+//    @Test
+//    public void m4(){
+//        String url = "";
+//    }
 
 
 
