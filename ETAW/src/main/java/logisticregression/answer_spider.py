@@ -16,13 +16,16 @@ import cx_Oracle as oracle
 def get_page(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
-        'Cookie': '_xsrf=P7U0b3BzG3yZf2Tji1Ls0pynYHYsrx65; _zap=b3b2a98e-f0d0-4ca3-8a01-69d324dee824; d_c0="AGCunJy2sQ-PTrfhi04967rZCHOfnhcYBWU=|1562404177"; tst=r; tgw_l7_route=73af20938a97f63d9b695ad561c4c10c; capsion_ticket="2|1:0|10:1562464456|14:capsion_ticket|44:ZmViMjVlZDE1YTczNGFmYWExMzhlMzc1MDQzZmRlNDI=|e007d1749db7f5bb5527309b7a3eb6367004019253b44ebcbdc5e03c2db3d59d'
+        'Cookie': '_xsrf=P7U0b3BzG3yZf2Tji1Ls0pynYHYsrx65; _zap=b3b2a98e-f0d0-4ca3-8a01-69d324dee824; d_c0="AGCunJy2sQ-PTrfhi04967rZCHOfnhcYBWU=|1562404177"; tst=r; q_c1=103178a161214b52939307a6d01af24d|1562464657000|1562464657000; tgw_l7_route=80f350dcd7c650b07bd7b485fcab5bf7; capsion_ticket="2|1:0|10:1562546778|14:capsion_ticket|44:NmRhNzZjNjI5ZDIyNDhhODgwZjU1OWMxOGY2NTY5YzI=|f0ad9817a6cd65f54e25a9a0d325c1f296e242648032950bd2c73b90e28a6895'
     }
     doc = pq(url, headers=headers)
+
     return doc
 
 def get_answer(doc):
     content = doc('.List-item')
+
+    print(content)
     result = []
     for i in content:
         answer = pq(i)
@@ -43,7 +46,8 @@ def get_answer(doc):
     return result
 
 def import_answer(result):
-    db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
+    #db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
+    db = oracle.connect('admin/123456@localhost/SYSTEM')
     cursor = db.cursor()
 
     sql1 = "select title, author from answer"
@@ -90,6 +94,8 @@ def main():
     doc6 = get_page('https://zhuanlan.zhihu.com/p/42602201')
     doc7 = get_page('https://www.zhihu.com/question/29671468')
     doc8 = get_page('https://zhuanlan.zhihu.com/p/42652323')
+
+
 
     results.append(get_answer(doc1))
     results.append(get_answer(doc2))
