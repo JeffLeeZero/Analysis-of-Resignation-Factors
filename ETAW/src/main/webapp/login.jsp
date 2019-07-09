@@ -131,17 +131,11 @@
 	</body>
 	<style>
 		body{
-<<<<<<< HEAD
 			top: 0;
 			left: 0;
 			position: absolute;
 			width: 100vw;
 			height: 100vh;
-=======
-			width: 100%;
-			height: 100%;
-			position: absolute;
->>>>>>> 373258decb1c24f776bedd2675e3bf047b8cb1d3
 			overflow: hidden;
 		}
 		.float_in {
