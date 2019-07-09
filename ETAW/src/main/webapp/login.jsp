@@ -60,7 +60,9 @@
 						</div>
 
 						<div class="login-nav-right">
+
 							<a href="./frontPage.jsp" class="active">主页</a>
+
 							<a href="#">关于我们</a>
 						</div>
 
