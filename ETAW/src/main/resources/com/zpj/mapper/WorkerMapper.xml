@@ -41,5 +41,13 @@
         SELECT * FROM WORKER WHERE account = #{account}
     </select>
 
+    <delete id="deleteWorker">
+        DELETE FROM WORKER WHERE WORKER_NUMBER = #{workNumber}
+    </delete>
+
+    <update id="updateResult">
+        UPDATE WORKER set left = #{left} where worker_number = #{workerNumber};
+    </update>
+
 
 </mapper>
