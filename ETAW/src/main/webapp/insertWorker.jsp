@@ -154,7 +154,7 @@
                             <input/>
                             <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
                             <input type="hidden" class="layui-input" name="account" id="account"/>
-                            <button class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
+                            <button type="button" class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
 
                         </form>
                     </div>
@@ -240,11 +240,11 @@
                 url: "http://localhost:8080/InsertMultiWorkerServlet",
                 type: "POST",
                 data: fd,
-                async : false,
-                contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+                contentType: false,   //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
                 processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
-                error : function(request) {
-                    alert("网络超时")
+                error : function(XMLHttpRequest, textStatus) {
+                    //alert("网络超时")
+                    //console.log(textStatus);
                     window.location.href = "/analyseMultiWorker.jsp";
                 },
                 success: function (data) {
@@ -258,7 +258,6 @@
         $("#upup").on("click",function () {
             var formSatellite = document.getElementById("up_form");//获取所要提交form的id
             var fs1 = new FormData(formSatellite);  //用所要提交form做参数建立一个formdata对象
-            console.log(fs1);
             fsubmit(fs1);//调用函数
         })
     });

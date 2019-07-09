@@ -32,7 +32,7 @@
                 <dl class="layui-nav-child">
                     <dd><a id="team1" href="inputPage.jsp" onclick="queryTeam()"><i class="layui-icon layui-icon-group"></i>
                         导入数据</a></dd>
-                    <%--<dd><a href="history.jsp"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp历史趋势</a></dd>--%>
+                    <dd><a href="history.jsp"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp历史记录</a></dd>
                 </dl>
             </li>
 

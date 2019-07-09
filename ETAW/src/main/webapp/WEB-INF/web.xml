@@ -92,6 +92,7 @@
         <servlet-name>findPassServlet</servlet-name>
         <url-pattern>/FindPassServlet</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>leftRatioServlet</servlet-name>
         <servlet-class>com.zpj.servlet.LeftRatioServlet</servlet-class>
@@ -101,9 +102,18 @@
         <url-pattern>/LeftRatioServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>HistoryServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.HistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryServlet</servlet-name>
+        <url-pattern>/HistoryServlet</url-pattern>
+    </servlet-mapping>
+
 
    <welcome-file-list>
-       <welcome-file>login.jsp</welcome-file>
+       <welcome-file>frontPage.jsp</welcome-file>
    </welcome-file-list>
     <!--<welcome-file-list>-->
         <!--<welcome-file>../test.jsp</welcome-file>-->

@@ -47,6 +47,7 @@ public class AnalysisAllServlet extends HttpServlet {
 
         String account = "";
         Gson gson = new Gson();
+
         Type reqType = new TypeToken<RequestBean>(){}.getType();
         RequestBean reqBean = gson.fromJson(content,reqType);
         account = reqBean.getReqId();
