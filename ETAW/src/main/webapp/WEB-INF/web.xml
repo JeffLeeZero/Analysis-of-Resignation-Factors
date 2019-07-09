@@ -111,6 +111,14 @@
         <url-pattern>/HistoryServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>loginPassServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.LoginPassServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginPassServlet</servlet-name>
+        <url-pattern>/LoginPassServlet</url-pattern>
+    </servlet-mapping>
 
    <welcome-file-list>
        <welcome-file>frontPage.jsp</welcome-file>
