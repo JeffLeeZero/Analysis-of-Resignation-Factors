@@ -51,8 +51,11 @@
                     </div>
 
                         <div class="layui-card-body">
-                            分析原因：
-                            <%=(String)session.getAttribute("reason") %>
+                            分析原因：该员工该员工离职的主要因素为
+                            <div class="factor">
+                                “<%=(String)session.getAttribute("factor") %>”
+                            </div>
+                            <%=(String)session.getAttribute("measure") %>
                         </div>
 
                     </div>
@@ -157,4 +160,12 @@
     });
 </script>
 </body>
+<style>
+    .factor
+    {
+        color: red;
+        font-size: 24px;
+    }
+</style>
+
 </html>

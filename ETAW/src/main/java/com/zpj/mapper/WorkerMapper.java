@@ -1,6 +1,8 @@
 package com.zpj.mapper;
 
 import com.zpj.pojo.Worker;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface WorkerMapper {
@@ -13,9 +15,8 @@ public interface WorkerMapper {
 
     String queryLeftNumber();
 
-    int deleteWorker(String account,String workerNumber,String satisfactionLevel, String lastEvaluation, String numberProject,String averageMonthlyHours,String timeSpendCompany ,String workAccident ,String left, String promotion,String sales, String salary);
+    int deleteWorker(@Param("account")String account, @Param("workNumber")String workerNumber, @Param("satisfactionLevel")String satisfactionLevel, @Param("lastEvaluation")String lastEvaluation, @Param("numberProject")String numberProject, @Param("averageMonthlyHours")String averageMonthlyHours, @Param("timeSpendCompany")String timeSpendCompany , @Param("workAccident")String workAccident , @Param("left")String left, @Param("promotion")String promotion, @Param("sales")String sales, @Param("salary")String salary);
 
-    int updateResult(Worker work);
 
 
 }

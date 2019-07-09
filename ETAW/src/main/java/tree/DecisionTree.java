@@ -171,6 +171,11 @@ public class DecisionTree extends Tree{
                 if(map!=null&&map.size()==0){
                     String name = node.getName();
                     map.add(name);
+                    if(attr.isSeperated()){
+                        map.add("-1");
+                    }else{
+                        map.add(String.valueOf(attr.getLen()));
+                    }
                     for (TreeNode c:
                          node.getChildren()) {
                         if(c.getName().equals("0")){

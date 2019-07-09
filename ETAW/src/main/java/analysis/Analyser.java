@@ -396,7 +396,7 @@ public class Analyser implements ResignationAnalyser {
         int i = 0;
         for (String attr:
                 attrList) {
-            if(i<5){
+            if(i<3){
                 attrs.add(new Attr(attr,false));
                 attrs.get(i).divide(datas,i);
             }else{
