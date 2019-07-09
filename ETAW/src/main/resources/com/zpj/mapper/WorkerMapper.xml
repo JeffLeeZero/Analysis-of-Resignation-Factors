@@ -42,12 +42,20 @@
     </select>
 
     <delete id="deleteWorker">
-        DELETE FROM WORKER WHERE WORKER_NUMBER = #{workNumber}
+        DELETE FROM WORKER where account = #{account}
+        and worker_number = #{workerNumber}
+        and satisfaction_level = #{satisfactionLevel}
+        and last_evaluation = #{lastEvaluation}
+        and number_project = #{numberProject}
+        and average_monthly_hours = #{averageMonthlyHours}
+        and time_spend_company = #{timeSpendCompany}
+        and work_accident = #{workAccident}
+        and left = #{left}
+        and promotion= #{promotion}
+        and sales = #{sales}
+        and salary = #{salary}
     </delete>
 
-    <update id="updateResult">
-        UPDATE WORKER set left = #{left} where worker_number = #{workerNumber};
-    </update>
 
 
 </mapper>
