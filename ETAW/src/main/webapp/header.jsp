@@ -37,12 +37,12 @@
             </li>
 
             <li class="layui-nav-item layui-nav-itemed">
-                <a class="" href="javascript:;">因素分析</a>
+                <a class="" href="javascript:;">整体数据</a>
                 <dl class="layui-nav-child">
-                    <dd><a id="team2" href="analyseAll.jsp" onclick="queryTeam()"><i
-                            class="layui-icon layui-icon-group"></i> 总体分析</a></dd>
-                    <dd><a href="analysePart.jsp" onclick="queryAthlete()"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp单因素分析</a>
-                    </dd>
+                    <dd><a id="team2" href="analysisChart.jsp" onclick="queryTeam()"><i
+                            class="layui-icon layui-icon-group"></i> 统计分析</a></dd>
+                    <%--<dd><a href="analysePart.jsp" onclick="queryAthlete()"><i class="layui-icon layui-icon-friends"></i>&nbsp&nbsp&nbsp单因素分析</a>--%>
+                    <%--</dd>--%>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">

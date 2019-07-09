@@ -1,0 +1,48 @@
+body{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;	
+}
+
+#left_ratio{
+	height:21.65%;
+	top: 1.2%;
+	width: 96%;
+	left: 2%;
+}
+.chart_block{
+	position:absolute;
+	background-color: #EEEEF0;
+}
+
+.layui-elem-field.layui-field-title.title{
+	border-color: rgb(192,192,192);
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+
+#single_attr{
+	height:73.2%;
+	top: 25%;
+	width: 61.5%;
+	left: 2%;
+}
+
+#attr_weight{
+	height:73.2%;
+	top: 25%;
+	width: 33.5%;
+	right: 2%;
+}
+
+.attr_select{
+	margin-top: 2%;
+	width: 30%;
+}
+
+#single_attr_chart{
+	width: 95%;
+}

@@ -96,7 +96,7 @@
 						</div>
 						<div class="div_main" id="veriLogin">
 							<form class="layui-form" method="post">
-								<h1>LOGIN IN</h1>
+								<h1 style="color: #Ffffff;">LOGIN IN</h1>
 								<div class="icon1">
 									<input class="input_c" name="phone" type="tel" placeholder="输入手机号" onfocus="this.placeholder=''" onblur="this.placeholder='输入手机号'" id="phone" maxlength="11" regex="^[1][3,4,5,7,8][0-9]{9}$">
 								</div>
@@ -130,6 +130,14 @@
 
 	</body>
 	<style>
+		body{
+			top: 0;
+			left: 0;
+			position: absolute;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+		}
 		.float_in {
 			animation: float_in_ani 1.5s forwards;
 		}
