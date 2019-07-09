@@ -111,6 +111,14 @@
         <url-pattern>/HistoryServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DeleteHistoryServlet</servlet-name>
+        <servlet-class>com.zpj.servlet.DeleteHistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteHistoryServlet</servlet-name>
+        <url-pattern>/DeleteHistoryServlet</url-pattern>
+    </servlet-mapping>
 
    <welcome-file-list>
        <welcome-file>frontPage.jsp</welcome-file>

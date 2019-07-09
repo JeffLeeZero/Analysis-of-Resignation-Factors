@@ -9,7 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
-<<<<<<< HEAD
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -129,7 +128,7 @@
 					var table = layui.table;
 					var checkStatus = table.checkStatus('history_table'); //idTest 即为基础参数 id 对应的值
 
-					var delData = console.log(checkStatus.data) //获取选中行的数据
+					var delData = checkStatus.data //获取选中行的数据
 					console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
 					console.log(checkStatus.isAll) //表格是否全选
 					if(checkStatus.data.length < 1) {
@@ -141,13 +140,11 @@
 					layer.confirm('真的删除行么', function(index) {
 						$.ajax({
 							type: "POST",
-							url: "",
+							url: "http://localhost:8080/DeleteHistoryServlet",
 							async: true,
 							data: JSON.stringify({
 								reqId: window.localStorage.id,
-								reqParam: {
-
-								}
+								reqParam: delData
 							}),
 							success: function(res) {
 								table.reload('history_table', {
