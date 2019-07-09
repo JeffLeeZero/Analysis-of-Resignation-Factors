@@ -7,7 +7,7 @@
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="js/share.js"></script>
 <div class="layui-header">
-    <a class="layui-logo" href="index.jsp"><i class="layui-icon layui-icon-home"></i>员工离职因素分析</a>
+    <a class="layui-logo" href="inputPage.jsp"><i class="layui-icon layui-icon-home"></i>员工离职因素分析</a>
     <!-- 头部区域（可配合layui已有的水平导航） -->
 
     <form id="form" action="" method="post">
@@ -15,7 +15,7 @@
     </form>
 
     <ul class="layui-nav layui-layout-right">
-        </li>
+
         <li class="layui-nav-item">
             <a href="javascript:"><i class="layui-icon layui-icon-username"></i>个人中心</a>
         </li>
