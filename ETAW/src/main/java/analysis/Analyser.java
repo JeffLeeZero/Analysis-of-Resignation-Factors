@@ -479,7 +479,7 @@ public class Analyser implements ResignationAnalyser {
 //        //System.out.println((end-start)/1000);
 //        analyser.getAttrRatio("left");
 //        analyser.getAttrRatio();
-//        //analyser.trainModel("test.csv");
+//        analyser.trainModel("test.csv");
 //        ArrayList<String> data = new ArrayList<>();
 //        //'0.38,0.53,157,3,2,0,0,0'
 //        data.add("0.38");
