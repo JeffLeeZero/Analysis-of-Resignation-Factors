@@ -247,7 +247,7 @@ layui.define(["laytpl", "laypage", "layer", "form", "util"], function(e) {
 		}
 		e.loading(!0)
 	}, F.prototype.resize = function() {
-		var e = this;where
+		var e = this;
 		e.fullSize(), e.setColsWidth(), e.scrollPatch()
 	}, F.prototype.reload = function(e) {
 		var i = this;

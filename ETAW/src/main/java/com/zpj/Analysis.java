@@ -31,17 +31,4 @@ public class Analysis {
         }
     }
 
-    public static String getLeftRatio(){
-        return String.valueOf(Float.parseFloat(getLeftNumber()) / Float.parseFloat(getAllNumber()));
-    }
-
-    public static String getRemainNumber(){
-        return String.valueOf(Integer.parseInt(getAllNumber()) - Integer.parseInt(getLeftNumber()));
-    }
-
-    public static void getAttrRatio(){
-//        Analyser analyser = new Analyser(account);
-//        analyser.getAttrRatio();
-    }
-
 }

@@ -13,7 +13,7 @@ body {
     left: 0;
     overflow: hidden;
     margin: 0;
-    background: url("/img/bg.jpg") no-repeat center fixed;
+    background: url("/img/主页背景.jpg") no-repeat center fixed;
     /*!*background-repeat: no-repeat;*!*/
     background-size: cover;
     /*background-attachment: fixed;*/
@@ -34,7 +34,6 @@ body {
 h1 {
     font-family: 'American Typewriter', 'Rockwell Extra Bold', 'Book Antiqua', Georgia, serif;
     font-size: 4em;
-    color: #fff9ec;
 }
 
 .counter {
@@ -45,11 +44,9 @@ h1 {
 .tagline {
     font-size: 1.125em;
     margin: 2rem 1.5rem;
-    color: whitesmoke;
 }
 
 .calories {
-    color: #cbd3e2;
     font-size: .875em;
 }
 

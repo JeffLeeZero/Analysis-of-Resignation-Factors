@@ -13,5 +13,9 @@ public interface WorkerMapper {
 
     String queryLeftNumber();
 
+    int deleteWorker(String account,String workerNumber,String satisfactionLevel, String lastEvaluation, String numberProject,String averageMonthlyHours,String timeSpendCompany ,String workAccident ,String left, String promotion,String sales, String salary);
+
+    int updateResult(Worker work);
+
 
 }

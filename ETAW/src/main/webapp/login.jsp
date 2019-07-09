@@ -60,7 +60,9 @@
 						</div>
 
 						<div class="login-nav-right">
-							<a href="login.jsp" class="active">主页</a>
+
+							<a href="./frontPage.jsp" class="active">主页</a>
+
 							<a href="#">关于我们</a>
 						</div>
 
@@ -80,7 +82,7 @@
 					<div class="item">
 					
 						<div class="background">
-							<img class="scale_Bg" src="plugins/login/image/banner1.jpg" />
+							<img class="scale_Bg" src="img/login_bg.jpg" />
 						</div>
 						<div class="div_main float_in" id="passLogin">
 							<form class="layui-form" method="post">
@@ -93,7 +95,7 @@
 								<a class="forgetPass" href="findPassword.jsp">忘记密码</a>
 							</form>
 						</div>
-						<div class="div_main" id="veriLogin">
+						<div class="div_main float_in" id="veriLogin">
 							<form class="layui-form" method="post">
 								<h1>LOGIN IN</h1>
 								<div class="icon1">
@@ -130,9 +132,11 @@
 	</body>
 	<style>
 		body{
-			width: 100%;
-			height: 100%;
+			top: 0;
+			left: 0;
 			position: absolute;
+			width: 100vw;
+			height: 100vh;
 			overflow: hidden;
 		}
 		.float_in {

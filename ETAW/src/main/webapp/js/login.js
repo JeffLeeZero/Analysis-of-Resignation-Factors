@@ -50,6 +50,7 @@ $(document).ready(function () {
     $("#login_phone").click(function () {
         $("#veriLogin")[0].style.display='block';
         $("#passLogin")[0].style.display='none';
+//      $("#passLogin")[0].removeClass('float_in');
     });
     $("#login_pass").click(function () {
         $("#veriLogin")[0].style.display='none';

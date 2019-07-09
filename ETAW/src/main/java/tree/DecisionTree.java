@@ -70,7 +70,7 @@ public class DecisionTree extends Tree{
 
         //离职率和总人数
         int sum = datas.size();
-        double ratio = (double) gain.datasOfValue(attrList.size()-1,"0").size()/sum;
+        double ratio = (double) gain.datasOfValue(attrList.size()-1,"1").size()/sum;
         this.attrList.get(attrList.size()-1).addProbability("总人数",(double)sum);
         this.attrList.get(attrList.size()-1).addProbability("离职率",ratio);
     }
@@ -162,9 +162,9 @@ public class DecisionTree extends Tree{
                 node.getChildren()) {
             boolean equal;
             if(attr.isSeperated()){
-                equal = child.getValue().equals(data.get(i));
+                equal = child.getValue().equals(data.get(attr.getIndex()));
             }else{
-                equal = child.getValue().equals(attr.getValue(data.get(i)));
+                equal = child.getValue().equals(attr.getValue(data.get(attr.getIndex())));
             }
             if(equal){
                 List<String> map =  getFinalAttr(child,data,attrlist);
