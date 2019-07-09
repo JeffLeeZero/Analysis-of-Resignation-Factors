@@ -54,7 +54,7 @@
                                 "reqId":window.localStorage.id
                             }
                             ,cols: [[
-                                {type: 'checkbox', fixed: 'left'}
+                                 {type: 'checkbox', fixed: 'left'}
                                 ,{field:'worker_number', title:'编号', width:80, fixed: 'left', unresize: true, sort: true}
                                 ,{field:'satisfaction_level', title:'满意度', sort: true,width:80, edit: 'text'}
                                 ,{field:'last_evaluation', title:'考核', width:80,  sort: true,edit: 'text'}
@@ -66,12 +66,10 @@
                                 ,{field:'sales', title:'部门', width:120, sort: true}
                                 ,{field:'salary', title:'薪资', width:80}
                                 ,{field:'left', title:'结果', width:80}
-                                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:100}
+                                ,{fixed:'right', title:'操作', toolbar: '#barDemo', width:100}
                             ]]
                             ,page: false
                         });
-
-
 
                         //监听行工具事件
                         table.on('tool(test)', function(obj){

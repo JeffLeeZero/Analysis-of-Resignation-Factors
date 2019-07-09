@@ -1,10 +1,15 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
+import com.zpj.Upload;
+import com.zpj.mapper.WorkerMapper;
 import com.zpj.pojo.User;
+import com.zpj.pojo.Worker;
+import com.zpj.util.MybatiesUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.ibatis.session.SqlSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -123,12 +128,34 @@ public class InsertMultiWorkerServlet extends HttpServlet {
             ArrayList<String> accuracyRate = new ArrayList<>();
             ArrayList<String> number = analyser.getNumberFromCSV(url);
             System.out.println(number);
+
+            SqlSession sqlSession = MybatiesUtil.getSession();
+            WorkerMapper mapper = sqlSession.getMapper(WorkerMapper.class);
+
+            List<Worker> workerList = Upload.getAllByExcel(url);
+
             for (int i = 0; i < result.size();i++) {
                 left.add(result.get(i).get(0));
                 accuracyRate.add(result.get(i).get(1));
+
+                //插入数据库
+                workerList.get(i).setAccount(account);
+                workerList.get(i).setLeft(result.get(i).get(0));
+                try{
+                    if (mapper.insertWorker(workerList.get(i)) <= 0){
+                        System.out.println("插入失败");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    sqlSession.commit();
+                    sqlSession.close();
+                }
             }
+
             System.out.println(left);
             System.out.println(accuracyRate);
+
             request.getSession().setAttribute("number",number);
             request.getSession().setAttribute("left", left);
             request.getSession().setAttribute("accuracyRate", accuracyRate);
@@ -146,5 +173,6 @@ public class InsertMultiWorkerServlet extends HttpServlet {
         } catch (Exception e){
             //out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/insertWorker.jsp'</script>");
         }
+
     }
 }

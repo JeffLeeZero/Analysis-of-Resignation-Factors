@@ -104,6 +104,7 @@ public class Analyser implements ResignationAnalyser {
      */
     @Override
     public ArrayList<String> getProbability(ArrayList<String> data) {
+        this.data = data;
         String department = data.get(data.size()-2);
         getAttrAndInfo();
         if(tree==null){
@@ -165,8 +166,8 @@ public class Analyser implements ResignationAnalyser {
         getAttrAndInfo();
         ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
         ArrayList<String> number = new ArrayList<>();
-        for(int i = 1;i<=datas.size();i++){
-            number.add(datas.get(i).get(0));
+        for(int i = 1;i<datas.size();i++){
+            number.add(datas.get(i).get(9));
         }
         return number;
     }

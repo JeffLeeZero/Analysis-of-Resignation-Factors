@@ -162,9 +162,9 @@ public class DecisionTree extends Tree{
                 node.getChildren()) {
             boolean equal;
             if(attr.isSeperated()){
-                equal = child.getValue().equals(data.get(i));
+                equal = child.getValue().equals(data.get(attr.getIndex()));
             }else{
-                equal = child.getValue().equals(attr.getValue(data.get(i)));
+                equal = child.getValue().equals(attr.getValue(data.get(attr.getIndex())));
             }
             if(equal){
                 List<String> map =  getFinalAttr(child,data,attrlist);
