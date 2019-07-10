@@ -70,6 +70,9 @@
 			height: 100%;
 			width: 100%;
 		}
+		a{
+			color: black;
+		}
 	</style>
 
 </html>
