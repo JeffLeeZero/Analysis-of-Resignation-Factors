@@ -26,11 +26,11 @@
 		</div>
 		<div class="top-nav">
 			<div class="top-nav-left">
-				<p style="color: #ffffff">员工离职分析</p>
+				<p style="color: #515151">员工离职分析</p>
 			</div>
 			<div class="login-nav-right">
-				<a href="login.jsp" class="active">主页</a>
-				<a href="#">关于我们</a>
+				<a href="login.jsp" class="active" style="color: #515151">登录</a>
+				<a href="#" style="color: #515151">关于我们</a>
 			</div>
 			<div class="clear"></div>
 		</div>
