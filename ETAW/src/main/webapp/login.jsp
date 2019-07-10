@@ -56,11 +56,7 @@
 					<ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
 
 						<div class="top-nav-left">
-<<<<<<< HEAD
-							<p >员工离职分析</p>
-=======
 							<p style="color: #626262">员工离职分析</p>
->>>>>>> ef6b4f11198504077ea3901ffd1aca95aa3015dc
 						</div>
 
 						<div class="login-nav-right">
