@@ -5,6 +5,7 @@ import com.zpj.pojo.Answer;
 import com.zpj.util.MybatiesUtil;
 import org.apache.ibatis.session.SqlSession;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.*;
 
@@ -154,10 +155,16 @@ public class AnswerBean {
                     e.printStackTrace();
                 }
             }
+            String contentInfo2 = contentInfo.replaceAll("[&nbsp;]+","");//将多个空格替换成掉
+            String content = contentInfo2.replaceAll("[<br>]{0,}","").replaceAll("(?m)^\\s*$(\\n|\\r\\n)", "   ");//去掉空行
+
+
+            content = String.format("%20s",content);
+
             Answer answer = new Answer();
             answer.setTitle(answers.get(i).getTitle());
             answer.setAuthor(answers.get(i).getAuthor());
-            answer.setContent(contentInfo);
+            answer.setContent(content);
             answerList.add(answer);
         }
     }

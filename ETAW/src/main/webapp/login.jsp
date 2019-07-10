@@ -56,7 +56,11 @@
 					<ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
 
 						<div class="top-nav-left">
+<<<<<<< HEAD
 							<p >员工离职分析</p>
+=======
+							<p style="color: #626262">员工离职分析</p>
+>>>>>>> ef6b4f11198504077ea3901ffd1aca95aa3015dc
 						</div>
 
 						<div class="login-nav-right">
@@ -130,58 +134,6 @@
 		</div>
 
 	</body>
-	<style>
-		body{
-			top: 0;
-			left: 0;
-			position: absolute;
-			width: 100vw;
-			height: 100vh;
-			overflow: hidden;
-		}
-		.float_in {
-			animation: float_in_ani 1.5s forwards;
-		}
-		
-		@keyframes float_in_ani {
-			from {
-				top: 100%;
-			}
-			to {
-				top: 30%;
-			}
-		}
-		.background{
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 100vh;
-			width: 100vw;
-			overflow: hidden;
-		}
-		.scale_Bg {
-			position: absolute;
-			
-			animation: scale_ani 4s linear forwards;
-		}
-		
-		@keyframes scale_ani{
-			from{
-				top: -5%;
-				left: -5%;
-				height: 110%;
-				width: 110%;
-			}
-			to{
-				top: 0;
-				left: 0;
-				height: 100%;
-				width: 100%;
-			}
-		}
-		a{
-			color: black;
-		}
-	</style>
+
 
 </html>

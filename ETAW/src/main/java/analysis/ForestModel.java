@@ -79,11 +79,12 @@ public class ForestModel {
     public void rebuildModel(){
         Connection conn = DBUtil.getConnection();
         try{
-            PreparedStatement state = conn.prepareStatement("select forest from forest where aid = ?");
+            PreparedStatement state = conn.prepareStatement("select forest,accuracy from forest where aid = ?");
             state.setString(1,aid);
             ResultSet set = state.executeQuery();
             if(set.next()){
                 Clob clob = set.getClob("forest");//java.sql.Clob
+                accuracy = set.getDouble("accuracy");
                 String detailinfo = "";
                 if(clob != null){
                     detailinfo = clob.getSubString((long)1,(int)clob.length());

@@ -68,6 +68,7 @@ public class DeleteHistoryServlet extends HttpServlet {
             e.printStackTrace();
         }finally {
             out.close();
+            sqlSession.commit();
             sqlSession.close();
         }
     }

@@ -21,18 +21,21 @@
 <div class="layui-layout layui-layout-admin">
 <jsp:include page="header.jsp" />
 
-    <div>
-        <div class="page_front" id="page_1">
-            <span id="title_span"></span>
-            <span id="author_span"></span>
-            <span id="content_span"></span>
-        </div>
-        <div class="page_back" id="page_2">
+    <div class="layui-body">
+        <img src="img/map.png"/>
+        <div>
+            <div class="page_front" id="page_1">
+                <span id="title_span"></span>
+                <span id="author_span"></span>
+                <span id="content_span"></span>
+            </div>
+            <div class="page_back" id="page_2">
 
+            </div>
+            <button type="button" id="next_btn" title="下一篇" onclick="next()"><li class="layui-icon layui-icon-next"></li></button>
+            <button type="button" id="pre_btn" title="上一篇" onclick="pre()"><li class="layui-icon layui-icon-prev"></li></button>
+            <input type="text" id="btnAction" name="btnAction" value="next" style="visibility:hidden">
         </div>
-        <button type="button" id="next_btn" title="下一篇" onclick="next()"><li class="layui-icon layui-icon-next"></li></button>
-        <button type="button" id="pre_btn" title="上一篇" onclick="pre()"><li class="layui-icon layui-icon-prev"></li></button>
-        <input type="text" id="btnAction" name="btnAction" value="next" style="visibility:hidden">
     </div>
     <script>
         var pageNum;    //文章索引号

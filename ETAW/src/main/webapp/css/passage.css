@@ -7,16 +7,20 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
-    background: url("/img/page.jpg") fixed ;
-    background-size: cover;
 }
-
+.layui-body img{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 .page_front{
     position: absolute;
-    top: 8%;
-    left: 13.5%;
+    top: 2%;
+    left: 10%;
     width: 85%;
-    height: 86%;
+    height: 90%;
     overflow-y: hidden;
     z-index: 1;
 }
@@ -31,27 +35,28 @@ body {
     position: absolute;
     top: 2%;
     width: 100%;
-    font-family: 'American Typewriter', 'Rockwell Extra Bold', 'Book Antiqua', Georgia, serif;
     text-align: center;
+    font-family: 'American Typewriter', 'Rockwell Extra Bold', 'Book Antiqua', Georgia, serif;
     font-size: 3em;
     color: #7a7a7a;
 }
 #author_span{
     position: absolute;
-    top: 10%;
-    right: 5%;
+    top: 11%;
+    right: 20%;
     color: #527fe2;
     font-size: 1em;
     font-weight: bold;
 }
 #content_span{
     position: absolute;
-    top: 15%;
-    width: 100%;
-    height: 85%;
+    top: 16%;
+    width: 96%;
+    height: 84%;
     text-indent: 3em;
-    letter-spacing: 0.4em;
-    font-size: 1.5em;
+    letter-spacing: 0.2em;
+    line-height: 1.6em;
+    font-size: 1.1em;
     overflow-y: scroll;
 }
 #content_span::-webkit-scrollbar {
@@ -85,7 +90,7 @@ body {
 #pre_btn{
     position: absolute;
     top: 11%;
-    left: 15%;
+    left: 7%;
     height: 30px;
     width: 30px;
     background-color:transparent;
