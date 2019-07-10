@@ -150,21 +150,10 @@
 									trigger: 'item',
 									formatter: "{a} <br/>{b} : {c} ({d}%)"
 								},
+								calculable : true,
 								toolbox: {
 									show: true,
 									feature: {
-										magicType: {
-											show: true,
-											type: ['pie', 'funnel'],
-											option: {
-												funnel: {
-													x: '25%',
-													width: '50%',
-													funnelAlign: 'left',
-													max: 1548
-												}
-											}
-										},
 										saveAsImage: {
 											show: true
 										}
@@ -228,6 +217,7 @@
 											tooltip: {
 												show: true
 											},
+											calculable : true,
 											toolbox: {
 												show: true,
 												feature: {
@@ -246,6 +236,8 @@
 							               		},
 											}],
 											yAxis: [{
+												max: 1,
+												min: 0,
 												name: '离职率',
 												type: 'value'
 											}],
