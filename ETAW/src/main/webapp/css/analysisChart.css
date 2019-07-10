@@ -28,14 +28,14 @@ body{
 	height:73.2%;
 	top: 25%;
 	width: 61.5%;
-	left: 2%;
+	right: 2%;
 }
 
 #attr_weight{
 	height:73.2%;
 	top: 25%;
 	width: 33.5%;
-	right: 2%;
+	left: 2%;
 }
 
 .attr_select{
