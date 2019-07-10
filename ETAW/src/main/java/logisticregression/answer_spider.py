@@ -33,7 +33,7 @@ def get_answer(doc):
     return result
 
 def import_answer(result):
-    db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
+    db = oracle.connect('admin/123456@localhost/orcl')
     cursor = db.cursor()
 
     sql1 = "select title, author from answer"

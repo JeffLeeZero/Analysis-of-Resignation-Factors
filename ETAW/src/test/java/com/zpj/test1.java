@@ -139,6 +139,7 @@ public class test1 {
                 return null;
             }
         };
+        System.out.println(answers.size());
         String y="";
         try {
             answers= mapper.queryAnswer();
@@ -147,21 +148,19 @@ public class test1 {
         }
         sqlSession.commit();
         sqlSession.close();
-        for (int i=0;i<answers.size();i++){
-            System.out.println("-----------------------------------");
-            System.out.println(answers.get(i).getTitle());
-            System.out.println(answers.get(i).getAuthor());
-            Clob clob = (Clob)answers.get(i).getContent();
-            String contentInfo = "";
-            if(clob != null){
-                try {
-                    contentInfo = clob.getSubString((long)1,(int)clob.length());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
+        String contentInfo = "";
+        Clob clob = (Clob)answers.get(12).getContent();
+        if(clob != null){
+            try {
+                contentInfo = clob.getSubString((long)1,(int)clob.length());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            System.out.println(contentInfo);
         }
+//        y=(String)answers.get(1).getContent();
+        System.out.println(answers.get(0).getTitle());
+        System.out.println(answers.get(0).getAuthor());
     }
 
     @Test

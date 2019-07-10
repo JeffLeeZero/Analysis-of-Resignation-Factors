@@ -108,7 +108,11 @@
 											},
 											xAxis: [{
 												type: 'category',
-												data: header
+												data: header,
+												axisLabel: {
+			                    interval: 0,
+			                    rotate: 20, // 20度角倾斜显示(***这里是关键)
+			               		},
 											}],
 											yAxis: [{
 												type: 'value'

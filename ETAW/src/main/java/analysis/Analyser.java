@@ -104,6 +104,7 @@ public class Analyser implements ResignationAnalyser {
      */
     @Override
     public ArrayList<String> getProbability(ArrayList<String> data) {
+        this.data = data;
         String department = data.get(data.size()-2);
         getAttrAndInfo();
         if(tree==null){
@@ -158,6 +159,17 @@ public class Analyser implements ResignationAnalyser {
             answers.add(getAverageResult(results.get(i)));
         }
         return answers;
+    }
+
+    @Override
+    public ArrayList<String> getNumberFromCSV(String csvURL){
+        getAttrAndInfo();
+        ArrayList<ArrayList<String>> datas = importCsv(new File(csvURL));
+        ArrayList<String> number = new ArrayList<>();
+        for(int i = 1;i<datas.size();i++){
+            number.add(datas.get(i).get(9));
+        }
+        return number;
     }
 
     @Override
@@ -467,7 +479,7 @@ public class Analyser implements ResignationAnalyser {
 //        //System.out.println((end-start)/1000);
 //        analyser.getAttrRatio("left");
 //        analyser.getAttrRatio();
-//        //analyser.trainModel("test.csv");
+//        analyser.trainModel("test.csv");
 //        ArrayList<String> data = new ArrayList<>();
 //        //'0.38,0.53,157,3,2,0,0,0'
 //        data.add("0.38");

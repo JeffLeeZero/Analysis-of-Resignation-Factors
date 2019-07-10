@@ -1,10 +1,15 @@
 package com.zpj.servlet;
 
 import analysis.Analyser;
+import com.zpj.Upload;
+import com.zpj.mapper.WorkerMapper;
 import com.zpj.pojo.User;
+import com.zpj.pojo.Worker;
+import com.zpj.util.MybatiesUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.ibatis.session.SqlSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -116,24 +121,44 @@ public class InsertMultiWorkerServlet extends HttpServlet {
         System.out.println(url);
         Analyser analyser = new Analyser(account);
         try {
-            /*
-            [
-                [判断结果，准确率]，
-                [判断结果，准确率],
-                ……
-            ]
-             */
             ArrayList<ArrayList<String>> result = analyser.getProbabilityFromCSV(url);
             System.out.println("批量读取文件成功");
             System.out.println(result);
             ArrayList<String> left = new ArrayList<>();
             ArrayList<String> accuracyRate = new ArrayList<>();
+            ArrayList<String> number = analyser.getNumberFromCSV(url);
+            System.out.println(number);
+
+            SqlSession sqlSession = MybatiesUtil.getSession();
+            WorkerMapper mapper = sqlSession.getMapper(WorkerMapper.class);
+
+            List<Worker> workerList = Upload.getAllByExcel(url);
+
             for (int i = 0; i < result.size();i++) {
                 left.add(result.get(i).get(0));
                 accuracyRate.add(result.get(i).get(1));
+
+                //插入数据库
+                workerList.get(i).setAccount(account);
+                workerList.get(i).setLeft(result.get(i).get(0));
+                try {
+                    if (mapper.insertWorker(workerList.get(i)) <= 0) {
+                        System.out.println("插入失败");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            sqlSession.commit();
+            sqlSession.close();
+
+            System.out.println(left);
+            System.out.println(accuracyRate);
+
+            request.getSession().setAttribute("number",number);
             request.getSession().setAttribute("left", left);
             request.getSession().setAttribute("accuracyRate", accuracyRate);
+            //request.getSession().setAttribute("result",result);
             request.getRequestDispatcher("http://localhost:8080/analyseMultiWorker.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -143,9 +168,9 @@ public class InsertMultiWorkerServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         try{
-            out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseMultiWorker.jsp'</script>");
+            //out.print("<script>alert('上传成功');window.location.href = 'http://localhost:8080/analyseMultiWorker.jsp'</script>");
         } catch (Exception e){
-            out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/insertWorker.jsp'</script>");
+            //out.print("<script>alert('上传失败');window.location.href = 'http://localhost:8080/insertWorker.jsp'</script>");
         }
 
     }

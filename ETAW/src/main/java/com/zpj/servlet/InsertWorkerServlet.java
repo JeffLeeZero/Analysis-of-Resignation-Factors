@@ -4,7 +4,11 @@ import analysis.Analyser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zpj.bean.RequestBean;
+import com.zpj.mapper.WorkerMapper;
 import com.zpj.pojo.User;
+import com.zpj.pojo.Worker;
+import com.zpj.util.MybatiesUtil;
+import org.apache.ibatis.session.SqlSession;
 import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
@@ -16,12 +20,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "InsertWorkerServlet")
 public class InsertWorkerServlet extends HttpServlet {
+
     private String account;
-
-
+    private String left;
+    private String accuracyRate;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -31,6 +37,7 @@ public class InsertWorkerServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         account = request.getParameter("Account");
+        String workerNumber = request.getParameter("Number");
         String satisfactionLevel = request.getParameter("SatisfactionLevel");
         String lastEvaluation = request.getParameter("LastEvaluation");
         String numberProject = request.getParameter("NumberProject");
@@ -40,7 +47,6 @@ public class InsertWorkerServlet extends HttpServlet {
         String promotion = request.getParameter("Promotion");
         String department = request.getParameter("Department");
         String salary = request.getParameter("Salary");
-        String number = request.getParameter("Number");
 
         ArrayList<String> data = new ArrayList<>();
         data.add(satisfactionLevel);
@@ -52,19 +58,27 @@ public class InsertWorkerServlet extends HttpServlet {
         data.add(promotion);
         data.add(salary);
         data.add(department);
-        data.add(number);
+        data.add(workerNumber);
+
+
+
         try{
             System.out.println(data);
             Analyser analyser = new Analyser(account);
             //得到离职率
             ArrayList<String> result = analyser.getProbability(data);
             System.out.println(result);
-            String left = result.get(0);
-            String accuracyRate = result.get(1);
+            left = result.get(0);
+            accuracyRate = result.get(1);
             String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));
-            String reason = "该员工";
-
-            System.out.println("编号" + number + "员工信息分析成功");
+            //结果分析
+            String measure = analyser.improveMeasure().get(0);
+            System.out.println(measure);
+            String reason = Reason(measure);
+            for(int i = 0;i<analyser.improveMeasure().size();i++) {
+                System.out.println(analyser.improveMeasure().get(i));
+            }
+            System.out.println("编号" + workerNumber + "员工信息分析成功");
             System.out.println("该员工是否会离职？ " + left);
             System.out.println("该预测的准确率为:" + accuracyRate);
             System.out.println("结果分析：" + reason);
@@ -86,8 +100,68 @@ public class InsertWorkerServlet extends HttpServlet {
 //            response.sendRedirect("http://localhost:8080/insertWorker.jsp");
         }
 
+        Worker worker = new Worker();
+        worker.setAccount(account);
+        worker.setWorker_number(workerNumber);
+        worker.setSatisfaction_level(satisfactionLevel);
+        worker.setLast_evaluation(lastEvaluation);
+        worker.setAverage_monthly_hours(averageMonthly);
+        worker.setNumber_project(numberProject);
+        worker.setTime_spend_company(timeSpendCompany);
+        worker.setWork_accident(workAccident);
+        worker.setPromotion(promotion);
+        worker.setSalary(salary);
+        worker.setSales(department);
+        worker.setLeft(left);
+        System.out.println(worker);
+        SqlSession sqlSession = MybatiesUtil.getSession();
+        try {
+            WorkerMapper mapper = sqlSession.getMapper(WorkerMapper.class);
+            if (mapper.insertWorker(worker) <= 0){
+                System.out.println("插入失败");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            sqlSession.commit();
+            sqlSession.close();
+        }
     }
 
+    private String Reason(String measure){
+        String reason = "";
+
+        switch (measure){
+            case "satisfaction_level":
+                reason = "该员工对公司满意度较低，建议提高待遇水平";
+                break;
+            case "last_evaluation":
+                reason = "该员工上次评估较低，建议进行有效交流";
+                break;
+            case "number_project":
+                reason = "该员工参与项目数量不合理，建议调整项目数量";
+                break;
+            case "average_montly_hours":
+                reason = "该员工平均月工作时长不合理，建议调整工作时长";
+                break;
+            case "time_spend_company":
+                reason = "该员工工龄较短，建议进行有效交流";
+                break;
+            case "work_accident":
+                reason = "该员工曾发生工作事故，建议做好后续处理";
+                break;
+            case "promotion_last_5years":
+                reason = "该员工长期未得到职位提升，建议提高待遇水平";
+                break;
+            case "sales":
+                reason = "该员工职位与实际工作能力不符，建议进行职位调整";
+                break;
+            case "salary":
+                reason = "该员工薪资水平较低，建议提高薪资水平";
+                break;
+        }
+        return reason;
+    }
 
 }
 

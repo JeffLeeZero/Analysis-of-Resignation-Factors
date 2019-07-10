@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -34,23 +35,25 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>员工编号</th>
-                        <th>预测是否离职</th>
-                        <th>预测准确率</th>
+                        <th align="center">员工编号</th>
+                        <th align="center">预测是否离职</th>
+                        <th align="center">预测准确率</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${sessionScope.result}" var="worker">
-                    <tr>
-                        <td align="center">
-                            ${worker.number}
-                        </td>
-                        <td align="center">
-                            ${worker.left}
-                        </td>
-                        <td align="center">
-                            ${worker.accuracyRate}
-                        </c:forEach>
+                    <c:forEach items="${sessionScope.number}" var="number" varStatus="loop">
+                        <tr>
+                            <td align="center">
+                                    ${number}
+                            </td>
+                            <td align="center">
+                                    ${sessionScope.left[loop.count-1]}
+                            </td>
+                            <td align="center">
+                                    ${sessionScope.accuracyRate[loop.count-1]}
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
