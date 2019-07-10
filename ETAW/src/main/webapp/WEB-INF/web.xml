@@ -118,6 +118,7 @@
     <servlet-mapping>
         <servlet-name>loginPassServlet</servlet-name>
         <url-pattern>/LoginPassServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>DeleteHistoryServlet</servlet-name>
         <servlet-class>com.zpj.servlet.DeleteHistoryServlet</servlet-class>
