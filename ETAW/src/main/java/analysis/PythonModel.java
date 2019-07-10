@@ -27,11 +27,11 @@ public class PythonModel {
 //                    , aid, url};
 
             String[] svmProcData = new String[]{"python"
-                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\svm_train.py"
+                    , "../logisticregression\\svm_train.py"
                     , aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
             String[] logProcData = new String[]{"python"
-                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\log_reg_train.py"
+                    , "../logisticregression\\log_reg_train.py"
                     , aid, url};
 
             logProc = Runtime.getRuntime().exec(logProcData);
@@ -58,7 +58,7 @@ public class PythonModel {
         try{
             String testDatas = String.join(";", data);
             System.out.println(testDatas);
-            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\analyze.py",testDatas,aid,department};
+            String[] fileData = new String[]{"python", "../logisticregression\\analyze.py",testDatas,aid,department};
             //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze.py", testDatas,aid,department};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -101,7 +101,7 @@ public class PythonModel {
         ArrayList<String> dataset = new ArrayList<>();
         try{
             //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
-            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
+            String[] fileData = new String[]{"python", "../logisticregression\\analyze_csv.py", csvURL,aid};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;

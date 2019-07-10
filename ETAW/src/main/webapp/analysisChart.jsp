@@ -85,7 +85,7 @@
 			</div>
 			<jsp:include page="footer.jsp" />
 		</div>
-		<%@ include file="check.jsp" %>
+//		<%@ include file="check.jsp" %>
 
 		<script src="plugins/layui/layui.js"></script>
 
@@ -151,7 +151,10 @@
 								},
 								tooltip: {
 									trigger: 'item',
-									formatter: "{a} <br/>{b} : {c} ({d}%)"
+									formatter: "{a} <br/>{b} : <br/>{c} ({d}%)",
+									textStyle:{
+										fontSize:14
+									}
 								},
 								calculable : true,
 								toolbox: {
@@ -166,7 +169,7 @@
 								series: [{
 									name: '因素重要性',
 									type: 'pie',
-									radius: '55%',
+									radius: '50%',
 									center: ['50%', '60%'],
 									data: attrs
 								}]
