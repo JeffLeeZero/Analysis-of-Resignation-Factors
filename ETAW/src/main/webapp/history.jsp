@@ -46,6 +46,7 @@
 					table.render({
 						id: "history_table",
 						elem: '#test',
+						title: '历史预测数据',
 						url: 'http://localhost:8080/HistoryServlet',
 						toolbar: '#toolbarDemo',
 						contentType: 'application/json',

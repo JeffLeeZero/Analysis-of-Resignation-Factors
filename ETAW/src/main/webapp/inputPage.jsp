@@ -294,6 +294,13 @@
         font-size: 18px;
     }
 
+		.layui-inline.layui-upload-choose{
+			position: absolute;
+			left: 0;
+			bottom: 30%;
+			font-size: 1.2vw;
+			color: #000000;
+		}
 </style>
 
 </html>
