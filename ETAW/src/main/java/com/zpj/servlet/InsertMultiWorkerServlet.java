@@ -141,17 +141,16 @@ public class InsertMultiWorkerServlet extends HttpServlet {
                 //插入数据库
                 workerList.get(i).setAccount(account);
                 workerList.get(i).setLeft(result.get(i).get(0));
-                try{
-                    if (mapper.insertWorker(workerList.get(i)) <= 0){
+                try {
+                    if (mapper.insertWorker(workerList.get(i)) <= 0) {
                         System.out.println("插入失败");
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
-                    sqlSession.commit();
-                    sqlSession.close();
                 }
             }
+            sqlSession.commit();
+            sqlSession.close();
 
             System.out.println(left);
             System.out.println(accuracyRate);
