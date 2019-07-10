@@ -69,6 +69,8 @@ public class InsertWorkerServlet extends HttpServlet {
             left = result.get(0);
             accuracyRate = result.get(1);
             String notAccuracyRate = String.valueOf(1 - Double.valueOf(accuracyRate));
+
+
             //结果分析
             String factor = analyser.improveMeasure().get(0);
 
