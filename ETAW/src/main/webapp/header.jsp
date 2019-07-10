@@ -15,10 +15,6 @@
     </form>
 
     <ul class="layui-nav layui-layout-right">
-
-        <li class="layui-nav-item">
-            <a href="javascript:"><i class="layui-icon layui-icon-username"></i>个人中心</a>
-        </li>
         <li class="layui-nav-item"><a href="login.jsp">退出</a></li>
     </ul>
 </div>
@@ -51,6 +47,9 @@
                     <dd><a href="insertWorker.jsp"> 员工信息</a></dd>
                     <%--<dd><a href="analyseWorker.jsp">结果分析</a></dd>--%>
                 </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="passage.jsp">相关文章</a>
             </li>
         </ul>
     </div>
