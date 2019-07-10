@@ -88,7 +88,7 @@
 
         upload.render({
             elem: '#test1',
-            url: 'http://localhost:8080/UploadServlet',
+            url: '/UploadServlet',
             accept: 'file',
             auto: false,
             // , bindAction: '#upfile' //关闭的上传按钮   html中此id所在元素也被注释
@@ -100,7 +100,7 @@
 
     function fsubmit(fd) {
         $.ajax({
-            url: "http://localhost:8080/UploadServlet",
+            url: "/UploadServlet",
             type: "POST",
             data: fd,
             contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
@@ -108,6 +108,7 @@
             error : function(request) {
                 $(".loading").toggle();
                 alert("网络超时!");
+                console.log(error);
                 window.location.href = "inputPage.jsp";
             },
             success: function (data) {

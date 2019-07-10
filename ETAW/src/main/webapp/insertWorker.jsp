@@ -234,7 +234,7 @@
 
         upload.render({
             elem: '#test1'
-            , url: 'http://localhost:8080/InsertMultiWorkerServlet'
+            , url: '/InsertMultiWorkerServlet'
             , accept: 'file'
             , auto: false
             // , bindAction: '#upfile' //关闭的上传按钮   html中此id所在元素也被注释
@@ -246,7 +246,7 @@
 
         function fsubmit(fd) {
             $.ajax({
-                url: "http://localhost:8080/InsertMultiWorkerServlet",
+                url: "/InsertMultiWorkerServlet",
                 type: "POST",
                 data: fd,
                 contentType: false,   //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
@@ -287,7 +287,7 @@
         form.on('submit(demo1)', function(data){
 
             $.ajax({
-                url: "http://localhost:8080/InsertWorkerServlet",
+                url: "/InsertWorkerServlet",
                 data:data.field,
                 type:"POST",
                 dataType:"json",
