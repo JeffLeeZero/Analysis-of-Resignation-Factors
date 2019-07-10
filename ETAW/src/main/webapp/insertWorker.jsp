@@ -21,6 +21,10 @@
 
     <div class="layui-body" style="background-color: #eeeeee;  ">
 
+        <div class="background">
+            <%--<img src="img/主页背景.jpg">--%>
+        </div>
+
         <div class="layui-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this" style="font-size:18px">单个员工数据</li>
@@ -28,118 +32,123 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
+                    <div class="card">
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    填写表单
+                                </div>
+                                <div class="layui-card-body">
+                                    <form class="layui-form" method="post" action="<%=request.getContextPath()%>/InsertWorkerServlet"  enctype="multipart/form-data">
 
-                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-                        <legend>填写表单</legend>
-                    </fieldset>
+                                        <input type="hidden" name="Account" id="formAccount"/>
 
-                    <form class="layui-form" method="post" action="<%=request.getContextPath()%>/InsertWorkerServlet"  enctype="multipart/form-data">
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">员工编号</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="Number" lay-verify="required" autocomplete="off" placeholder="员工编号" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
-                        <input type="hidden" name="Account" id="formAccount"/>
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="满意度" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">员工编号</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="Number" lay-verify="required" autocomplete="off" placeholder="请输入员工编号" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="考核评价" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工对公司满意度</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="SatisfactionLevel" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">该员工平均月工作时长</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="月工时" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工上次考核评价</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="LastEvaluation" lay-verify="required" autocomplete="off" placeholder="请输入0到1之间的数据" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工平均月工作时长</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="AverageMonthly" lay-verify="required" autocomplete="off" placeholder="请输入整数 以小时计" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">该员工参与项目数量</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="NumberProject" lay-verify="required" autocomplete="off" placeholder="项目数" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
 
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工工龄</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="请输入整数 视实际情况而定" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <%--<label class="layui-form-label" style="width: 200px">该员工工龄</label>--%>
+                                            <div class="layui-input-block" style="margin-left: 100px">
+                                                <input type="text" name="TimeSpendCompany" lay-verify="required" autocomplete="off" placeholder="工龄" class="layui-input" style="width: 300px">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item"  style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工是否发生过工作事故</label>
-                            <div class="layui-input-block" style="margin-right: 300px">
-                                <input type="radio" name="WorkAccident" value="0" title="是" checked>
-                                <input type="radio" name="WorkAccident" value="1" title="否">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label" style="margin-left: 60px">工作事故</label>
+                                            <div class="layui-input-block" style="">
+                                                <input type="radio" name="WorkAccident" value="0" title="是" checked>
+                                                <input type="radio" name="WorkAccident" value="1" title="否">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <label class="layui-form-label" style="width: 200px">该员工是否得到晋升</label>
-                            <div class="layui-input-block"  style="margin-right: 300px">
-                                <input type="radio" name="Promotion" value="0" title="是" checked>
-                                <input type="radio" name="Promotion" value="1" title="否">
-                            </div>
-                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label" style="margin-left: 60px">是否晋升</label>
+                                            <div class="layui-input-block"  style="">
+                                                <input type="radio" name="Promotion" value="0" title="是" checked>
+                                                <input type="radio" name="Promotion" value="1" title="否">
+                                            </div>
+                                        </div>
 
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <div class="layui-inline" >
-                                <label class="layui-form-label" style="width: 200px">该员工所在部门</label>
-                                <div class="layui-input-inline" style="margin-right: 300px">
-                                    <select name="Department" lay-verify="required" lay-search="">
-                                        <option value="">直接选择或搜索选择部门</option>
-                                        <option value="sales">销售部</option>
-                                        <option value="accounting">会计部</option>
-                                        <option value="hr">人力资源部</option>
-                                        <option value="technical">技术部</option>
-                                        <option value="support">供应部</option>
-                                        <option value="management">管理部</option>
-                                        <option value="IT">信息部</option>
-                                        <option value="product_mng">产品部</option>
-                                        <option value="marketing">市场部</option>
-                                        <option value="RandD">研发部</option>
-                                    </select>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline" >
+                                                <%--<label class="layui-form-label" style="width: 200px">该员工所在部门</label>--%>
+                                                <div class="layui-input-inline" style="margin-left: 100px;width: 300px">
+                                                    <select name="Department" lay-verify="required" lay-search="">
+                                                        <option value="">部门</option>
+                                                        <option value="sales">销售部</option>
+                                                        <option value="accounting">会计部</option>
+                                                        <option value="hr">人力资源部</option>
+                                                        <option value="technical">技术部</option>
+                                                        <option value="support">供应部</option>
+                                                        <option value="management">管理部</option>
+                                                        <option value="IT">信息部</option>
+                                                        <option value="product_mng">产品部</option>
+                                                        <option value="marketing">市场部</option>
+                                                        <option value="RandD">研发部</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <%--<label class="layui-form-label" style="width: 200px">该员工薪资水平</label>--%>
+                                                <div class="layui-input-inline" style="margin-left: 100px;width: 300px">
+                                                    <select name="Salary" lay-verify="required" lay-search="">
+                                                        <option value="">薪资水平</option>
+                                                        <option value="high">高</option>
+                                                        <option value="medium">中</option>
+                                                        <option value="low">低</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block" style="margin-left: 160px">
+                                                <button type="submit" lay-submit="" lay-filter="demo1" class="layui-btn">立即提交</button>
+                                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="layui-form-item" style="margin-left: 200px">
-                            <div class="layui-inline">
-                                <label class="layui-form-label" style="width: 200px">该员工薪资水平</label>
-                                <div class="layui-input-inline" style="margin-right: 300px">
-                                    <select name="Salary" lay-verify="required" lay-search="">
-                                        <option value="">选择薪资水平</option>
-                                        <option value="high">高</option>
-                                        <option value="medium">中</option>
-                                        <option value="low">低</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-form-item" style="margin-left: 300px">
-                            <div class="layui-input-block">
-                                <button type="submit" lay-submit="" lay-filter="demo1" class="layui-btn">立即提交</button>
-                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                            </div>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
 
                 <div class="layui-tab-item">
@@ -300,6 +309,34 @@
 
 
 </body>
+
+<style>
+    .background{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    .background > img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.4;
+    }
+
+    .card{
+        position: absolute;
+        width: 90%;
+        height: 100%;
+        left: 25%;
+        top: 15%;
+        margin-bottom: 10%;
+    }
+</style>
 
 <%--<style>--%>
     <%--#up_form{--%>

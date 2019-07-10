@@ -15,8 +15,7 @@ public interface WorkerMapper {
 
     String queryLeftNumber();
 
-    int deleteWorker(@Param("account")String account, @Param("workNumber")String workerNumber, @Param("satisfactionLevel")String satisfactionLevel, @Param("lastEvaluation")String lastEvaluation, @Param("numberProject")String numberProject, @Param("averageMonthlyHours")String averageMonthlyHours, @Param("timeSpendCompany")String timeSpendCompany , @Param("workAccident")String workAccident , @Param("left")String left, @Param("promotion")String promotion, @Param("sales")String sales, @Param("salary")String salary);
-
+    int deleteWorker(@Param("account") String account, @Param("workerNumber") String workerNumber, @Param("satisfactionLevel") String satisfactionLevel, @Param("lastEvaluation") String lastEvaluation, @Param("numberProject") String numberProject, @Param("averageMonthlyHours") String averageMonthlyHours, @Param("timeSpendCompany") String timeSpendCompany , @Param("workAccident") String workAccident , @Param("left") String left, @Param("promotion") String promotion, @Param("sales") String sales, @Param("salary") String salary);
 
 
 }

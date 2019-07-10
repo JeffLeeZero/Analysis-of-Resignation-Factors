@@ -113,14 +113,14 @@ public class Analyser implements ResignationAnalyser {
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            //forest.rebuildModel();
+            forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
         }
         ArrayList<ArrayList<Double>> results = py.getProbability(data,department);
         results.add(tree.getProbability(data,attrs));
-        //results.add(forest.getProbability(data,attrs));
+        results.add(forest.getProbability(data,attrs));
         return getAverageResult(results);
     }
 
@@ -146,7 +146,7 @@ public class Analyser implements ResignationAnalyser {
         }
         if(forest==null){
             forest = new ForestModel(aid);
-            //forest.rebuildModel();
+            forest.rebuildModel();
         }
         if(py == null){
             py = new PythonModel(aid);
@@ -154,8 +154,9 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<ArrayList<ArrayList<Double>>> results = py.getProbabilityFromCSV(csvURL);
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         for (int i = 0;i<results.size();i++){
+            datas.get(i).remove(10);
             results.get(i).add(tree.getProbability(datas.get(i),attrs));
-            //results.get(i).add(forest.getProbability(datas.get(i),attrs));
+            results.get(i).add(forest.getProbability(datas.get(i),attrs));
             answers.add(getAverageResult(results.get(i)));
         }
         return answers;
