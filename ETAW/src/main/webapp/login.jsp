@@ -56,7 +56,7 @@
 					<ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
 
 						<div class="top-nav-left">
-							<p style="color: #ffffff">员工离职分析</p>
+							<p >员工离职分析</p>
 						</div>
 
 						<div class="login-nav-right">
@@ -179,7 +179,9 @@
 				width: 100%;
 			}
 		}
-	
+		a{
+			color: black;
+		}
 	</style>
 
 </html>

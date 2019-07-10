@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
@@ -81,9 +82,11 @@ public class SmsLoginServlet extends HttpServlet {
                 VerificationCode resData = new VerificationCode();
                 resData.setVerificationCode(verificationCode);
 
-
+                HttpSession session = req.getSession();
                 if(result.result == 0){
                     isSuccess = true;
+                    session.setAttribute("account",phoneNumbers[0]);
+                    session.setMaxInactiveInterval(60*15);
                 }
                 else{
                     isSuccess = false;

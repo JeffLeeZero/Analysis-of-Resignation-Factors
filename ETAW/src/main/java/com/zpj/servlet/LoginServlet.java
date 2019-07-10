@@ -8,9 +8,11 @@ import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.servlet.ServletException;
+import javax.servlet.SessionCookieConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
@@ -45,13 +47,15 @@ public class LoginServlet extends HttpServlet {
         String message = null;
         boolean isSuccess=false;
 
-
+        HttpSession session = req.getSession();
         switch (judgeLogin(account,password)){
             case 0:
                 message="不存在该用户";
                 break;
             case 1:
                 isSuccess=true;
+                session.setAttribute("account",account);
+                session.setMaxInactiveInterval(60*15);
                 break;
             case 2:
                 message="密码错误";

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 
 	<head>
@@ -12,6 +13,7 @@
 	</head>
 
 	<body class="layui-layout-body">
+
 		<div class="layui-layout layui-layout-admin">
 
 			<jsp:include page="header.jsp" />
@@ -83,6 +85,7 @@
 			</div>
 			<jsp:include page="footer.jsp" />
 		</div>
+		<%@ include file="check.jsp" %>
 
 		<script src="plugins/layui/layui.js"></script>
 
