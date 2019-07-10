@@ -150,6 +150,7 @@
 									trigger: 'item',
 									formatter: "{a} <br/>{b} : {c} ({d}%)"
 								},
+								calculable : true,
 								toolbox: {
 									show: true,
 									feature: {
@@ -228,6 +229,7 @@
 											tooltip: {
 												show: true
 											},
+											calculable : true,
 											toolbox: {
 												show: true,
 												feature: {

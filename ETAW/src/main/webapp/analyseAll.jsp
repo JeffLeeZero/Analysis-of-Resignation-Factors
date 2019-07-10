@@ -44,11 +44,11 @@
 								</tr>
 							</thead>
 							<tbody>
-									<tr>
-										<td id="sumNumber" align="center"></td>
-										<td id="leftCount" align="center"></td>
-										<td id="leftRatio" align="center"></td>
-									</tr>
+								<tr>
+									<td id="sumNumber" align="center"></td>
+									<td id="leftCount" align="center"></td>
+									<td id="leftRatio" align="center"></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -60,7 +60,7 @@
 
 				<!--Step:1 Prepare a dom for ECharts which (must) has size (width & hight)-->
 				<!--Step:1 为ECharts准备一个具备大小（宽高）的Dom-->
-				<div id="pie" style="height:400px;border:1px solid #ccc;padding:10px;"></div>
+				<div id="attr_weight_pie" style="height:400px;border:1px solid #ccc;padding:10px;"></div>
 
 				<!--Step:2 Import echarts.js-->
 				<!--Step:2 引入echarts.js-->
@@ -69,28 +69,29 @@
 				<script type="text/javascript">
 					// Step:3 conifg ECharts's path, link to echarts.js from current page.
 					// Step:3 为模块加载器配置echarts的路径，从当前页面链接到echarts.js，定义所需图表路径
+
 					require.config({
 						paths: {
 							echarts: './js'
 						}
 					});
-                    $.ajax({
-                        type: "post",
-                        url: "http://localhost:8080/LeftRatioServlet",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "reqId": window.localStorage.id,
-                            "reqParam": {}
-                        }),
-                        success: function (res) {
+					$.ajax({
+						type: "post",
+						url: "http://localhost:8080/LeftRatioServlet",
+						dataType: "json",
+						data: JSON.stringify({
+							"reqId": window.localStorage.id,
+							"reqParam": {}
+						}),
+						success: function(res) {
 							var sum = parseInt(res.resData.list[0].ratio);
 							var ratio = res.resData.list[1].ratio;
 							var count = parseInt(sum * ratio);
 							document.getElementById("sumNumber").innerText = sum;
-                            document.getElementById("leftCount").innerText = count;
-                            document.getElementById("leftRatio").innerText = (ratio*100)+"%";
-                        }
-                    }),
+							document.getElementById("leftCount").innerText = count;
+							document.getElementById("leftRatio").innerText = (ratio * 100) + "%";
+						}
+					});
 					$.ajax({
 						type: "post",
 						url: "http://localhost:8080/AnalysisAllServlet",
@@ -101,54 +102,117 @@
 						}),
 						success: function(res) {
 							console.log(res);
+							var attrs = [{}];
 							var header = [];
-							var value = [];
 							for(var i = 0; i < res.resData.length; i++) {
+								attrs[i] = {
+									name: res.resData[i].name,
+									value: res.resData[i].D*1000
+								};
+
 								header[i] = res.resData[i].name;
-								value[i] = res.resData[i].D;
 							}
+							console.log(attrs);
 							require(
 								[
 									'echarts',
-									'echarts/chart/bar',
+									'echarts/chart/pie',
+									'echarts/chart/funnel'
 								],
 								function(ec) {
 									// 基于准备好的dom，初始化echarts图表
-									var myChart = ec.init(document.getElementById('pie'));
-
-									var option = {
+									var myChart = ec.init(document.getElementById('attr_weight_pie'));
+									var option1 = {
+										title: {
+											text: '某站点用户访问来源',
+											subtext: '纯属虚构',
+											x: 'center'
+										},
 										tooltip: {
-											show: true
+											trigger: 'item',
+											formatter: "{a} <br/>{b} : {c} ({d}%)"
 										},
-										legend: {
-											data: ['信息增益率']
-										},
-										xAxis: [{
-											type: 'category',
-											data: header
-										}],
-										yAxis: [{
-											type: 'value'
-										}],
-										series: [{
-											"name": "信息增益率",
-											"type": "bar",
-											"data": value,
-											itemStyle: {
-												normal: {
-													label: {
-														show: true,
-														position: 'top',
-														formatter: '{b}'
-													},
-													color: '#2f4554'
+										toolbox: {
+											show: true,
+											feature: {
+												mark: {
+													show: true
+												},
+												dataView: {
+													show: true,
+													readOnly: false
+												},
+												magicType: {
+													show: true,
+													type: ['pie', 'funnel'],
+													option: {
+														funnel: {
+															x: '25%',
+															width: '50%',
+															funnelAlign: 'left',
+															max: 1548
+														}
+													}
+												},
+												restore: {
+													show: true
+												},
+												saveAsImage: {
+													show: true
 												}
-											},
+											}
+										},
+										calculable: true,
+										series: [{
+											name: '访问来源',
+											type: 'pie',
+											radius: '55%',
+											center: ['50%', '60%'],
+											data: attrs
+										}]
+									};
+									var option = {
+										title: {
+											text: '各因素信息增益率比重',
+											x: 'center'
+										},
+										tooltip: {
+											trigger: 'item',
+											formatter: "{a} <br/>{b} : {c} ({d}%)"
+										},
+										calculable: true,
+										toolbox: {
+											show: true,
+											feature: {
+												magicType: {
+													show: true,
+													type: ['pie', 'funnel'],
+													option: {
+														funnel: {
+															x: '25%',
+															width: '50%',
+															funnelAlign: 'left',
+															max: 1548
+														}
+													}
+												},
+												saveAsImage: {
+													show: true
+												}
+											}
+										},
+										calculable: false,
+										series: [{
+											name: '因素重要性',
+											type: 'pie',
+											radius: '55%',
+											center: ['50%', '60%'],
+											data: attrs
 										}]
 									};
 
 									// 为echarts对象加载数据
-									myChart.setOption(option);
+									myChart.setOption(option1);
 								}
 							)
 						},
