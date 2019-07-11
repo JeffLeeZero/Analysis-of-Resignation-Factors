@@ -167,6 +167,20 @@
 								</form>
 							</div>
 
+							<div class="downloadFile">
+								<p  style="color: black">多员工批量离职预测文件具有严格的格式要求</p>
+								<p style="color:black;">获取样例文件，
+									<a href="static/model2.csv" download="格式样例.csv" style="color: blue">点击下载</a>
+								</p>
+							</div>
+
+							<div class="loading" style="display: none;">
+								<img  class="loadingImage" src="img/loading.gif">
+								<div class="loadingText">
+									<p>预测中...</p>
+								</div>
+							</div>
+
 						</div>
 
 					</div>
@@ -188,10 +202,7 @@
         }
         session.invalidate();
     %>
-
-		</div>
-		</div>
-		<jsp:include page="footer.jsp" />
+			<jsp:include page="footer.jsp" />
 		</div>
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
 		<script>
@@ -256,11 +267,13 @@
 						contentType: false, //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
 						processData: false, //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
 						error: function(XMLHttpRequest, textStatus) {
+							$(".loading").toggle();
 							//alert("网络超时")
 							//console.log(textStatus);
 							window.location.href = "/analyseMultiWorker.jsp";
 						},
 						success: function(data) {
+							$(".loading").toggle();
 							alert("上传成功");
 							window.location.href = "/analyseMultiWorker.jsp";
 						}
@@ -269,6 +282,7 @@
 				}
 
 				$("#upup").on("click", function() {
+					$(".loading").toggle();
 					var formSatellite = document.getElementById("up_form"); //获取所要提交form的id
 					var fs1 = new FormData(formSatellite); //用所要提交form做参数建立一个formdata对象
 					fsubmit(fs1); //调用函数
@@ -361,7 +375,7 @@
 		}
 		
 		#upup {
-			background-color: #558AF5;
+			background-color: skyblue;
 			width: 14%;
 			height: 90%;
 			right: 0;
@@ -369,7 +383,7 @@
 		}
 		
 		#test1 {
-			background-color: #3f51b5;
+			background-color: #558AF5;
 			width: 18%;
 			height: 90%;
 			right: 16%;
@@ -381,6 +395,45 @@
 			height: 90%;
 			right: 36%;
 			position: absolute;
+		}
+
+		.downloadFile{
+			position: absolute;
+			width: 30%;
+			height: 4%;
+			left: 35%;
+			top: 60%;
+			font-size: 15px;
+			text-align: left;
+		}
+
+		.loading{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0.8;
+			background-color: #FFFFFF;
+
+		}
+
+		.loadingImage{
+			position: absolute;
+			top: 30%;
+			left: 30%;
+			width: 30%;
+			height: 30%;
+		}
+
+		.loadingText{
+			position: absolute;
+			top: 60%;
+			left: 40%;
+			width: 100%;
+			height: 20%;
+			color: black;
+			font-size: 18px;
 		}
 		
 		.layui-inline.layui-upload-choose {
