@@ -27,7 +27,7 @@
                 <a class="">员工数据</a>
                 <dl class="layui-nav-child">
                     <dd><a id="team1" href="inputPage.jsp" onclick="queryTeam()"><i class="layui-icon layui-icon-upload-drag"></i>&nbsp&nbsp导入数据</a></dd>
-                    <dd><a href="history.jsp"><i class="layui-icon layui-icon-log"></i>&nbsp&nbsp历史记录</a></dd>
+
                 </dl>
             </li>
 
@@ -44,7 +44,7 @@
                 <a class="" href="javascript:;">离职预测</a>
                 <dl class="layui-nav-child">
                     <dd><a href="insertWorker.jsp"><i class="layui-icon layui-icon-list"></i>&nbsp&nbsp员工信息</a></dd>
-                    <%--<dd><a href="analyseWorker.jsp">结果分析</a></dd>--%>
+                    <dd><a href="history.jsp"><i class="layui-icon layui-icon-log"></i>&nbsp&nbsp历史记录</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">

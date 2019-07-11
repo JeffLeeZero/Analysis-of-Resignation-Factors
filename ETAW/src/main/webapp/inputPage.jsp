@@ -234,14 +234,14 @@
         opacity: 100%;
     }
     #upup{
-        background-color: #558AF5;
+        background-color: skyblue;
         width: 14%;
         height: 90%;
         right: 0;
         position: absolute;
     }
     #test1{
-        background-color: #3f51b5;
+        background-color: #558AF5;
         width: 18%;
         height: 90%;
         right: 16%;
