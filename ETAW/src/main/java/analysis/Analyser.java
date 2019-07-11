@@ -47,29 +47,34 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public void trainModel(String url) {
         //TODO:训练速度上的优化
+        System.out.println(System.getProperty("user.dir"));
         this.url = url;
 
         buildPreparement(importCsv(new File(url)));
         //获取模型aid
         String aid = saveInfo();
-
+        System.out.println("saveinfor");
         //训练随机森林并保存
         forest = new ForestModel(aid);
         forest.trainForest(trainSet,testSet,attrs);
+        System.out.println("forestbuild");
         forest.save();
-
+        System.out.println("forestsave");
         //训练决策树并保存
         tree = new TreeModel(aid);
         tree.trainTree(trainSet,testSet,attrs);
+        System.out.println("treebuild");
         tree.save();
+        System.out.println("treesave");
 
         //TODO:
         saveAttr(aid);
+        System.out.println("attrsave");
 
         //训练逻辑回归模型并保存
         py = new PythonModel(aid);
         py.trainModel(url);
-
+        System.out.println("pybuild");
     }
 
     /**
@@ -158,7 +163,7 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<ArrayList<ArrayList<Double>>> results = py.getProbabilityFromCSV(csvURL);
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         for (int i = 0;i<results.size();i++){
-            datas.get(i).remove(10);
+            datas.get(i).remove(9);
             results.get(i).add(tree.getProbability(datas.get(i),attrs));
             results.get(i).add(forest.getProbability(datas.get(i),attrs));
             answers.add(getAverageResult(results.get(i)));
@@ -273,24 +278,31 @@ public class Analyser implements ResignationAnalyser {
             ResultSet set = state.executeQuery();
             if (set.next()){
                 aid = set.getString("aid");
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from attribute where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from attrvalue where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from tree where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from regression where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from svm where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from forest where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 conn.commit();
                 return aid;
             }
@@ -473,9 +485,11 @@ public class Analyser implements ResignationAnalyser {
             if(result.get(0)>0){
                 sum += result.get(1);
                 OpAccuracy = (result.get(1)>OpAccuracy)?result.get(1):OpAccuracy;
-            }else{
+            }else if(result.get(0)==0.0||result.get(0)>-1){
                 sum -= result.get(1);
                 IpAccuracy = (result.get(1)>IpAccuracy)?result.get(1):IpAccuracy;
+            }else{
+
             }
         }
         ArrayList<String> result = new ArrayList<>();

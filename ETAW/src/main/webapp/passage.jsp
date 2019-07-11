@@ -24,16 +24,31 @@
     <div class="layui-body">
         <img src="img/map.png"/>
         <div>
+
             <div class="page_front" id="page_1">
                 <span id="title_span"></span>
                 <span id="author_span"></span>
                 <span id="content_span"></span>
             </div>
+
             <div class="page_back" id="page_2">
 
             </div>
-            <button type="button" id="next_btn" title="下一篇" onclick="next()"><li class="layui-icon layui-icon-next"></li></button>
-            <button type="button" id="pre_btn" title="上一篇" onclick="pre()"><li class="layui-icon layui-icon-prev"></li></button>
+
+            <div class="next">
+                <button type="button" id="next_btn" title="下一篇" onclick="next()">
+                    <img src="img/next.png" class="" />
+                </button>
+            </div>
+
+            <div class="last">
+                <button type="button" id="pre_btn" title="上一篇" onclick="pre()">
+                    <img src="img/last.png" class="" />
+                </button>
+            </div>
+
+
+
             <input type="text" id="btnAction" name="btnAction" value="next" style="visibility:hidden">
         </div>
     </div>
@@ -128,4 +143,22 @@
 <jsp:include page="footer.jsp"/>
 </div>
 </body>
+
+<style>
+    .last{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        left: 0;
+        top: 40%;
+    }
+
+    .next{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        left: 50%;
+        top: 40%;
+    }
+</style>
 </html>

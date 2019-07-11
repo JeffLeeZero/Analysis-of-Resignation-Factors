@@ -2,9 +2,10 @@ import sys, os
 PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 import pandas as pd
 #from logisticregression.logistic_regression import  LogisticRegression
-from sklearn.linear_model import LogisticRegression
+
 import cx_Oracle as oracle
 import _pickle as pickle
 from sklearn.preprocessing import StandardScaler
@@ -76,7 +77,8 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('admin/123456@localhost/orcl')
+
+    db = get_connection('admin/123456@localhost/SYSTEM')
     #db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
@@ -114,8 +116,6 @@ def import_model(parameter,score,saleset,aid):
                    aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
             cursor.setinputsizes(blobData=oracle.BLOB)
             cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
-
-
             db.commit()
     cursor.close()
     db.close()

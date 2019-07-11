@@ -106,7 +106,6 @@ def main(csvfileurl,aid):
         print(i)
     for i in svm_predict_float_result:
         print(i)
-
 # if __name__ == "__main__":
 #     main('C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv', '369分析方案' )
 if __name__ == "__main__":

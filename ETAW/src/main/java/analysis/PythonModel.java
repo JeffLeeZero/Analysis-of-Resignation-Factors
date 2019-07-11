@@ -25,17 +25,29 @@ public class PythonModel {
 //            String[] logProcData = new String[]{"python"
 //                    , "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\log_reg_train.py"
 //                    , aid, url};
-
+//C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\src\main\resources\logisticregression\svm_train.py
+            System.out.println("aid = "+aid);
+            System.out.println("url = "+url);
             String[] svmProcData = new String[]{"python"
-                    , "/logisticregression/svm_train.py"
+                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\svm_train.py"
                     , aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
-            String[] logProcData = new String[]{"python"
-                    , "/logisticregression/log_reg_train.py"
-                    , aid, url};
 
-            logProc = Runtime.getRuntime().exec(logProcData);
+
             svmProc.waitFor();
+//            String[] svmProcData = new String[]{"python"
+//                    , "..\\logisticregression\\svm_train.py"
+//                    , aid, url};
+//            svmProc = Runtime.getRuntime().exec(svmProcData);
+//            String[] logProcData = new String[]{"python"
+//                    , "..\\ogisticregression\\log_reg_train.py"
+//                    , aid, url};
+//
+            String[] logProcData = new String[]{"python"
+                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\log_reg_train.py"
+                    , aid, url};
+            logProc = Runtime.getRuntime().exec(logProcData);
+
             logProc.waitFor();
         }catch (Exception e){
             e.printStackTrace();
@@ -58,8 +70,10 @@ public class PythonModel {
         try{
             String testDatas = String.join(";", data);
             System.out.println(testDatas);
-            String[] fileData = new String[]{"python", "../logisticregression\\analyze.py",testDatas,aid,department};
-            //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze.py", testDatas,aid,department};
+            //String[] fileData = new String[]{"python", "/logisticregression/analyze.py",testDatas,aid,department};
+            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\resources\\logisticregression\\analyze.py", testDatas,aid,department};
+            //String[] fileData = new String[]{"python", "..\\logisticregression\\analyze.py", testDatas,aid,department};
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -83,7 +97,6 @@ public class PythonModel {
         result.get(1).add(Double.valueOf(dataset.get(count+1)));
         return result;
     }
-
     /**
      *
      * @param csvURL
@@ -101,7 +114,8 @@ public class PythonModel {
         ArrayList<String> dataset = new ArrayList<>();
         try{
             //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
-            String[] fileData = new String[]{"python", "../logisticregression\\analyze_csv.py", csvURL,aid};
+            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\resources\\logisticregression\\analyze_csv.py", csvURL,aid};
+            //String[] fileData = new String[]{"python", "..\\logisticregression\\analyze_csv.py", csvURL,aid};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -148,33 +162,27 @@ public class PythonModel {
         return results;
     }
 
-//    public static void main(String args[]){
-//        ArrayList<String> data = new ArrayList<>();
-//        //'0.38,0.53,157,3,2,0,0,0'
-//        data.add("0.38");
-//        data.add("0.53");
-//        data.add("157");
-//        data.add("2");
-//        data.add("3");
-//        data.add("0");
-//        data.add("0");
-//        data.add("low");
-////
-////
-//        PythonModel py = new PythonModel("1");
-////        long start = System.currentTimeMillis();
-////        py.trainModel("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\test.csv");
-////        long end = System.currentTimeMillis();
-////        System.out.println((end - start)/1000);
+    public static void main(String args[]){
+        ArrayList<String> data = new ArrayList<>();
+        //'0.38,0.53,157,3,2,0,0,0'
+
 //
-////        ArrayList<ArrayList<ArrayList<Double>>> csvResults = py.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv");
-////        System.out.println(csvResults);
 //
+        PythonModel py = new PythonModel("999");
+
+//        long start = System.currentTimeMillis();
+        py.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
+//        long end = System.currentTimeMillis();
+//        System.out.println((end - start)/1000);
+
+//        ArrayList<ArrayList<ArrayList<Double>>> csvResults = py.getProbabilityFromCSV("E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\import_test.csv");
+//        System.out.println(csvResults);
+
 //        ArrayList<ArrayList<Double>> result = py.getProbability(data,"IT");
 //        System.out.println(result);
-//
-//
-//    }
+
+
+    }
 }
 
 
