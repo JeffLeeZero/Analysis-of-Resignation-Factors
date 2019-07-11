@@ -2,8 +2,10 @@ import sys, os
 PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
+
 import pandas as pd
 from sklearn import svm
+
 import cx_Oracle as oracle
 import _pickle as pickle
 from sklearn.preprocessing import StandardScaler
@@ -33,7 +35,7 @@ def get_csvfile(filepath):
         saleset.update([i])
     x_set = data.loc[:, ['satisfaction_level', 'last_evaluation', 'average_montly_hours', 'time_spend_company','number_project',
                              'Work_accident', 'promotion_last_5years', 'salary']]
-    y_set = data.loc[:,'left']
+    y_set = data.iloc[:,9]
     return saleset,data, x_set, y_set
 
 def train(saleset, data, x_set, y_set):
@@ -57,14 +59,15 @@ def train(saleset, data, x_set, y_set):
         std = StandardScaler()
         x_train_std = std.fit_transform(x_train)
         x_test_std = std.fit_transform(x_test)
-        #用svm训练模型
-        svc = svm.SVC(kernel="linear")
-        svc.fit(x_train_std,y_train)
         #用于序列化模型对象
+        svc = svm.SVC(kernel="linear")
+        svc.fit(x_train_std, y_train)
+        # 用于序列化模型对象
         svc_parameter.append(pickle.dumps(svc))
         svc_score.append(svc.score(x_test_std, y_test))
 
     return svc_parameter, svc_score,saleset
+
 
 def import_model(parameter,score,saleset,aid):
     """
@@ -98,17 +101,17 @@ def import_model(parameter,score,saleset,aid):
                 # 获取到model_data的行总数，依次选出对应的model_parameter、model_score和职位
                 for i in range(model_data.shape[0]):
                     sql = "insert into svm (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
-                        aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
-                    sql = sql.replace('\'', '')
+                           aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
+
                     db.commit()
             break
     # 为空直接导入
     else:
         for i in range(model_data.shape[0]):
             sql = "insert into svm (AID, DEPARTMENT,SCORE,MODEL) VALUES ('%s', '%s','%s',:blobData)" % (
-                aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
+                   aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
             cursor.setinputsizes(blobData=oracle.BLOB)
             cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
             db.commit()
@@ -118,14 +121,17 @@ def import_model(parameter,score,saleset,aid):
 def main(aid,filepath):
     filepath = open(filepath)
     saleset, data, x_set, y_set = get_csvfile(filepath)
-    svc_parameter, svc_score,saleset = train(saleset, data, x_set, y_set)
-    import_model(svc_parameter, svc_score, saleset, aid)
+    svm_parameter, svm_score, saleset = train(saleset, data, x_set, y_set)
+
+    import_model(svm_parameter, svm_score, saleset, aid)
+
 
 if __name__ == "__main__":
-    #main('1',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')
+    #main('138769045830',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])
     main(a[0],a[1])
+
 
 
