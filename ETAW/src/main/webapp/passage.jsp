@@ -37,13 +37,13 @@
 
             <div class="next">
                 <button type="button" id="next_btn" title="下一篇" onclick="next()">
-                    <img src="img/next.png" class="layui-icon layui-icon-next" />
+                    <img src="img/next.png" class="" />
                 </button>
             </div>
 
             <div class="last">
                 <button type="button" id="pre_btn" title="上一篇" onclick="pre()">
-                    <img src="img/last.png" class="layui-icon layui-icon-prev" />
+                    <img src="img/last.png" class="" />
                 </button>
             </div>
 

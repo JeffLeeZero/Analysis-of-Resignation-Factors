@@ -71,7 +71,7 @@
     <jsp:include page="footer.jsp" />
 
 </div>
-<%@ include file="check.jsp" %>
+<%--<%@ include file="check.jsp" %>--%>
 <script src="plugins/layui/layui.js"></script>
 
 <script type="text/javascript">
