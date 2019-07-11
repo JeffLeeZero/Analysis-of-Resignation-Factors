@@ -3,6 +3,10 @@ package tree;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * 用于随机森林的决策树，基于C4.5决策树
+ * @author 李沛昊
+ */
 public class ForestTree extends Tree {
 
     private ArrayList<Attr> attrList;
@@ -17,6 +21,12 @@ public class ForestTree extends Tree {
         }
     }
 
+    /**
+     * 递归构建决策树
+     * @param datas 候选数据集
+     * @param attrList 候选特征值
+     * @return
+     */
     @Override
     public TreeNode buildTree(ArrayList<ArrayList<String>> datas, ArrayList<Attr> attrList) {
         i++;
@@ -55,11 +65,22 @@ public class ForestTree extends Tree {
         return node;
     }
 
+    /**
+     * 预测结果
+     * @param data
+     * @param attrList
+     * @return
+     */
     @Override
     String doPrediction(ArrayList<String> data, ArrayList<Attr> attrList) {
         return getTreeNode().doPrediction(data,attrList);
     }
 
+    /**
+     * 随机抽取特征值
+     * @param attrList
+     * @return
+     */
     private ArrayList<Attr> getRandomAttrs(ArrayList<Attr> attrList){
         int count = attrList.size()-1;
         int len = (int)Math.sqrt(count);

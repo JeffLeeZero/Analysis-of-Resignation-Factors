@@ -2,9 +2,13 @@ package analysis;
 
 import analysis.DBUtil.DBUtil;
 
+import com.sun.jndi.toolkit.url.Uri;
+import jdk.nashorn.internal.runtime.ECMAException;
 import tree.Attr;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -212,6 +216,18 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public Map<String, Double> getAttrRatio(String attrName) {
+
+//        try{
+//            File file = new File("./myfile.txt");
+//            if(file.createNewFile())
+//                System.out.println("文件创建成功！");
+//            else
+//                System.out.println("出错了，该文件已经存在。");
+//        }
+//        catch(IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+
         Connection conn = DBUtil.getConnection();
         Map<String,Double> map = new HashMap<>();
         try{
@@ -487,5 +503,14 @@ public class Analyser implements ResignationAnalyser {
         return result;
     }
 
-
+    public static void main(String[] args){
+//        URL url =  Analyser.class.getResource("../");
+//        String fileUtl = Analyser.class.getClass().getResource("../../testfile.txt").getFile();
+//        System.out.println(url.getPath());
+//        //url.getPath()
+//        File file = new File(fileUtl);
+//        if(file.exists()){
+//            System.out.println("exist");
+//        }
+    }
 }

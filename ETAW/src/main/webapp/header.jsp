@@ -15,7 +15,7 @@
     </form>
 
     <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item"><a href="login.jsp">退出</a></li>
+        <li class="layui-nav-item"><a href="exit.jsp">退出</a></li>
     </ul>
 </div>
 

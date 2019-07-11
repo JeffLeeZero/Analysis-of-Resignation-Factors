@@ -85,7 +85,7 @@
 			</div>
 			<jsp:include page="footer.jsp" />
 		</div>
-<%--//		<%@ include file="check.jsp" %>--%>
+		<%--//		<%@ include file="check.jsp" %>--%>
 
 		<script src="plugins/layui/layui.js"></script>
 
@@ -152,11 +152,11 @@
 								tooltip: {
 									trigger: 'item',
 									formatter: "{a} <br/>{b} : <br/>{c} ({d}%)",
-									textStyle:{
-										fontSize:14
+									textStyle: {
+										fontSize: 14
 									}
 								},
-								calculable : true,
+								calculable: true,
 								toolbox: {
 									show: true,
 									feature: {
@@ -185,7 +185,8 @@
 			layui.use(['element', 'form'], function() {
 				var element = layui.element,
 					form = layui.form;
-				form.on('select(attribute)', (data) => {
+
+				var getAttrRatio = (data) => {
 					$.ajax({
 						type: "post",
 						url: "http://localhost:8080/AnalysisPartServlet",
@@ -218,12 +219,12 @@
 										var option = {
 											title: {
 												text: '单因素离职率分析',
-												x:'center'
+												x: 'center'
 											},
 											tooltip: {
 												show: true
 											},
-											calculable : true,
+											calculable: true,
 											toolbox: {
 												show: true,
 												feature: {
@@ -237,9 +238,9 @@
 												type: 'category',
 												data: header,
 												axisLabel: {
-								                    interval: 0,
-								                    rotate: 20, // 20度角倾斜显示(***这里是关键)
-							               		},
+													interval: 0,
+													rotate: 20, // 20度角倾斜显示(***这里是关键)
+												},
 											}],
 											yAxis: [{
 												max: 1,
@@ -253,8 +254,8 @@
 												"data": value,
 												itemStyle: {
 													normal: {
-														
-														color: '#2f4554'
+
+														color: '#336699'
 													}
 												},
 											}]
@@ -276,7 +277,7 @@
 										var option = {
 											title: {
 												text: '单因素离职率分析',
-												x:'center'
+												x: 'center'
 											},
 											tooltip: {
 												trigger: 'axis'
@@ -294,7 +295,7 @@
 												type: 'category',
 												boundaryGap: true,
 												data: header,
-												axisLine:{
+												axisLine: {
 													lineStyle: {
 														color: '#2f4554'
 													}
@@ -308,7 +309,7 @@
 												axisLabel: {
 													formatter: '{value}'
 												},
-												axisLine:{
+												axisLine: {
 													lineStyle: {
 														color: '#2f4554'
 													}
@@ -329,7 +330,7 @@
 															lineStyle: {
 																color: '#2f4554'
 															}
-	
+
 														}
 													}
 												},
@@ -352,8 +353,9 @@
 
 						}
 					});
-				});
-
+				}
+				form.on('select(attribute)', getAttrRatio);
+				getAttrRatio({value:"sales"});
 			});
 		</script>
 

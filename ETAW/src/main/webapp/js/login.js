@@ -30,7 +30,7 @@ $(document).ready(function () {
             success:function(data){//处理返回的信息，true则跳转，false则提示密码错误
                 if (data.isSuccess){
                     window.localStorage.id = $("#account").val();
-                    window.location.href = "index.jsp";
+                    window.location.href = "inputPage.jsp";
                 } else {
                     var message = data.message;
                     layer.msg(message, {icon: 2,time: 1500, anim: 6});
@@ -121,7 +121,7 @@ function loginWithVerification() {
         return;
     }
     if($("#verification").val()==verifiedCode){
-        window.location.href = "index.jsp";
+        window.location.href = "inputPage.jsp";
     }else{
         layer.msg("验证码错误",{icon: 5,time: 1500});
     }
