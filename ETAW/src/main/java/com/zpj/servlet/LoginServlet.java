@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
                 isSuccess=true;
                 session.setAttribute("account",account);
                 session.setMaxInactiveInterval(60*15);
+                System.out.println(session.getAttribute("account"));
                 break;
             case 2:
                 message="密码错误";

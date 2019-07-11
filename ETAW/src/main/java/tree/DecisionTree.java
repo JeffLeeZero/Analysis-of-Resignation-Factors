@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * C4.5决策树
+ * @author:李沛昊
+ */
 public class DecisionTree extends Tree{
     private ArrayList<Attr> attrList = null;
     private double ratio = 0.98;
@@ -29,6 +33,11 @@ public class DecisionTree extends Tree{
         return attrList;
     }
 
+    /**
+     * 计算各特征值对总体数据集的信息增益率
+     * @param datas 数据集
+     * @param attrList 特征值
+     */
     public void buildArrayList(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
         this.attrList = new ArrayList<>(attrList);
         Gain gain = new Gain(datas,attrList);
