@@ -3,6 +3,10 @@ package tree;
 import java.util.ArrayList;
 import java.util.concurrent.CyclicBarrier;
 
+/**
+ * 随机森林
+ * @author 李沛昊
+ */
 public class RandomForest {
     private ArrayList<ForestTree> forest;
     private int TREECOUNT;//树的棵树
@@ -96,7 +100,9 @@ public class RandomForest {
         }
     }
 
-
+    /**
+     * 用于多线程构建随机森林
+     */
     class ForestRunnble implements Runnable{
 
         public ForestTree tree;

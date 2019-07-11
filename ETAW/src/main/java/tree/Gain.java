@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 信息增益率
+ * @author 李沛昊
+ */
 public class Gain {
     private ArrayList<ArrayList<String>> D = null;//训练元组
     private ArrayList<Attr> attrList = null;//候选属性集，侯选属性集中最后一位表示最终的决策结果

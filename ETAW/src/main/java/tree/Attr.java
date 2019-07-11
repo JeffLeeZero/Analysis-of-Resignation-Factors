@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 特征值
+ * @author:李沛昊
+ */
 public class Attr {
     private String name;
     private boolean seperated;
@@ -49,6 +53,10 @@ public class Attr {
         }
     }
 
+    /**
+     * 浅拷贝
+     * @param old
+     */
     public Attr(Attr old){
         this.name = old.getName();
         setSeperated(old.isSeperated());
@@ -110,6 +118,11 @@ public class Attr {
         }
     }
 
+    /**
+     * 连续特征值的值域划分
+     * @param datas
+     * @param attrIndex
+     */
     public void divide(ArrayList<ArrayList<String>> datas,int attrIndex){
         double i, min = Double.POSITIVE_INFINITY, max = Double.NEGATIVE_INFINITY;
         for (ArrayList<String> tuple:

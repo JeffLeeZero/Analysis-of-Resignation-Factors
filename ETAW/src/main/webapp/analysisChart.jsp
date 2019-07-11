@@ -255,7 +255,7 @@
 												itemStyle: {
 													normal: {
 
-														color: '#2f4554'
+														color: '#336699'
 													}
 												},
 											}]
