@@ -129,6 +129,11 @@ public class Attr {
         }
     }
 
+    /**
+     * 获取该数值在连续值域上所处区间
+     * @param v
+     * @return
+     */
     public String getValue(String v){
         double num = Double.valueOf(v);
         int n = (int)((num-min)/len);
@@ -141,6 +146,10 @@ public class Attr {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getValues(){
         return division;
     }

@@ -27,11 +27,11 @@ public class PythonModel {
 //                    , aid, url};
 
             String[] svmProcData = new String[]{"python"
-                    , "../logisticregression\\svm_train.py"
+                    , "/logisticregression/svm_train.py"
                     , aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
             String[] logProcData = new String[]{"python"
-                    , "../logisticregression\\log_reg_train.py"
+                    , "/logisticregression/log_reg_train.py"
                     , aid, url};
 
             logProc = Runtime.getRuntime().exec(logProcData);
