@@ -480,14 +480,17 @@ public class Analyser implements ResignationAnalyser {
     private ArrayList<String> getAverageResult(ArrayList<ArrayList<Double>>  results){
         double sum = 0.0;
         double OpAccuracy = 0,IpAccuracy = 0;
+        int OpInt = 0, IpInt = 0;
         for (ArrayList<Double> result:
                 results) {
             if(result.get(0)>0){
                 sum += result.get(1);
-                OpAccuracy = (result.get(1)>OpAccuracy)?result.get(1):OpAccuracy;
+                OpAccuracy += result.get(1);
+                OpInt++;
             }else if(result.get(0)==0.0||result.get(0)>-1){
                 sum -= result.get(1);
-                IpAccuracy = (result.get(1)>IpAccuracy)?result.get(1):IpAccuracy;
+                IpAccuracy += result.get(1);
+                IpInt++;
             }else{
 
             }
@@ -495,15 +498,17 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<String> result = new ArrayList<>();
         if(sum>0){
             result.add("离职");
-            result.add(String.valueOf(OpAccuracy));
+            result.add(String.valueOf(OpAccuracy/OpInt));
         }else {
             result.add("不离职");
-            result.add(String.valueOf(IpAccuracy));
+            result.add(String.valueOf(IpAccuracy/IpInt));
         }
         return result;
     }
 
     public static void main(String[] args){
+        Analyser analyser = new Analyser("123");
+        analyser.getProbabilityFromCSV("import_test.csv");
 //        URL url =  Analyser.class.getResource("../");
 //        String fileUtl = Analyser.class.getClass().getResource("../../testfile.txt").getFile();
 //        System.out.println(url.getPath());

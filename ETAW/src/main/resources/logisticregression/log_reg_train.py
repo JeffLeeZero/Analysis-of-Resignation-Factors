@@ -78,8 +78,8 @@ def import_model(parameter,score,saleset,aid):
     :return:
     """
 
-    db = get_connection('admin/123456@localhost/SYSTEM')
-    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    #db = get_connection('admin/123456@localhost/SYSTEM')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -103,10 +103,6 @@ def import_model(parameter,score,saleset,aid):
                            aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
-
-                    # sql = "insert into regression (AID, DEPARTMENT,SCORE) VALUES ('%s', '%s','%s')" % (
-                    #       aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
-                    # cursor.execute(sql)
                     db.commit()
             break
     # 为空直接导入
@@ -125,7 +121,9 @@ def main(aid,filepath):
     saleset, data, x_set, y_set = get_csvfile(filepath)
     log_reg_parameter, log_reg_score, saleset = train(saleset, data, x_set, y_set)
     import_model(log_reg_parameter, log_reg_score, saleset, aid)
+
 if __name__ == "__main__":
+    #main('138769045830',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])

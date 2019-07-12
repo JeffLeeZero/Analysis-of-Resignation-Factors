@@ -1891,7 +1891,8 @@ a cite {
 }
 
 .layui-bg-green {
-    background-color: #009688 !important
+
+    background-color: skyblue !important
 }
 
 .layui-bg-cyan {
@@ -3009,7 +3010,8 @@ hr {
 
 .layui-laypage input:focus,
 .layui-laypage select:focus {
-    border-color: #009688 !important
+    border-color: skyblue !important
+
 }
 
 .layui-laypage button {
@@ -3682,7 +3684,12 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-upload-drag[lay-over] {
-    border-color: #009688
+    border-color: #009688;
+    color: skyblue;
+}
+
+.layui-upload-drag[lay-over] {
+    border-color: skyblue;
 }
 
 .layui-upload-iframe {
@@ -3984,7 +3991,8 @@ body .layui-table-tips .layui-layer-content {
 .layui-nav-tree .layui-this,
 .layui-nav-tree .layui-this > a,
 .layui-nav-tree .layui-this > a:hover {
-    background-color: #009688;
+
+    background-color: skyblue;
     color: #fff
 }
 
