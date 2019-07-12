@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
+整体数据统计分析页面
+@author 李沛昊
+--%>
 <%@ include file="check.jsp" %>
 <html>
 

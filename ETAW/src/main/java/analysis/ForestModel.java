@@ -13,6 +13,10 @@ import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * 随机森林模型
+ * @author 李沛昊
+ */
 public class ForestModel {
     private RandomForest forest;
     private String aid;

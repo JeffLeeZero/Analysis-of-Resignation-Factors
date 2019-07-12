@@ -4,6 +4,10 @@ import tree.Attr;
 
 import java.util.*;
 
+/**
+ * 用于展示统计信息的bean类
+ * @author 李沛昊
+ */
 public class AttrBean {
    private String name;
    private double D;

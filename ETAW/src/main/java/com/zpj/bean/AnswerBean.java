@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.*;
 
-
 public class AnswerBean {
 
     private ArrayList<Answer> answerList = null;

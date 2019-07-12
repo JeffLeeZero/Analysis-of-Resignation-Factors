@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 开发初期学习模型与后台的接口
+ * @author 李沛昊
+ */
 public interface ResignationAnalyser {
 
     /**

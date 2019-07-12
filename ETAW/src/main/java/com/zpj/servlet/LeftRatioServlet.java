@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 返回总体离职率
+ * @author 李沛昊
+ */
 @WebServlet(name = "LeftRatioServlet")
 public class LeftRatioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
