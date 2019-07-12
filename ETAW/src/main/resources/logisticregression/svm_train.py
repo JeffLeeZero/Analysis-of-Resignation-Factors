@@ -79,8 +79,8 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    #db = get_connection('admin/123456@localhost/SYSTEM')
-    db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    db = get_connection('admin/123456@orcl')
+    #db = get_connection('admin/123456@orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -125,7 +125,9 @@ def main(aid,filepath):
     import_model(svm_parameter, svm_score, saleset, aid)
 
 if __name__ == "__main__":
-    #main('138769045830',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')
+
+    #main('1',r'D:\EmployeeTurnoverAnalyzeWeb\ETAW\test.csv')
+
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])

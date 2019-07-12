@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 简单的测试类
+ * @author 李沛昊
+ */
 class Test {
 
     private static ArrayList<ArrayList<String>> trainSet = new ArrayList<>();

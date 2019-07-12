@@ -1,5 +1,9 @@
 package com.zpj.pojo;
 
+/**
+ * 用户类
+ * @author 毕修平
+ */
 public class User {
     private String account;
     private String password;

@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 用于返回各属性对于整体离职情况的重要性（影响力）
+ * @author 李沛昊
+ */
 @WebServlet(name = "AnalysisAllServlet")
 public class AnalysisAllServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

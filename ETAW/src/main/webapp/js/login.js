@@ -1,3 +1,7 @@
+/**
+ * 登录界面
+ * @author 毕修平
+ */
 $(document).ready(function () {
     //注册按钮跳转到注册页面
     $("#register_btn").click(function () {
@@ -17,6 +21,7 @@ $(document).ready(function () {
             layer.msg("请输入密码",{icon: 0,time: 1500});
             return;
         }
+        //向后台发送登录请求
         $.ajax({
             url:'/LoginServlet',
             type:'post',

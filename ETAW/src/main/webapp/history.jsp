@@ -1,9 +1,6 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: 万宇
-  Date: 2019/6/25
-  Time: 15:25
-  To change this template use File | Settings | File Templates.
+历史分析记录页面
+author: 李沛昊、万宇
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -47,7 +44,7 @@
 						id: "history_table",
 						elem: '#test',
 						title: '历史预测数据',
-						url: 'http://localhost:8080/HistoryServlet',
+						url: '/HistoryServlet',
 						toolbar: '#toolbarDemo',
 						contentType: 'application/json',
 						method: "POST",
@@ -141,7 +138,7 @@
 					layer.confirm('真的删除行么', function(index) {
 						$.ajax({
 							type: "POST",
-							url: "http://localhost:8080/DeleteHistoryServlet",
+							url: "/DeleteHistoryServlet",
 							async: true,
 							data: JSON.stringify({
 								reqId: window.localStorage.id,

@@ -19,6 +19,10 @@ import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+/**
+ * 返回某个特征值各个取值的离职率
+ * @author 李沛昊
+ */
 @WebServlet(name = "AnalysisPartServlet")
 public class AnalysisPartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

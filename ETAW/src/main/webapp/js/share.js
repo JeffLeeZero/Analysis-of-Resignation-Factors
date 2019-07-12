@@ -1,4 +1,7 @@
-
+/**
+ * 百度分享功能
+ * @author 毕修平
+ */
 window._bd_share_config = {
     "common": {
         "bdSnsKey": {},
