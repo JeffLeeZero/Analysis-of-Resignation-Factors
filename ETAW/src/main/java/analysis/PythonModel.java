@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * svm与逻辑回归模型
+ * （java与python模块的接口类）
+ * @author 张鼎、万宇、李沛昊
+ */
 public class PythonModel {
     private String aid;
     public PythonModel(String aid){

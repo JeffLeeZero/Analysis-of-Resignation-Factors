@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.sql.*;
 
+/**
+ * 链接数据库的工具类
+ * @author 李沛昊
+ */
 public class DBUtil {
     private static String dbDriver;
     private static String url;

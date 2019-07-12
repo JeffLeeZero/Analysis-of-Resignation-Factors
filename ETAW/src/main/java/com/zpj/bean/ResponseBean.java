@@ -1,5 +1,10 @@
 package com.zpj.bean;
 
+/**
+ * 返回ajax的bean类
+ * @param <T>
+ * @author 李沛昊
+ */
 public class ResponseBean<T> {
     String reqId;
     T resData;

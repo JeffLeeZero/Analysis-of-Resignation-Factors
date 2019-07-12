@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 机器学习和后台的接口类
+ * @author 李沛昊、张鼎、万宇
+ */
 public class Analyser implements ResignationAnalyser {
     private String account ;
     private String url;
@@ -67,7 +71,6 @@ public class Analyser implements ResignationAnalyser {
         tree.save();
         System.out.println("treesave");
 
-        //TODO:
         saveAttr(aid);
         System.out.println("attrsave");
 
@@ -84,7 +87,6 @@ public class Analyser implements ResignationAnalyser {
      */
     @Override
     public double getAccuracy() {
-        //TODO:需求暂不明确
         Connection conn = DBUtil.getConnection();
         double accuracy = 0;
         try{
@@ -509,13 +511,5 @@ public class Analyser implements ResignationAnalyser {
     public static void main(String[] args){
         Analyser analyser = new Analyser("123");
         analyser.getProbabilityFromCSV("import_test.csv");
-//        URL url =  Analyser.class.getResource("../");
-//        String fileUtl = Analyser.class.getClass().getResource("../../testfile.txt").getFile();
-//        System.out.println(url.getPath());
-//        //url.getPath()
-//        File file = new File(fileUtl);
-//        if(file.exists()){
-//            System.out.println("exist");
-//        }
     }
 }

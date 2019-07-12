@@ -1,9 +1,6 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: MQD
-  Date: 2019/7/3
-  Time: 19:15
-  To change this template use File | Settings | File Templates.
+文件上传页面
+author: 万宇、李沛昊
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="check.jsp" %>
