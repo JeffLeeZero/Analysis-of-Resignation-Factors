@@ -1,5 +1,9 @@
 package com.zpj.pojo;
 
+/**
+ * 文章类
+ * @author 毕修平
+ */
 public class Answer {
     private String title;
     private String author;

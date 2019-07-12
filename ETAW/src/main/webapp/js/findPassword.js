@@ -1,9 +1,14 @@
+/**
+ * 找回密码界面
+ * @author 毕修平
+ */
 $(document).ready(function () {
    // $("#veri_btn").click(function () {
    //     //　 发送验证码，显示验证码输入框
    //
    // });
    $("#submit_btn").click(function () {
+       //向后台发送找回密码请求
        $.ajax({
            url:'/FindPassServlet',
            type:'post',
@@ -34,8 +39,4 @@ function nextBtn() {
         $("#sure_btn")[0].style.display="block";
     }
     verifyLogin();
-}
-
-function submitBtn() {
-
 }
