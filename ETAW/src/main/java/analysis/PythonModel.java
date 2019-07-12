@@ -22,6 +22,10 @@ public class PythonModel {
             String[] svmProcData = new String[]{"python"
                     , svmUrl, aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
+
+
+            svmProc.waitFor();
+
             svmProc.waitFor();
             String regUrl = this.getClass().getResource("../logisticregression/log_reg_train.py").getFile().substring(1);
             System.out.println("regUrl:"+regUrl);

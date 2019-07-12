@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="check.jsp" %>
 <html>
 
 	<head>
@@ -202,202 +203,6 @@
         }
         session.invalidate();
     %>
-<<<<<<< HEAD
-
-</div>
-    </div>
-    <jsp:include page="footer.jsp"/>
-</div>
-<script src="plugins/layui/layui.js" charset="utf-8"></script>
-<script>
-    document.getElementById("formAccount").value = window.localStorage.id;
-    document.getElementById("account").value = window.localStorage.id;
-
-    layui.use('element', function(){
-        var $ = layui.jquery
-            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-
-        //触发事件
-        var active = {
-            tabAdd: function(){
-                //新增一个Tab项
-                element.tabAdd('demo', {
-                    title: '新选项'+ (Math.random()*1000|0) //用于演示
-                    ,content: '内容'+ (Math.random()*1000|0)
-                    ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-                })
-            }
-        };
-
-        $('.site-demo-active').on('click', function(){
-            var othis = $(this), type = othis.data('type');
-            active[type] ? active[type].call(this, othis) : '';
-        });
-
-        //Hash地址的定位
-        var layid = location.hash.replace(/^#test=/, '');
-        element.tabChange('test', layid);
-
-        element.on('tab(test)', function(elem){
-            location.hash = 'test='+ $(this).attr('lay-id');
-        });
-
-    });
-
-    layui.use('upload', function() {
-        var $ = layui.jquery,
-            upload = layui.upload;
-
-        upload.render({
-            elem: '#test1'
-            , url: '/InsertMultiWorkerServlet'
-            , accept: 'file'
-            , auto: false
-            // , bindAction: '#upfile' //关闭的上传按钮   html中此id所在元素也被注释
-            ,multiple: true
-            , done: function (res) {
-                alert("上传成功");
-            }
-        });
-
-        function fsubmit(fd) {
-            $.ajax({
-                url: "/InsertMultiWorkerServlet",
-                type: "POST",
-                data: fd,
-                contentType: false,   //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
-                processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
-                error : function(XMLHttpRequest, textStatus) {
-                    //alert("网络超时")
-                    //console.log(textStatus);
-                    window.location.href = "/analyseMultiWorker.jsp";
-                },
-                success: function (data) {
-                    alert("上传成功");
-                    window.location.href="/analyseMultiWorker.jsp";
-                }
-            });
-            return false;
-        }
-
-        $("#upup").on("click",function () {
-            var formSatellite = document.getElementById("up_form");//获取所要提交form的id
-            var fs1 = new FormData(formSatellite);  //用所要提交form做参数建立一个formdata对象
-            fsubmit(fs1);//调用函数
-        })
-    });
-
-    layui.use('form', function(){
-        var form = layui.form
-            ,layer = layui.layer
-
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
-        //监听提交
-        form.on('submit(demo1)', function(data){
-
-            $.ajax({
-                url: "/InsertWorkerServlet",
-                data:data.field,
-                type:"POST",
-                dataType:"json",
-                success:function(msg){
-                    //console.log(msg)
-                    window.location.href="/analyseWorker.jsp";
-                },
-                error:function(error){
-                    //alert(error)
-                    window.location.href="/analyseWorker.jsp";
-                }
-            });
-            return false;
-        });
-        form.render();
-    });
-</script>
-
-
-
-</body>
-
-<style>
-    .background{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-    }
-
-    .background > img {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.4;
-    }
-
-    .card{
-        position: absolute;
-        width: 90%;
-        height: 100%;
-        left: 25%;
-        top: 15%;
-        margin-bottom: 10%;
-    }
-</style>
-
-<%--<style>--%>
-    <%--#up_form{--%>
-        <%--background-color: #FFFFFF;--%>
-        <%--position: relative;--%>
-    <%--}--%>
-
-    <%--.form{--%>
-        <%--position: absolute;--%>
-        <%--top: 60%;--%>
-        <%--width: 100%;--%>
-        <%--height: 7%;--%>
-        <%--text-align: left;--%>
-    <%--}--%>
-    <%--form{--%>
-        <%--position: absolute;--%>
-        <%--width: 57%;--%>
-        <%--height: 100%;--%>
-        <%--top: 60%;--%>
-        <%--left: 21%;--%>
-        <%--opacity: 100%;--%>
-    <%--}--%>
-    <%--#upup{--%>
-        <%--background-color: #558AF5;--%>
-        <%--width: 14%;--%>
-        <%--height: 90%;--%>
-        <%--right: 0;--%>
-        <%--position: absolute;--%>
-    <%--}--%>
-    <%--#test1{--%>
-        <%--background-color: #3f51b5;--%>
-        <%--width: 18%;--%>
-        <%--height: 90%;--%>
-        <%--right: 16%;--%>
-        <%--position: absolute;--%>
-    <%--}--%>
-    <%--form > input{--%>
-        <%--width: 64%;--%>
-        <%--height: 90%;--%>
-        <%--right: 36%;--%>
-        <%--position: absolute;--%>
-    <%--}--%>
-<%--</style>--%>
-</html>
-
 			<jsp:include page="footer.jsp" />
 		</div>
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
@@ -463,6 +268,7 @@
 						contentType: false, //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
 						processData: false, //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
 						error: function(XMLHttpRequest, textStatus) {
+
 							$(".loading").toggle();
 							//alert("网络超时")
 							//console.log(textStatus);
@@ -571,6 +377,7 @@
 		}
 		
 		#upup {
+
 			background-color: skyblue;
 			width: 14%;
 			height: 90%;
@@ -579,6 +386,7 @@
 		}
 		
 		#test1 {
+
 			background-color: #558AF5;
 			width: 18%;
 			height: 90%;
@@ -592,6 +400,7 @@
 			right: 36%;
 			position: absolute;
 		}
+
 
 		.downloadFile{
 			position: absolute;
@@ -631,7 +440,7 @@
 			color: black;
 			font-size: 18px;
 		}
-		
+
 		.layui-inline.layui-upload-choose {
 			position: absolute;
 			left: 0;

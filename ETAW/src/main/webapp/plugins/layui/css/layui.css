@@ -1891,6 +1891,7 @@ a cite {
 }
 
 .layui-bg-green {
+
     background-color: skyblue !important
 }
 
@@ -3010,6 +3011,7 @@ hr {
 .layui-laypage input:focus,
 .layui-laypage select:focus {
     border-color: skyblue !important
+
 }
 
 .layui-laypage button {
@@ -3678,6 +3680,11 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-upload-drag .layui-icon {
     font-size: 50px;
+    color: #009688
+}
+
+.layui-upload-drag[lay-over] {
+    border-color: #009688;
     color: skyblue;
 }
 
@@ -3984,6 +3991,7 @@ body .layui-table-tips .layui-layer-content {
 .layui-nav-tree .layui-this,
 .layui-nav-tree .layui-this > a,
 .layui-nav-tree .layui-this > a:hover {
+
     background-color: skyblue;
     color: #fff
 }
