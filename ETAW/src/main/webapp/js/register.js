@@ -9,12 +9,18 @@ $(document).ready(function () {
             layer.msg("请输入手机号",{icon: 0,time: 1500});
             return;
         }
-
-        if ($("#password").val()=="") {
+        console.log($("#password").val())
+        if ( $("#password").val()=="") {
             $("#password").focus();
             layer.msg("请输入密码",{icon: 0,time: 1500});
             return;
         }
+        if ($("#password")[0].value.length<6 ) {
+            $("#password").focus();
+            layer.msg("密码长度至少为6位",{icon: 0,time: 1500});
+            return;
+        }
+
         verifyLogin();
     });
     $("#registerBtn").click(function registerBtn() {
