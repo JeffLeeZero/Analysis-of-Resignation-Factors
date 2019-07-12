@@ -200,16 +200,9 @@
 			</script>
 			<%
         }
-        session.invalidate();
     %>
-<<<<<<< HEAD
 
-		</div>
-		</div>
-		<jsp:include page="footer.jsp" />
-=======
 			<jsp:include page="footer.jsp" />
->>>>>>> 468d1d9709fd4bb383b01ece5de12a517d414e94
 		</div>
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
 		<script>
