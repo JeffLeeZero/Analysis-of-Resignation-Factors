@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class PythonModel {
     private String aid;
-
     public PythonModel(String aid){
         this.aid = aid;
     }
@@ -18,34 +17,20 @@ public class PythonModel {
     public void trainModel(String url){
         try{
             Process svmProc,logProc;
-//            String[] svmProcData = new String[]{"python"
-//                    , "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\svm_train.py"
-//                    , aid, url};
-//            svmProc = Runtime.getRuntime().exec(svmProcData);
-//            String[] logProcData = new String[]{"python"
-//                    , "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\log_reg_train.py"
-//                    , aid, url};
-//C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\src\main\resources\logisticregression\svm_train.py
-            System.out.println("aid = "+aid);
-            System.out.println("url = "+url);
+            String svmUrl = this.getClass().getResource("../logisticregression/svm_train.py").getFile().substring(1);
+            System.out.println("svmUrl:"+svmUrl);
             String[] svmProcData = new String[]{"python"
-                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\svm_train.py"
-                    , aid, url};
+                    , svmUrl, aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
 
 
             svmProc.waitFor();
-//            String[] svmProcData = new String[]{"python"
-//                    , "..\\logisticregression\\svm_train.py"
-//                    , aid, url};
-//            svmProc = Runtime.getRuntime().exec(svmProcData);
-//            String[] logProcData = new String[]{"python"
-//                    , "..\\ogisticregression\\log_reg_train.py"
-//                    , aid, url};
-//
+
+            svmProc.waitFor();
+            String regUrl = this.getClass().getResource("../logisticregression/log_reg_train.py").getFile().substring(1);
+            System.out.println("regUrl:"+regUrl);
             String[] logProcData = new String[]{"python"
-                    , "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\java\\logisticregression\\log_reg_train.py"
-                    , aid, url};
+                    , regUrl, aid, url};
             logProc = Runtime.getRuntime().exec(logProcData);
 
             logProc.waitFor();
@@ -70,9 +55,9 @@ public class PythonModel {
         try{
             String testDatas = String.join(";", data);
             System.out.println(testDatas);
-            //String[] fileData = new String[]{"python", "/logisticregression/analyze.py",testDatas,aid,department};
-            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\resources\\logisticregression\\analyze.py", testDatas,aid,department};
-            //String[] fileData = new String[]{"python", "..\\logisticregression\\analyze.py", testDatas,aid,department};
+
+            String url = this.getClass().getResource("../logisticregression/analyze.py").getFile().substring(1);
+            String[] fileData = new String[]{"python", url, testDatas,aid,department};
 
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -113,9 +98,8 @@ public class PythonModel {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
-            //String[] fileData = new String[]{"python", "E:\\LR\\Analysis-of-Resignation-Factors-master\\ETAW\\src\\main\\java\\logisticregression\\analyze_csv.py", csvURL,aid};
-            String[] fileData = new String[]{"python", "C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\src\\main\\resources\\logisticregression\\analyze_csv.py", csvURL,aid};
-            //String[] fileData = new String[]{"python", "..\\logisticregression\\analyze_csv.py", csvURL,aid};
+            String url = this.getClass().getResource("../logisticregression/analyze_csv.py").getFile().substring(1);
+            String[] fileData = new String[]{"python", url, csvURL,aid};
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -163,15 +147,19 @@ public class PythonModel {
     }
 
     public static void main(String args[]){
-        ArrayList<String> data = new ArrayList<>();
-        //'0.38,0.53,157,3,2,0,0,0'
-
+        PythonModel py = new PythonModel("afad");
+        String url = PythonModel.class.getClass().getResource("../../logisticregression/analyze.py").getFile();
+        System.out.println(py.getClass().getResource("../").getFile());
+        System.out.println(url);
+//        ArrayList<String> data = new ArrayList<>();
+//        //'0.38,0.53,157,3,2,0,0,0'
 //
-//
-        PythonModel py = new PythonModel("999");
+////
+////
+//        PythonModel py = new PythonModel("999");
 
 //        long start = System.currentTimeMillis();
-        py.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
+        //py.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
 //        long end = System.currentTimeMillis();
 //        System.out.println((end - start)/1000);
 
