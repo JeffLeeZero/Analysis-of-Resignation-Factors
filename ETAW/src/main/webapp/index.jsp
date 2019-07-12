@@ -24,7 +24,7 @@
 				<div style="padding: 15px;">
 					<i class="layui-icon layui-icon-face-smile" style="font-size: 40px; color: #FF5722;">你好</i>
 					<br><br>
-					<p style="font-size: 30px; color: #009688;">欢迎使用员工离职分析系统</p>
+					<p style="font-size: 30px; color: skyblue;">欢迎使用员工离职分析系统</p>
 				</div>
 
 

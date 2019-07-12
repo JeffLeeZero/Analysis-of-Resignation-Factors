@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -33,8 +34,11 @@
                         </div>
 
                         <div class="layui-card-body">
-                            经过逻辑回归方法预测，该员工
-                            <%=(String)session.getAttribute("left") %>
+                            经预测，该员工
+                            <div class = "result">
+                                <%=(String)session.getAttribute("left") %>
+                            </div>
+
                         </div>
 
                     </div>
@@ -42,23 +46,29 @@
             </div>
         </div>
 
-        <div style="padding: 20px; background-color: #F2F2F2; margin-left: 300px">
+        <c:if test= "${sessionScope.left == '离职'}">
+
+        <div style="padding: 20px; background-color: #F2F2F2; margin-left: 300px" id = "reason">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md6">
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <p style="font-size: medium; text-align: center">分析</p>
-                    </div>
+                        </div>
 
                         <div class="layui-card-body">
-                            分析原因：
-                            <%=(String)session.getAttribute("reason") %>
+                            分析原因：该员工该员工离职的主要因素为
+                            <div class="factor">
+                                “<%=(String)session.getAttribute("factor") %>”
+                            </div>
+                            <%=(String)session.getAttribute("measure") %>
                         </div>
 
                     </div>
                 </div>
             </div>
         </div>
+        </c:if>
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
             <legend>分析准确率</legend>
@@ -72,7 +82,14 @@
         <!--Step:2 引入echarts.js-->
         <script src="js/echarts.js"></script>
 
+        <script>
+            if(document.getElementById("result").equals("不离职")){
+                document.getElementById("reason").display = "none";
+            }
+        </script>
+
         <script type="text/javascript">
+
             // Step:3 conifg ECharts's path, link to echarts.js from current page.
             // Step:3 为模块加载器配置echarts的路径，从当前页面链接到echarts.js，定义所需图表路径
             require.config({
@@ -157,4 +174,12 @@
     });
 </script>
 </body>
+<style>
+    .factor
+    {
+        color: red;
+        font-size: 24px;
+    }
+</style>
+
 </html>

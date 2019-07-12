@@ -3,16 +3,25 @@ package tree;
 import java.util.ArrayList;
 import java.util.concurrent.CyclicBarrier;
 
+/**
+ * 随机森林
+ * @author 李沛昊
+ */
 public class RandomForest {
     private ArrayList<ForestTree> forest;
-    private int TREECOUNT;
-    private int threadCount = 20;
-    private CyclicBarrier barrier;
+    private int TREECOUNT;//树的棵树
+    private int threadCount = 20;//线程个数
+    private CyclicBarrier barrier;//屏障
     public RandomForest(){
         this.forest = new ArrayList<>();
         this.TREECOUNT = 300;
     }
 
+    /**
+     * 构建森林
+     * @param datas
+     * @param attrList
+     */
     public void buildForest(ArrayList<ArrayList<String>> datas,ArrayList<Attr> attrList){
         barrier = new CyclicBarrier(threadCount+1);
         int n = (int)Math.sqrt(attrList.size());
@@ -34,9 +43,13 @@ public class RandomForest {
             }
         }
         barrier = null;
-        //computeAttrImportance(attrList);
     }
 
+    /**
+     * 为每一颗树随机有放回地抽取训练集
+     * @param datas
+     * @return
+     */
     public static ArrayList<ArrayList<String>> getRandomData(ArrayList<ArrayList<String>> datas){
         int count = datas.size();
         int len = count * 2 /3;
@@ -87,7 +100,9 @@ public class RandomForest {
         }
     }
 
-
+    /**
+     * 用于多线程构建随机森林
+     */
     class ForestRunnble implements Runnable{
 
         public ForestTree tree;

@@ -71,7 +71,7 @@
     <jsp:include page="footer.jsp" />
 
 </div>
-
+<%--<%@ include file="check.jsp" %>--%>
 <script src="plugins/layui/layui.js"></script>
 
 <script type="text/javascript">
@@ -113,7 +113,7 @@
             success: function (data) {
                 $(".loading").toggle();
                 alert("上传成功！");
-                window.location.href = "analyseAll.jsp";
+                window.location.href = "analysisChart.jsp";
             }
         });
         return false;
@@ -294,6 +294,13 @@
         font-size: 18px;
     }
 
+		.layui-inline.layui-upload-choose{
+			position: absolute;
+			left: 0;
+			bottom: 30%;
+			font-size: 1.2vw;
+			color: #000000;
+		}
 </style>
 
 </html>
