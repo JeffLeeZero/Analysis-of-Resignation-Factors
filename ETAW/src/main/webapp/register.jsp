@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <head>
     <title>注册界面</title>
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -16,11 +17,17 @@
 
     <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
-<body background="img/login_bg.jpg">
+<body>
 <%--<div class="background" >--%>
     <%--<img class="scale_Bg" src="img/login_bg.jpg" style="background-attachment: fixed" />--%>
 <%--</div>--%>
-<div class="top-nav">
+
+<div class="background">
+    <img style=" position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+        overflow: hidden;" src="img/login_bg.jpg" />
+</div>
+
+<div class="top-nav">4
     <div class="top-nav-left">
         <p style=" color: #515151 " >员工离职分析</p>
     </div>
@@ -52,4 +59,5 @@
 </div>
 
 </body>
+
 </html>

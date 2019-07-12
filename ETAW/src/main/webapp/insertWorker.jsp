@@ -200,10 +200,11 @@
 				alert("<%=mess%>");
 			</script>
 			<%
-       }
+        }
     %>
+
 			<jsp:include page="footer.jsp" />
-		</div>	
+		</div>
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
 		<script>
 			document.getElementById("formAccount").value = window.localStorage.id;
@@ -407,29 +408,31 @@
 			font-size: 15px;
 			text-align: left;
 		}
-		
-		.loading {
+
+		.loading{
 			position: absolute;
 			top: 0;
 			left: 0;
-			width: 100%;
+			width:100%;
 			height: 100%;
 			opacity: 0.8;
 			background-color: #FFFFFF;
+
 		}
-		
-		.loadingImage {
+
+
+		.loadingImage{
 			position: absolute;
 			top: 30%;
-			left: 30%;
-			width: 30%;
+			left: 40%;
+			width: 20%;
 			height: 30%;
 		}
-		
-		.loadingText {
+
+		.loadingText{
 			position: absolute;
-			top: 60%;
-			left: 40%;
+			top: 57%;
+			left: 48%;
 			width: 100%;
 			height: 20%;
 			color: black;
