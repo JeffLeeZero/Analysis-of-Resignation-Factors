@@ -5,10 +5,12 @@ import pandas as pd
 import cx_Oracle as oracle
 import _pickle as pickle
 
+# author = 张鼎
+
 def get_connection(conn_str):
     """
     获取与oracle数据库的连接
-    :param conn_str:
+    :param conn_str:数据库表名、密码
     :return:数据库操作对象
     """
     db = oracle.connect(conn_str)
@@ -83,6 +85,7 @@ def main(data,aid, department):
     svm_predict_float_result.append(str(float(svm_predict)))
     svm_predict_float_result.append(svm_score)
 
+    #输出到JAVA后台，用流进行交互
     for i in log_reg_predict_float_result:
         print(i)
     for i in svm_predict_float_result:
@@ -91,7 +94,6 @@ def main(data,aid, department):
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
 if __name__ == "__main__":
     #main('1;1;234;4;5;0;0;medium;management;1', '1230', 'hr')
-
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])

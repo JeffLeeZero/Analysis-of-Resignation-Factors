@@ -2,13 +2,13 @@ import sys, os
 PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
-
 import pandas as pd
 from sklearn import svm
-
 import cx_Oracle as oracle
 import _pickle as pickle
 from sklearn.preprocessing import StandardScaler
+
+# author = 张鼎
 
 def get_connection(conn_str):
     """
@@ -122,9 +122,7 @@ def main(aid,filepath):
     filepath = open(filepath)
     saleset, data, x_set, y_set = get_csvfile(filepath)
     svm_parameter, svm_score, saleset = train(saleset, data, x_set, y_set)
-
     import_model(svm_parameter, svm_score, saleset, aid)
-
 
 if __name__ == "__main__":
     #main('138769045830',r'C:\Users\west\Desktop\Analysis-of-Resignation-Factors\ETAW\test.csv')

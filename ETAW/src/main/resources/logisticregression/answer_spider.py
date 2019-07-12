@@ -1,22 +1,32 @@
 from pyquery import PyQuery as pq
 import cx_Oracle as oracle
 
+# author = 张鼎
 
 def get_page(url):
+    """
+    获取该URL对应的页面
+    :param url:爬取网页路径
+    :return:pquery对象
+    """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
         'Cookie': '_xsrf=P7U0b3BzG3yZf2Tji1Ls0pynYHYsrx65; _zap=b3b2a98e-f0d0-4ca3-8a01-69d324dee824; d_c0="AGCunJy2sQ-PTrfhi04967rZCHOfnhcYBWU=|1562404177"; tst=r; q_c1=103178a161214b52939307a6d01af24d|1562464657000|1562464657000; tgw_l7_route=80f350dcd7c650b07bd7b485fcab5bf7; capsion_ticket="2|1:0|10:1562546778|14:capsion_ticket|44:NmRhNzZjNjI5ZDIyNDhhODgwZjU1OWMxOGY2NTY5YzI=|f0ad9817a6cd65f54e25a9a0d325c1f296e242648032950bd2c73b90e28a6895'
     }
     doc = pq(url, headers=headers)
-
     return doc
 
 def get_answer(doc):
+    """
+    获取当前页面下所有回答
+    :param doc:pquery对象
+    :return:处理过的知乎回答list，包括标题、作者、内容
+    """
     content = doc('.List-item')
     result = []
     for i in content:
         answer = pq(i)
-
+        #对该属性中的title和author进行定位，用字符串切片取值
         author_start = answer('.ContentItem.AnswerItem').attr('data-zop').index(":")+2
         author_end = answer('.ContentItem.AnswerItem').attr('data-zop').index(",")-1
 
@@ -33,6 +43,11 @@ def get_answer(doc):
     return result
 
 def import_answer(result):
+    """
+    将处理过的结果导入数据库中
+    :param result:爬取的结果
+    :return:
+    """
     #db = oracle.connect('admin/123456@localhost/orcl')
     db = oracle.connect('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
@@ -56,6 +71,11 @@ def import_answer(result):
     db.close()
 
 def get_column(doc):
+    """
+    获取当前页面下所有专栏文章
+    :param doc:pquery对象
+    :return:处理过的专栏文章list
+    """
     article = doc('.Post-content')
 
     author_start = article('.Post-content').attr('data-zop').index(":") + 2
