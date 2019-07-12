@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 注册后台
+ * @author 毕修平
+ */
 public class RegisterServlet extends HttpServlet {
     private String account;
     private String password;
@@ -50,6 +54,7 @@ public class RegisterServlet extends HttpServlet {
         out.close();
     }
 
+    //注册方法，将注册用户信息存入数据库
     private int register(String a,String p){
         SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);

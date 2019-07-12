@@ -1,5 +1,10 @@
 package com.zpj.bean;
 
+/**
+ * 发送ajax请求的bean类
+ * @param <T>
+ * @author 李沛昊
+ */
 public class RequestBean<T> {
     String reqId;
     T reqParam;

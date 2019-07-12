@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
-
+/**
+ * 验证码发送后台
+ * @author 毕修平
+ */
 public class SmsLoginServlet extends HttpServlet {
     private String type;
 
@@ -64,7 +67,7 @@ public class SmsLoginServlet extends HttpServlet {
         String message="";
         String jsonPhone = null;
 
-
+        //判断发送验证码的界面类型 如果是注册就不需要验证手机号是否注册
         if ((type.equals("isLogin") || type.equals("isFind") )&& queryPhone(phoneNumbers[0])==0){
             message = "不存在该用户或手机未注册";
             LoginBean loginBean = new LoginBean(message,isSuccess);
@@ -93,7 +96,7 @@ public class SmsLoginServlet extends HttpServlet {
                 }
                 message = verificationCode;
                 LoginBean loginBean = new LoginBean(message,isSuccess);
-                jsonPhone = gson.toJson(loginBean);
+                jsonPhone = gson.toJson(loginBean);              //将bean转化成json传到前端
                 System.out.println(jsonPhone);
                 out.print(jsonPhone);
 
@@ -113,6 +116,8 @@ public class SmsLoginServlet extends HttpServlet {
         type=req.getParameter("alert_type");
         doGet(req, resp);
     }
+
+    //查询该手机号是否注册
     private int queryPhone(String a)throws ServletException, IOException{
         SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);

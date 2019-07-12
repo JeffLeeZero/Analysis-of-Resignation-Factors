@@ -1,3 +1,7 @@
+/**
+ * 注册界面
+ * @author 毕修平
+ */
 $(document).ready(function () {
     $("#veri_btn").click(function registerGetVerification() {  //注册界面获取验证码
         if ($("#phone").val()=="" ) {
@@ -36,6 +40,7 @@ $(document).ready(function () {
             return;
         }
         if ($("#verification").val()==verifiedCode){
+            //向后台发送注册请求
             $.ajax({
                 url:'/RegisterServlet',
                 type:'post',

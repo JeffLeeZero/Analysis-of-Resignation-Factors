@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * svm与逻辑回归模型
+ * （java与python模块的接口类）
+ * @author 张鼎、万宇、李沛昊
+ */
 public class PythonModel {
     private String aid;
     public PythonModel(String aid){
@@ -59,6 +64,7 @@ public class PythonModel {
             String url = this.getClass().getResource("../logisticregression/analyze.py").getFile().substring(1);
             String[] fileData = new String[]{"python", url, testDatas,aid,department};
 
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -98,8 +104,10 @@ public class PythonModel {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
+
             String url = this.getClass().getResource("../logisticregression/analyze_csv.py").getFile().substring(1);
             String[] fileData = new String[]{"python", url, csvURL,aid};
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
