@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 决策树基类
+ * @author 李沛昊
+ */
 public abstract class Tree {
     private TreeNode treeNode;
 

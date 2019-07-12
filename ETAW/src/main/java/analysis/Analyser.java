@@ -2,9 +2,13 @@ package analysis;
 
 import analysis.DBUtil.DBUtil;
 
+import com.sun.jndi.toolkit.url.Uri;
+import jdk.nashorn.internal.runtime.ECMAException;
 import tree.Attr;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,29 +47,34 @@ public class Analyser implements ResignationAnalyser {
     @Override
     public void trainModel(String url) {
         //TODO:训练速度上的优化
+        System.out.println(System.getProperty("user.dir"));
         this.url = url;
 
         buildPreparement(importCsv(new File(url)));
         //获取模型aid
         String aid = saveInfo();
-
+        System.out.println("saveinfor");
         //训练随机森林并保存
         forest = new ForestModel(aid);
         forest.trainForest(trainSet,testSet,attrs);
+        System.out.println("forestbuild");
         forest.save();
-
+        System.out.println("forestsave");
         //训练决策树并保存
         tree = new TreeModel(aid);
         tree.trainTree(trainSet,testSet,attrs);
+        System.out.println("treebuild");
         tree.save();
+        System.out.println("treesave");
 
         //TODO:
         saveAttr(aid);
+        System.out.println("attrsave");
 
         //训练逻辑回归模型并保存
         py = new PythonModel(aid);
         py.trainModel(url);
-
+        System.out.println("pybuild");
     }
 
     /**
@@ -154,7 +163,7 @@ public class Analyser implements ResignationAnalyser {
         ArrayList<ArrayList<ArrayList<Double>>> results = py.getProbabilityFromCSV(csvURL);
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         for (int i = 0;i<results.size();i++){
-            datas.get(i).remove(10);
+            datas.get(i).remove(9);
             results.get(i).add(tree.getProbability(datas.get(i),attrs));
             results.get(i).add(forest.getProbability(datas.get(i),attrs));
             answers.add(getAverageResult(results.get(i)));
@@ -207,6 +216,18 @@ public class Analyser implements ResignationAnalyser {
 
     @Override
     public Map<String, Double> getAttrRatio(String attrName) {
+
+//        try{
+//            File file = new File("./myfile.txt");
+//            if(file.createNewFile())
+//                System.out.println("文件创建成功！");
+//            else
+//                System.out.println("出错了，该文件已经存在。");
+//        }
+//        catch(IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+
         Connection conn = DBUtil.getConnection();
         Map<String,Double> map = new HashMap<>();
         try{
@@ -257,33 +278,42 @@ public class Analyser implements ResignationAnalyser {
             ResultSet set = state.executeQuery();
             if (set.next()){
                 aid = set.getString("aid");
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from attribute where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from attrvalue where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from tree where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from regression where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from svm where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 state = conn.prepareStatement("delete from forest where aid = ?");
                 state.setString(1,aid);
                 state.executeUpdate();
+                System.out.println(aid);
                 conn.commit();
                 return aid;
             }
-            state = conn.prepareStatement("select count(*) from analysis");
+            state = conn.prepareStatement("select count(*) from analysis where account = ?");
+            state.setString(1,account);
             set = state.executeQuery();
             if(set.next()){
                 count = set.getInt(1);
             }
             aid = String.valueOf(count);
+            aid = account+aid;
             set.close();
             state.close();
             state = conn.prepareStatement("insert into analysis values(?,?,?,?)");
@@ -450,70 +480,42 @@ public class Analyser implements ResignationAnalyser {
     private ArrayList<String> getAverageResult(ArrayList<ArrayList<Double>>  results){
         double sum = 0.0;
         double OpAccuracy = 0,IpAccuracy = 0;
+        int OpInt = 0, IpInt = 0;
         for (ArrayList<Double> result:
                 results) {
             if(result.get(0)>0){
                 sum += result.get(1);
-                OpAccuracy = (result.get(1)>OpAccuracy)?result.get(1):OpAccuracy;
-            }else{
+                OpAccuracy += result.get(1);
+                OpInt++;
+            }else if(result.get(0)==0.0||result.get(0)>-1){
                 sum -= result.get(1);
-                IpAccuracy = (result.get(1)>IpAccuracy)?result.get(1):IpAccuracy;
+                IpAccuracy += result.get(1);
+                IpInt++;
+            }else{
+
             }
         }
         ArrayList<String> result = new ArrayList<>();
         if(sum>0){
             result.add("离职");
-            result.add(String.valueOf(OpAccuracy));
+            result.add(String.valueOf(OpAccuracy/OpInt));
         }else {
             result.add("不离职");
-            result.add(String.valueOf(IpAccuracy));
+            result.add(String.valueOf(IpAccuracy/IpInt));
         }
         return result;
     }
 
-//    public static void main(String[] args){
-//        Analyser analyser = new Analyser("123");
-//        //Long start = System.currentTimeMillis();
-//        //analyser.trainModel("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\test.csv");
-//        //测试数据,这部分需要前端传入
-//        //Long end  =System.currentTimeMillis();
-//        //System.out.println((end-start)/1000);
-//        analyser.getAttrRatio("left");
-//        analyser.getAttrRatio();
-//        analyser.trainModel("test.csv");
-//        ArrayList<String> data = new ArrayList<>();
-//        //'0.38,0.53,157,3,2,0,0,0'
-//        data.add("0.38");
-//        data.add("0.53");
-//        data.add("157");
-//        data.add("2");
-//        data.add("3");
-//        data.add("0");
-//        data.add("0");
-//        data.add("low");
-//        data.add("IT");
-//        //ArrayList<String> result1 = analyser.getProbability(data);
-//
-
-//        //获取训练数据集的URL(前端传入对应的训练文件URL）
-//        ArrayList<String> result1 = analyser.getProbability(data);
-//        System.out.println(result1);
-////        //是否离职 0不离职，1离职
-////        ArrayList<Float> leftResult1 = analyser.getResult(result1,0);
-////        System.out.println(leftResult1);
-////        //该模型的拟合度
-////        ArrayList<Float>  scoreResult1 = analyser.getResult(result1,1);
-////        System.out.println(scoreResult1);
-////        System.out.println(leftResult1+"\n"+scoreResult1);
-//
-//
-////        ArrayList<String> result2 = analyser.getProbabilityFromCSV("C:\\Users\\west\\Desktop\\Analysis-of-Resignation-Factors\\ETAW\\import_test.csv", "369分析方案");
-////        ArrayList<Float> leftResult2 = analyser.getResult(result2,0);
-////        ArrayList<Float> scoreResult2 = analyser.getResult(result2,1);
-////        System.out.println(leftResult2);
-////        System.out.println(scoreResult2);
-//
-//
-//
-//    }
+    public static void main(String[] args){
+        Analyser analyser = new Analyser("123");
+        analyser.getProbabilityFromCSV("import_test.csv");
+//        URL url =  Analyser.class.getResource("../");
+//        String fileUtl = Analyser.class.getClass().getResource("../../testfile.txt").getFile();
+//        System.out.println(url.getPath());
+//        //url.getPath()
+//        File file = new File(fileUtl);
+//        if(file.exists()){
+//            System.out.println("exist");
+//        }
+    }
 }

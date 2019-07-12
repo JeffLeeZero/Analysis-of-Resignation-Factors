@@ -58,9 +58,11 @@ public class AnalysisAllServlet extends HttpServlet {
         Map<String,Double> map = analyser.getAttrRatio();
         List<AttrBean> list = new ArrayList<>();
         map.remove("left");
+        double ratio = 0.0;
         for (Map.Entry<String, Double> entry
                 : map.entrySet()){
-            list.add(new AttrBean(entry.getKey(),entry.getValue()));
+            ratio = (double)((int)(double)(entry.getValue() * 100000))/100000;
+            list.add(new AttrBean(entry.getKey(),ratio));
         }
         ResponseBean<List<AttrBean>> respBean = new ResponseBean<>();
         respBean.setReqId(account);

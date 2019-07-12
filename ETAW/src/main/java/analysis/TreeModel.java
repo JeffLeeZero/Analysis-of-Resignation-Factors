@@ -121,7 +121,11 @@ public class TreeModel {
 
     public ArrayList<Double> getProbability(ArrayList<String> data,ArrayList<Attr> attrList){
         ArrayList<Double> result = new ArrayList<>();
-        result.add(Double.valueOf(tree.doPrediction(data,attrList)));
+        try{
+            result.add(Double.valueOf(tree.doPrediction(data,attrList)));
+        }catch (NumberFormatException e){
+            result.add(-1.0);
+        }
         result.add(tree.getAccuracy());
         return result;
     }
