@@ -46,14 +46,11 @@ def choose_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-
     db = get_connection('admin/123456@orcl')
     #db = get_connection(('FRANK/ZD73330274@localhost/orcl'))
-
     cursor = db.cursor()
     #选出特定的逻辑回归模型和向量机模型
     args = (aid, department,aid, department)
-
     sql = 'select regression.score, regression.model, svm.score, svm.model from regression,svm where regression.aid = :1 and regression.department = :2 and svm.aid = :3 and svm.department = :4'
     cursor.execute(sql, args)
     db.commit()
@@ -76,7 +73,6 @@ def main(data,aid, department):
     svm_predict_float_result  =[]
     x_test = data2dataframe(data)
     log_reg, log_reg_score, svm, svm_score = choose_model(aid, department)
-
     log_reg_predict = log_reg.predict(x_test)
     log_reg_predict_float_result.append(str(float(log_reg_predict)))
     log_reg_predict_float_result.append(log_reg_score)
@@ -93,7 +89,6 @@ def main(data,aid, department):
 #data='0.38 0.53 157 3 0 0 0',aid = '1', department = 'IT'
 if __name__ == "__main__":
     #main('1;1;234;4;5;0;0;medium;management;1', '1230', 'hr')
-
     a = []
     a.append(sys.argv[1])
     a.append(sys.argv[2])

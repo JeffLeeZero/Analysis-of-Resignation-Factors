@@ -47,7 +47,7 @@
 						id: "history_table",
 						elem: '#test',
 						title: '历史预测数据',
-						url: 'http://localhost:8080/HistoryServlet',
+						url: '/HistoryServlet',
 						toolbar: '#toolbarDemo',
 						contentType: 'application/json',
 						method: "POST",
@@ -141,7 +141,7 @@
 					layer.confirm('真的删除行么', function(index) {
 						$.ajax({
 							type: "POST",
-							url: "http://localhost:8080/DeleteHistoryServlet",
+							url: "/DeleteHistoryServlet",
 							async: true,
 							data: JSON.stringify({
 								reqId: window.localStorage.id,
