@@ -28,6 +28,11 @@ $(document).ready(function () {
             layer.msg("请输入密码",{icon: 0,time: 1500});
             return;
         }
+        if($("#password").val().length<6){
+            $("#password").focus();
+            layer.msg("密码至少由六位字母数字符号组成",{icon: 0,time: 1500});
+            return;
+        }
         if ($("#verification").val()=="") {
             $("#verification").focus();
             layer.msg("请输入验证码",{icon: 0,time: 1500});

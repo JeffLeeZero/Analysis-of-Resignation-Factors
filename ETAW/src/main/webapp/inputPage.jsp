@@ -14,6 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>数据导入</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="plugins/layui/layui.all.js"></script>
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
 
 </head>
@@ -46,7 +48,7 @@
             <div class="form">
                 <form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
-                    <input/>
+                    <input id="inputID" type="text" disabled>
                     <button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
                     <input type="hidden" class="layui-input" name="account" id="formAccount"/>
                     <button type="button" class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>

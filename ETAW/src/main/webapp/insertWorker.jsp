@@ -13,6 +13,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>员工离职因素分析网站</title>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="plugins/layui/layui.all.js"></script>
 		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all">
 	</head>
 
@@ -160,7 +162,7 @@
 							<div class="form">
 								<form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
-									<input disabled="disabled" />
+									<input disabled="disabled" id="inputID"/>
 									<button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
 									<input type="hidden" class="layui-input" name="account" id="account" />
 									<button type="button" class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
@@ -283,7 +285,7 @@
 				}
 
 				$("#upup").on("click", function() {
-					$(".loading").toggle();
+                    $(".loading").toggle();
 					var formSatellite = document.getElementById("up_form"); //获取所要提交form的id
 					var fs1 = new FormData(formSatellite); //用所要提交form做参数建立一个formdata对象
 					fsubmit(fs1); //调用函数

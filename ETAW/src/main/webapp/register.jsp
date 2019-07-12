@@ -17,9 +17,6 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
 <body background="img/login_bg.jpg">
-<%--<div class="background" >--%>
-    <%--<img class="scale_Bg" src="img/login_bg.jpg" style="background-attachment: fixed" />--%>
-<%--</div>--%>
 <div class="top-nav">
     <div class="top-nav-left">
         <p style=" color: #515151 " >员工离职分析</p>
@@ -42,7 +39,7 @@
         </div>
 
         <div class="icon1"><input class="input_c" name="password" type="number" placeholder="输入验证码"
-                                  onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification">
+                                  onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="4">
         </div>
         <input id="veri_btn" type="button" class="submit_btn" value="获取验证码">
         <input id="registerBtn" type="button" class="register_btn" value="注册">
