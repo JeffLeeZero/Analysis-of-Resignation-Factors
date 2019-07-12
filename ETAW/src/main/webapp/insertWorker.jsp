@@ -138,7 +138,7 @@
 													</div>
 												</div>
 
-												<div class="layui-form-item" >
+												<div class="layui-form-item">
 													<div class="layui-input-block" style="margin-left: 160px">
 														<button type="submit" lay-submit="" lay-filter="demo1" class="layui-btn">立即提交</button>
 														<button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -160,7 +160,7 @@
 							<div class="form">
 								<form class="layui-form" action="#" enctype="multipart/form-data" id="up_form">
 
-									<input disabled="disabled"/>
+									<input disabled="disabled" />
 									<button type="button" class="layui-btn layui-btn-normal" name="uploadFile" id="test1">选择文件</button>
 									<input type="hidden" class="layui-input" name="account" id="account" />
 									<button type="button" class="layui-btn layui-btn-normal" lay-submit="" id="upup" lay-filter="upup">提交</button>
@@ -169,14 +169,14 @@
 							</div>
 
 							<div class="downloadFile">
-								<p  style="color: black">多员工批量离职预测文件具有严格的格式要求</p>
+								<p style="color: black">多员工批量离职预测文件具有严格的格式要求</p>
 								<p style="color:black;">获取样例文件，
 									<a href="static/model2.csv" download="格式样例.csv" style="color: blue">点击下载</a>
 								</p>
 							</div>
 
 							<div class="loading" style="display: none;">
-								<img  class="loadingImage" src="img/loading.gif">
+								<img class="loadingImage" src="img/loading.gif">
 								<div class="loadingText">
 									<p>预测中...</p>
 								</div>
@@ -200,11 +200,10 @@
 				alert("<%=mess%>");
 			</script>
 			<%
-        }
-
+       }
     %>
 			<jsp:include page="footer.jsp" />
-		</div>
+		</div>	
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
 		<script>
 			document.getElementById("formAccount").value = window.localStorage.id;
@@ -272,12 +271,12 @@
 							$(".loading").toggle();
 							//alert("网络超时")
 							//console.log(textStatus);
-							window.location.href = "/analyseMultiWorker.jsp";
+							window.location.href = "./analyseMultiWorker.jsp";
 						},
 						success: function(data) {
 							$(".loading").toggle();
 							alert("上传成功");
-							window.location.href = "/analyseMultiWorker.jsp";
+							window.location.href = "./analyseMultiWorker.jsp";
 						}
 					});
 					return false;
@@ -313,11 +312,11 @@
 						dataType: "json",
 						success: function(msg) {
 							//console.log(msg)
-							window.location.href = "/analyseWorker.jsp";
+							window.location.href = "./analyseWorker.jsp";
 						},
 						error: function(error) {
 							//alert(error)
-							window.location.href = "/analyseWorker.jsp";
+							window.location.href = "./analyseWorker.jsp";
 						}
 					});
 					return false;
@@ -377,7 +376,6 @@
 		}
 		
 		#upup {
-
 			background-color: skyblue;
 			width: 14%;
 			height: 90%;
@@ -386,7 +384,6 @@
 		}
 		
 		#test1 {
-
 			background-color: #558AF5;
 			width: 18%;
 			height: 90%;
@@ -400,9 +397,8 @@
 			right: 36%;
 			position: absolute;
 		}
-
-
-		.downloadFile{
+		
+		.downloadFile {
 			position: absolute;
 			width: 30%;
 			height: 4%;
@@ -411,8 +407,8 @@
 			font-size: 15px;
 			text-align: left;
 		}
-
-		.loading{
+		
+		.loading {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -420,18 +416,17 @@
 			height: 100%;
 			opacity: 0.8;
 			background-color: #FFFFFF;
-
 		}
-
-		.loadingImage{
+		
+		.loadingImage {
 			position: absolute;
 			top: 30%;
 			left: 30%;
 			width: 30%;
 			height: 30%;
 		}
-
-		.loadingText{
+		
+		.loadingText {
 			position: absolute;
 			top: 60%;
 			left: 40%;
@@ -440,7 +435,7 @@
 			color: black;
 			font-size: 18px;
 		}
-
+		
 		.layui-inline.layui-upload-choose {
 			position: absolute;
 			left: 0;
@@ -449,6 +444,7 @@
 			color: #000000;
 		}
 	</style>
+
 
 	
 </html>
