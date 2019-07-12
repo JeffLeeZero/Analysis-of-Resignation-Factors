@@ -1,3 +1,4 @@
+
 package com.zpj.servlet;
 
 import com.google.gson.Gson;
@@ -13,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 找回密码后台
+ * @author 毕修平
+ */
 public class FindPassServlet extends HttpServlet {
     private String account;
     private String password;
@@ -47,6 +52,7 @@ public class FindPassServlet extends HttpServlet {
         out.close();
     }
 
+    //在数据库更新密码
     private int updatePass(String a, String p){
         SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);

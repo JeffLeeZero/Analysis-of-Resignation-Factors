@@ -21,6 +21,10 @@ import java.lang.reflect.Type;
 
 import com.zpj.util.MybatiesUtil;
 
+/**
+ * 登录后台
+ * @author 毕修平
+ */
 public class LoginServlet extends HttpServlet {
 
     public  String account;
@@ -66,7 +70,7 @@ public class LoginServlet extends HttpServlet {
         String jsonLogin = null;
         try {
             LoginBean loginBean = new LoginBean(message,isSuccess);
-            jsonLogin = gson.toJson(loginBean);
+            jsonLogin = gson.toJson(loginBean);                          //将bean转成json传到前端
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,10 +78,9 @@ public class LoginServlet extends HttpServlet {
         out.print(jsonLogin);
         out.flush();
         out.close();
-
-
     }
 
+    //登录检测 0：不存在该用户 1：成功 2：密码错误
     private int judgeLogin(String a, String p)throws ServletException, IOException{
         SqlSession sqlSession = MybatiesUtil.getSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);

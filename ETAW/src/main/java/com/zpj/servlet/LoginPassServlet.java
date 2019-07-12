@@ -18,6 +18,10 @@ import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * 文章呈现后台后台
+ * @author 毕修平
+ */
 public class LoginPassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -98,6 +102,7 @@ public class LoginPassServlet extends HttpServlet {
         out.close();
     }
 
+    //从数据库中获取文章
     private List<Answer> getAnswer(){
         SqlSession sqlSession = MybatiesUtil.getSession();
         AnswerMapper mapper = sqlSession.getMapper(AnswerMapper.class);
