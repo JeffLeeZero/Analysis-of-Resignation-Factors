@@ -64,6 +64,7 @@ public class PythonModel {
             String url = this.getClass().getResource("../logisticregression/analyze.py").getFile().substring(1);
             String[] fileData = new String[]{"python", url, testDatas,aid,department};
 
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;
@@ -103,8 +104,10 @@ public class PythonModel {
         Process proc;
         ArrayList<String> dataset = new ArrayList<>();
         try{
+
             String url = this.getClass().getResource("../logisticregression/analyze_csv.py").getFile().substring(1);
             String[] fileData = new String[]{"python", url, csvURL,aid};
+
             proc = Runtime.getRuntime().exec(fileData);
             BufferedReader in =  new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line;

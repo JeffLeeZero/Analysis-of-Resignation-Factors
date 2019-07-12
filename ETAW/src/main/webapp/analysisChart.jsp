@@ -103,7 +103,7 @@
 			});
 			$.ajax({
 				type: "post",
-				url: "http://localhost:8080/LeftRatioServlet",
+				url: "/LeftRatioServlet",
 				dataType: "json",
 				data: JSON.stringify({
 					"reqId": window.localStorage.id,
@@ -120,7 +120,7 @@
 			});
 			$.ajax({
 				type: "post",
-				url: "http://localhost:8080/AnalysisAllServlet",
+				url: "/AnalysisAllServlet",
 				dataType: "json",
 				data: JSON.stringify({
 					"reqId": window.localStorage.id,
@@ -193,7 +193,7 @@
 				var getAttrRatio = (data) => {
 					$.ajax({
 						type: "post",
-						url: "http://localhost:8080/AnalysisPartServlet",
+						url: "/AnalysisPartServlet",
 						dataType: "json",
 						data: JSON.stringify({
 							"reqId": window.localStorage.id,

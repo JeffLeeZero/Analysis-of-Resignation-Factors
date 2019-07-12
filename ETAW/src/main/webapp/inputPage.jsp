@@ -1,6 +1,9 @@
 <%--
-文件上传页面
-author: 万宇、李沛昊
+  Created by IntelliJ IDEA.
+  User: 毕修平，万宇，李沛昊
+  Date: 2019/7/3
+  Time: 19:15
+  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="check.jsp" %>
@@ -87,7 +90,7 @@ author: 万宇、李沛昊
 
         upload.render({
             elem: '#test1',
-            url: 'http://localhost:8080/UploadServlet',
+            url: '/UploadServlet',
             accept: 'file',
             auto: false,
             // , bindAction: '#upfile' //关闭的上传按钮   html中此id所在元素也被注释
@@ -99,7 +102,7 @@ author: 万宇、李沛昊
 
     function fsubmit(fd) {
         $.ajax({
-            url: "http://localhost:8080/UploadServlet",
+            url: "/UploadServlet",
             type: "POST",
             data: fd,
             contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
@@ -107,6 +110,7 @@ author: 万宇、李沛昊
             error : function(request) {
                 $(".loading").toggle();
                 alert("网络超时!");
+                console.log(error);
                 window.location.href = "inputPage.jsp";
             },
             success: function (data) {
