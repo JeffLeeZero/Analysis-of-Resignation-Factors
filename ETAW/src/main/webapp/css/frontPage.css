@@ -13,7 +13,7 @@ body {
     left: 0;
     overflow: hidden;
     margin: 0;
-    background: url("/img/主页背景.jpg") no-repeat center fixed;
+    background: url("../img/主页背景.jpg") no-repeat center fixed;
     /*!*background-repeat: no-repeat;*!*/
     background-size: cover;
     /*background-attachment: fixed;*/
@@ -123,10 +123,10 @@ h1 {
 }
 
 .calories_div {
-    border-image: url(/img/border.png) 30 30 round;
-    -moz-border-image: url(/img/border.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image: url(/img/border.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image: url(/img/border.png) 30 30 round; /* Opera */
+    border-image: url(../img/border.png) 30 30 round;
+    -moz-border-image: url(../img/border.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(../img/border.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(../img/border.png) 30 30 round; /* Opera */
     margin: 2rem 1.5rem;
 }
 
@@ -141,10 +141,10 @@ h1 {
 }
 
 .info {
-    border-image: url(/img/border2.png) 30 30 round;
-    -moz-border-image: url(/img/border2.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image: url(/img/border2.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image: url(/img/border2.png) 30 30 round; /* Opera */
+    border-image: url(../img/border2.png) 30 30 round;
+    -moz-border-image: url(../img/border2.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(../img/border2.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(../img/border2.png) 30 30 round; /* Opera */
     line-height: 24px;
     -webkit-writing-mode: vertical-rl;
     writing-mode: vertical-rl;
@@ -212,10 +212,10 @@ h1 {
 }
 
 .question {
-    border-image: url(/img/border3.png) 30 30 round;
-    -moz-border-image: url(/img/border3.png) 30 30 round; /* 老的 Firefox */
-    -webkit-border-image: url(/img/border3.png) 30 30 round; /* Safari 和 Chrome */
-    -o-border-image: url(/img/border3.png) 30 30 round; /* Opera */
+    border-image: url(../img/border3.png) 30 30 round;
+    -moz-border-image: url(../img/border3.png) 30 30 round; /* 老的 Firefox */
+    -webkit-border-image: url(../img/border3.png) 30 30 round; /* Safari 和 Chrome */
+    -o-border-image: url(../img/border3.png) 30 30 round; /* Opera */
     line-height: 24px;
     -webkit-writing-mode: vertical-rl;
     writing-mode: vertical-rl;
