@@ -77,8 +77,9 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('admin/123456@localhost/SYSTEM')
-    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
+
+    #db = get_connection('admin/123456@localhost/SYSTEM')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -102,7 +103,6 @@ def import_model(parameter,score,saleset,aid):
                            aid, str(model_data['DEPARTMENT'][i]), str(model_data['SCORE'][i]))
                     cursor.setinputsizes(blobData=oracle.BLOB)
                     cursor.execute(sql, {'blobData': model_data['MODEL'][i]})
-
                     db.commit()
             break
     # 为空直接导入
@@ -117,7 +117,6 @@ def import_model(parameter,score,saleset,aid):
     db.close()
 
 def main(aid,filepath):
-
     filepath = open(filepath)
     saleset, data, x_set, y_set = get_csvfile(filepath)
     log_reg_parameter, log_reg_score, saleset = train(saleset, data, x_set, y_set)

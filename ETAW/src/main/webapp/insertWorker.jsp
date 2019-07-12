@@ -202,7 +202,14 @@
         }
         session.invalidate();
     %>
+<<<<<<< HEAD
+
+		</div>
+		</div>
+		<jsp:include page="footer.jsp" />
+=======
 			<jsp:include page="footer.jsp" />
+>>>>>>> 468d1d9709fd4bb383b01ece5de12a517d414e94
 		</div>
 		<script src="plugins/layui/layui.js" charset="utf-8"></script>
 		<script>
@@ -267,6 +274,7 @@
 						contentType: false, //Ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
 						processData: false, //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
 						error: function(XMLHttpRequest, textStatus) {
+
 							$(".loading").toggle();
 							//alert("网络超时")
 							//console.log(textStatus);
@@ -375,6 +383,7 @@
 		}
 		
 		#upup {
+
 			background-color: skyblue;
 			width: 14%;
 			height: 90%;
@@ -383,6 +392,7 @@
 		}
 		
 		#test1 {
+
 			background-color: #558AF5;
 			width: 18%;
 			height: 90%;
@@ -396,6 +406,7 @@
 			right: 36%;
 			position: absolute;
 		}
+
 
 		.downloadFile{
 			position: absolute;
@@ -435,7 +446,7 @@
 			color: black;
 			font-size: 18px;
 		}
-		
+
 		.layui-inline.layui-upload-choose {
 			position: absolute;
 			left: 0;

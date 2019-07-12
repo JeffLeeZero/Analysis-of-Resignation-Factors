@@ -22,6 +22,10 @@ public class PythonModel {
             String[] svmProcData = new String[]{"python"
                     , svmUrl, aid, url};
             svmProc = Runtime.getRuntime().exec(svmProcData);
+
+
+            svmProc.waitFor();
+
             svmProc.waitFor();
             String regUrl = this.getClass().getResource("../logisticregression/log_reg_train.py").getFile().substring(1);
             System.out.println("regUrl:"+regUrl);
@@ -51,6 +55,7 @@ public class PythonModel {
         try{
             String testDatas = String.join(";", data);
             System.out.println(testDatas);
+
             String url = this.getClass().getResource("../logisticregression/analyze.py").getFile().substring(1);
             String[] fileData = new String[]{"python", url, testDatas,aid,department};
 

@@ -52,8 +52,8 @@ def choose_model(aid, department):
     :param department:职位
     :return:模型对象和拟合度
     """
-    db = get_connection('admin/123456@localhost/SYSTEM')
-    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    #db = get_connection('admin/123456@localhost/SYSTEM')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     cursor = db.cursor()
     log_regs = []
     svms = []
