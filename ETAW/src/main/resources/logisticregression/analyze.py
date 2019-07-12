@@ -49,8 +49,8 @@ def choose_model(aid, department):
     :return:模型对象和拟合度
     """
 
-    db = get_connection('admin/123456@orcl')
-    #db = get_connection(('FRANK/ZD73330274@localhost/orcl'))
+    #db = get_connection('admin/123456@orcl')
+    db = get_connection(('FRANK/ZD73330274@localhost/orcl'))
 
     cursor = db.cursor()
     #选出特定的逻辑回归模型和向量机模型
