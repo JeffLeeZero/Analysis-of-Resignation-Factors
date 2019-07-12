@@ -55,7 +55,7 @@ def import_model(mp,ms,s,aid):
     :param i:用户ID
     :return:
     """
-    conn_str = 'FRANK/ZD73330274@localhost/orcl'
+    conn_str = 'admin/123456@orcl'
     db = oracle.connect(conn_str)
     model_data = pd.DataFrame(mp, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(s))

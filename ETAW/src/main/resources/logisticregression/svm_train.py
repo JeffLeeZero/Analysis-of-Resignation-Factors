@@ -79,7 +79,7 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('admin/123456@localhost/SYSTEM')
+    db = get_connection('admin/123456@orclF')
     #db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
