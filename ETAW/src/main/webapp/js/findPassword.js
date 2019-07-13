@@ -9,6 +9,13 @@ $(document).ready(function () {
    // });
    $("#submit_btn").click(function () {
        //向后台发送找回密码请求
+
+       if ($("#password")[0].value.length<6 ) {
+           $("#password").focus();
+           layer.msg("密码长度至少为6位",{icon: 0,time: 1500});
+           return;
+       }
+
        $.ajax({
            url:'/FindPassServlet',
            type:'post',
