@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="layui-card-body">
-                            分析原因：该员工该员工离职的主要因素为
+                            分析原因：该员工离职的主要因素为
                             <div class="factor">
                                 “<%=(String)session.getAttribute("factor") %>”
                             </div>

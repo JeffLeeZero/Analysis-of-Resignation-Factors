@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 毕修平，万宇
+  User: 毕修平，万宇，李沛昊
   Date: 2019/7/3
   Time: 19:15
   To change this template use File | Settings | File Templates.
@@ -63,7 +63,7 @@
                 </p>
             </div>
 
-            <div class="loading" style="display: none;">
+            <div class="loading" style="display: none">
                 <img  class="loadingImage" src="img/loading.gif">
                 <div class="loadingText">
                     <p>模型生成中...</p>
@@ -273,7 +273,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
+        width:100%;
         height: 100%;
         opacity: 0.8;
         background-color: #FFFFFF;
@@ -284,15 +284,15 @@
     .loadingImage{
         position: absolute;
         top: 30%;
-        left: 30%;
-        width: 30%;
+        left: 40%;
+        width: 20%;
         height: 30%;
     }
 
     .loadingText{
         position: absolute;
         top: 60%;
-        left: 40%;
+        left: 47%;
         width: 100%;
         height: 20%;
         color: black;

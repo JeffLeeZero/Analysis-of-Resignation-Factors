@@ -5,10 +5,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 import pandas as pd
 #from logisticregression.logistic_regression import  LogisticRegression
-
 import cx_Oracle as oracle
 import _pickle as pickle
 from sklearn.preprocessing import StandardScaler
+
+# author = 张鼎
 
 def get_connection(conn_str):
     """
@@ -78,8 +79,9 @@ def import_model(parameter,score,saleset,aid):
     :return:
     """
 
-    db = get_connection('admin/123456@orcl')
-    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    #db = get_connection('admin/123456@orcl')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
+
 
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))

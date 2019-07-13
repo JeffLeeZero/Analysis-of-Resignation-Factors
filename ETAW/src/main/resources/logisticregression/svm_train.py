@@ -2,13 +2,13 @@ import sys, os
 PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(PATH)
 from sklearn.model_selection import train_test_split
-
 import pandas as pd
 from sklearn import svm
-
 import cx_Oracle as oracle
 import _pickle as pickle
 from sklearn.preprocessing import StandardScaler
+
+# author = 张鼎
 
 def get_connection(conn_str):
     """
@@ -79,8 +79,9 @@ def import_model(parameter,score,saleset,aid):
     :param tablename:导入的数据库表
     :return:
     """
-    db = get_connection('admin/123456@orcl')
     #db = get_connection('admin/123456@orcl')
+    #db = get_connection('admin/123456@orcl')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
     model_data = pd.DataFrame(parameter, columns=['MODEL'])
     model_data['DEPARTMENT'] = pd.Series(list(saleset))
     model_data['SCORE'] = pd.Series(score)
@@ -122,9 +123,7 @@ def main(aid,filepath):
     filepath = open(filepath)
     saleset, data, x_set, y_set = get_csvfile(filepath)
     svm_parameter, svm_score, saleset = train(saleset, data, x_set, y_set)
-
     import_model(svm_parameter, svm_score, saleset, aid)
-
 
 if __name__ == "__main__":
 

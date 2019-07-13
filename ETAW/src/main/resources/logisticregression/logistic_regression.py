@@ -2,6 +2,8 @@ import numpy as np
 import math
 from logisticregression import metrics
 
+# author = 张鼎
+
 class LogisticRegression:
     def __init__(self):
         """
@@ -15,18 +17,18 @@ class LogisticRegression:
         """
         sigmoid函数求解概率，值限制在0或1来进行二分类.概率以0.5为界划分
         :param t:
-        :return:
+        :return:sigmoid函数值float
         """
         return  1./(1.+np.exp(-t))
 
     def fit(self, X_train, y_train, eta =0.01, n_iters = 1e4):
         """
-        根据训练数据集x_train,y_train,使用梯度下降法训练logisticregression模型
+        根据训练数据集x_train,y_train,梯度下降法训练logisticregression模型
         :param X_train:
         :param y_train:
         :param eta:
         :param n_iters:
-        :return:
+        :return:模型本身
         """
         assert X_train.shape[0] == y_train.shape[0], \
             "the size of X_train must be equal to the size of y_train"
@@ -79,7 +81,7 @@ class LogisticRegression:
         """
         给定待预测数据集X_predict, 返回表示X_predict的结果向量
         :param X_predict:
-        :return:
+        :return:预测结果，0或1
         """
         assert self.interception_ is not None and self.coef_ is not None, \
         "must fit before predict!"
@@ -104,6 +106,12 @@ class LogisticRegression:
         return self._sigmoid(X_b.dot(self._theta))
 
     def score(self, X_test, y_test):
+        """
+        获取模型拟合度
+        :param X_test:x测试集
+        :param y_test:y真实值
+        :return:拟合度float
+        """
         y_predict = self.predict(X_test)
         return metrics.accuracy_score(y_test, y_predict)
 

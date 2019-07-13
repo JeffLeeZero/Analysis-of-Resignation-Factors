@@ -72,22 +72,32 @@ public class InsertWorkerServlet extends HttpServlet {
 
 
             //结果分析
-            String factor = analyser.improveMeasure().get(0);
+            try{
+                String factor = analyser.improveMeasure().get(0);
+                String measure = Reason(analyser.improveMeasure());
 
-            String measure = Reason(analyser.improveMeasure());
+                System.out.println("编号" + workerNumber + "员工信息分析成功");
+                System.out.println("该员工是否会离职？ " + left);
+                System.out.println("该预测的准确率为:" + accuracyRate);
+                System.out.println("离职因素：" + factor);
+                System.out.println("改善措施：" + measure);
 
-            System.out.println("编号" + workerNumber + "员工信息分析成功");
-            System.out.println("该员工是否会离职？ " + left);
-            System.out.println("该预测的准确率为:" + accuracyRate);
-            System.out.println("离职因素：" + factor);
-            System.out.println("改善措施：" + measure);
+                request.getSession().setAttribute("factor",factor);
+                request.getSession().setAttribute("measure",measure);
+                request.getRequestDispatcher("http://localhost:8080/analyseWorker.jsp").forward(request, response);
+
+            }catch (Exception e){
+                e.printStackTrace();
+                String factor = "贵公司条件恶劣";
+                String measure = "球球了给别人一条活路吧";
+                request.getSession().setAttribute("factor",factor);
+                request.getSession().setAttribute("measure",measure);
+                request.getRequestDispatcher("http://localhost:8080/analyseWorker.jsp").forward(request, response);
+            }
 
             request.getSession().setAttribute("left", left);
             request.getSession().setAttribute("accuracyRate", accuracyRate);
             request.getSession().setAttribute("notAccuracyRate",notAccuracyRate);
-            request.getSession().setAttribute("factor",factor);
-            request.getSession().setAttribute("measure",measure);
-            request.getRequestDispatcher("http://localhost:8080/analyseWorker.jsp").forward(request, response);
 
 //            String message = "提交成功";
 //            request.getSession().setAttribute("message",message);
@@ -129,20 +139,28 @@ public class InsertWorkerServlet extends HttpServlet {
     }
 
     private String Reason(List<String> measure){
-
-        String width = measure.get(1);
-        width = String.valueOf((double)((int)(double)(Double.valueOf(width)*100))/100.0);
-        String start[] = new String[measure.size() - 2];
-        String end[] = new String[measure.size() - 2];
         List<String> allField = new ArrayList<>();
-        for(int i = 2; i < measure.size();i++) {
-            start[i - 2] = measure.get(i);
-            start[i-2]=String.valueOf((double)((int)(double)(Double.valueOf(start[i-2])*100))/100.0);
-            end[i - 2] = String.valueOf(Double.valueOf(start[i - 2]) + Double.valueOf(width));
-            String field = "[" + start[i - 2] + " , " + end[i -2] + "]";
-            allField.add(field);
-            System.out.println(field);
+        String width = measure.get(1);
+
+        if(width.equals("-1")){
+            for(int i = 2; i < measure.size();i++) {
+                allField.add(measure.get(i));
+            }
+        } else {
+            width = String.valueOf((double)((int)(double)(Double.valueOf(width)*100))/100.0);
+            String start[] = new String[measure.size() - 2];
+            String end[] = new String[measure.size() - 2];
+
+            for(int i = 2; i < measure.size();i++) {
+                start[i - 2] = measure.get(i);
+                start[i-2]=String.valueOf((double)((int)(double)(Double.valueOf(start[i-2])*100))/100.0);
+                end[i - 2] = String.valueOf(Double.valueOf(start[i - 2]) + Double.valueOf(width));
+                String field = "[" + start[i - 2] + " , " + end[i -2] + "]";
+                allField.add(field);
+                System.out.println(field);
+            }
         }
+
         System.out.println(allField);
 
 

@@ -5,10 +5,12 @@ import pandas as pd
 import cx_Oracle as oracle
 import _pickle as pickle
 
+# author = 张鼎
+
 def get_connection(conn_str):
     """
     获取与oracle数据库的连接
-    :param conn_str:
+    :param conn_str:数据库表名、密码
     :return:数据库操作对象
     """
     db = oracle.connect(conn_str)
@@ -20,6 +22,7 @@ def data2dataframe(csvfile):
     :param csvfile: csv文件路径
     :return: 预测数据集
     """
+    #对csv文件中的中文数据进行处理
     data = pd.read_csv(csvfile)
     salary = data.loc[:, 'salary']
     salarylist = []
@@ -31,7 +34,7 @@ def data2dataframe(csvfile):
         data.loc[data.salary == 'medium', 'salary'] = 1
     if('high' in salarylist):
         data.loc[data.salary == 'high', 'salary'] = 2
-
+    #区分文件中的不同职位
     z = data.loc[:,data['sales']]
     sale_data = []
     saleset = set()
@@ -53,8 +56,8 @@ def choose_model(aid, department):
     :return:模型对象和拟合度
     """
 
-    db = get_connection('admin/123456@orcl')
-    #db = get_connection('FRANK/ZD73330274@localhost/orcl')
+    #db = get_connection('admin/123456@orcl')
+    db = get_connection('FRANK/ZD73330274@localhost/orcl')
 
     cursor = db.cursor()
     log_regs = []

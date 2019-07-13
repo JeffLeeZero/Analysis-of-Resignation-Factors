@@ -15,6 +15,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * C4.5决策树模型
+ * @author 李沛昊
+ */
 public class TreeModel {
     private String aid;
     private DecisionTree tree;
@@ -29,7 +33,6 @@ public class TreeModel {
         ArrayList<ArrayList<String>> list = new ArrayList<>();
         list.addAll(trainSet);
         list.addAll(testSet);
-        //TODO:使用决策树的特征重要性还是随机森林的
         tree.buildArrayList(list,attrs);
         tree.setTree(tree.buildTree(trainSet,attrs));
         int trueNum = 0;
