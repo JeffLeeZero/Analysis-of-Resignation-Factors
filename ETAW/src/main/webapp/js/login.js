@@ -9,7 +9,6 @@ $(document).ready(function () {
     });
     //登陆按钮触发事件
     $("#login_btn").click(function () {
-
         if ($("#account").val()=="" ) {
             $("#account").focus();
             layer.msg("请输入手机号",{icon: 0,time: 1500});

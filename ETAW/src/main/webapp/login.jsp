@@ -101,7 +101,7 @@
 								<div class="icon1">
 									<input class="input_c" name="phone" type="tel" placeholder="输入手机号" onfocus="this.placeholder=''" onblur="this.placeholder='输入手机号'" id="phone" maxlength="11" regex="^[1][3,4,5,7,8][0-9]{9}$">
 								</div>
-								<div class="icon1"><input class="input_c" name="password" type="number" placeholder="输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification"></div>
+								<div class="icon1"><input class="input_c" name="password" type="number" placeholder="输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='输入验证码'" id="verification" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="4"></div>
 								<input id="veri_btn" type="button" class="submit_btn" value="获取验证码" onclick="verifyLogin()">
 								<input id="veriLogin_btn" type="button" class="register_btn" value="登录" onclick="loginWithVerification()" name="typeBtn">
 								<a class="login_type" id="login_pass">密码登陆</a>

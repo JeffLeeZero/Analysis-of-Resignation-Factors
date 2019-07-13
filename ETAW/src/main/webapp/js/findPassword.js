@@ -3,11 +3,13 @@
  * @author 毕修平
  */
 $(document).ready(function () {
-   // $("#veri_btn").click(function () {
-   //     //　 发送验证码，显示验证码输入框
-   //
-   // });
+
    $("#submit_btn").click(function () {
+       if($("#password").val().length<6){
+           $("#password").focus();
+           layer.msg("密码至少由六位字母数字符号组成",{icon: 0,time: 1500});
+           return;
+       }
        //向后台发送找回密码请求
 
        if ($("#password")[0].value.length<6 ) {
